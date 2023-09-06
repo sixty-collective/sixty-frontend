@@ -1,18 +1,44 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-node/
- */
+const path = require("path")
 
-/**
- * @type {import('gatsby').GatsbyNode['createPages']}
- */
-exports.createPages = async ({ actions }) => {
+exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
-  createPage({
-    path: "/using-dsg",
-    component: require.resolve("./src/templates/using-dsg.js"),
-    context: {},
-    defer: true,
-  })
+
+  // Define a template for blog post
+  const profilePost = path.resolve("./src/templates/profile-post.js")
+
+  const result = await graphql(
+    `
+      {
+        allStrapiProfile {
+          nodes {
+            name
+            slug
+          }
+        }
+      }
+    `
+  )
+
+  if (result.errors) {
+    reporter.panicOnBuild(
+      `There was an error loading your Strapi articles`,
+      result.errors
+    )
+
+    return
+  }
+
+  const profiles = result.data.allStrapiProfile.nodes
+
+  if (profiles.length > 0) {
+    profiles.forEach(profile => {
+      createPage({
+        path: `/profile/${profile.slug}`,
+        component: profilePost,
+        context: {
+          slug: profile.slug,
+        },
+      })
+    })
+  }
 }

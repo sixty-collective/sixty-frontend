@@ -1,43 +1,112 @@
-/**
- * Configure your Gatsby site with this file.
- *
- * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/
- */
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
 
-/**
- * @type {import('gatsby').GatsbyConfig}
- */
 module.exports = {
-  siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
-    siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
-  },
   plugins: [
-    `gatsby-plugin-image`,
+    "gatsby-plugin-gatsby-cloud",
+    "gatsby-plugin-postcss",
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: `gatsby-omni-font-loader`,
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
+        enableListener: true,
+        preconnect: [
+          `https://fonts.googleapis.com`,
+          `https://fonts.gstatic.com`,
+        ],
+        web: [
+          {
+            name: `Fira Code`,
+            file: `https://fonts.googleapis.com/css2?family=Fira+Code&display=swap`,
+          },
+          {
+            name: `Nunito Sans`,
+            file: `https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,700&display=swap`,
+          },
+          {
+            name: `Poppins`,
+            file: `https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap`,
+          },
+        ],
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: "gatsby-source-strapi",
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
-        start_url: `/`,
-        background_color: `#663399`,
-        // This will impact how browsers show your PWA/website
-        // https://css-tricks.com/meta-theme-color-and-trickery/
-        // theme_color: `#663399`,
-        display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        apiURL: process.env.STRAPI_API_URL || "http://127.0.0.1:1337",
+        accessToken: process.env.STRAPI_TOKEN,
+        collectionTypes: [
+          {
+            singularName: "profile",
+            queryParams: {
+              publicationState:
+                process.env.GATSBY_IS_PREVIEW === "true" ? "preview" : "live",
+              populate: {
+                workSamples: {
+                  populate: "*",
+                },
+                disciplines: {
+                  populate: "*",
+                },
+                profilePicture: "*",
+              },
+            },
+          },
+          {
+            singularName: "author",
+          },
+          {
+            singularName: "category",
+          },
+          {
+            singularName: "discipline",
+          },
+          {
+            singularName: "descriptor",
+          },
+          {
+            singularName: "resource",
+          },
+        ],
+        singleTypes: [
+          {
+            singularName: "about",
+            queryParams: {
+              populate: {
+                blocks: {
+                  populate: "*",
+                },
+              },
+            },
+          },
+          {
+            singularName: "global",
+            queryParams: {
+              populate: {
+                favicon: "*",
+                defaultSeo: {
+                  populate: "*",
+                },
+              },
+            },
+          },
+        ],
       },
     },
+    {
+      resolve: "gatsby-source-graphql",
+      options: {
+        // Arbitrary name for the remote schema Query type
+        typeName: "profiles",
+        // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
+        fieldName: "profile",
+        // Url to query from
+        url: process.env.STRAPI_API_URL || "http://127.0.0.1:1337/graphql",
+      },
+    },
+    "gatsby-plugin-image",
+    "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
+    "gatsby-transformer-remark",
   ],
 }

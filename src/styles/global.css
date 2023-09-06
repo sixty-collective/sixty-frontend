@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: #EFEFEF;
+  font-family: 'Nunito Sans';
+}
+
+header {
+  width: 200px;
+}
+
+.content-section{
+  margin-left: 200px;
+  width: 100%;
+}
+
+.list-purple{
+  background: #D09FC9;
+}
+
+.profile-picture{
+  width: 75px;
+height: 75px;
+flex-shrink: 0;
+border-radius: 50%;
+stroke-width: 7px;
+border: 7px #FABA46;
+}
+
+.bg-yellow{
+  background: #FABA46;
+}
+
+.profile-icon{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sixty-color-0 {
+  background: #F3ACB7;
+}
+
+.sixty-color-1 {
+  background: #D09FC9;
+}
+
+.sixty-color-2 {
+  background: #ADDAB8;
+}
+
+.sixty-color-3 {
+  background: #FFB57F;
+}
+
+.sixty-color-4 {
+  background: #8ECBEF;
+}
+
+.sixty-color-5 {
+  background: #FABA46;
+}
+
+form{
+  font-family: 'Fira Code', monospace;
+}
+
+form input {
+  font-family: 'Nunito Sans';
+}
