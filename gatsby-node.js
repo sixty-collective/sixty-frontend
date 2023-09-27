@@ -41,4 +41,43 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       })
     })
   }
+
+  // Define a template for pages
+  const pageTemplate = path.resolve("./src/templates/page.js")
+
+  const pageResult = await graphql(
+    `
+      {
+        allStrapiPage {
+          nodes {
+            title
+            slug
+          }
+        }
+      }
+    `
+  )
+
+  if (pageResult.errors) {
+    reporter.panicOnBuild(
+      `There was an error loading your Strapi pages`,
+      pageResult.errors
+    )
+
+    return
+  }
+
+  const pages = pageResult.data.allStrapiPage.nodes
+
+  if (pages.length > 0) {
+    pages.forEach(page => {
+      createPage({
+        path: `/${page.slug}`,
+        component: pageTemplate,
+        context: {
+          slug: page.slug,
+        },
+      })
+    })
+  }
 }

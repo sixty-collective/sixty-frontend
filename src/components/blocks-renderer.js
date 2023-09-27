@@ -1,15 +1,13 @@
 import React from "react"
 import { graphql } from "gatsby"
-import BlockRichText from "./block-rich-text"
-import BlockMedia from "./block-media"
-import BlockQuote from "./block-quote"
-import BlockWorkSample from "./block-work-sample"
+import PageBlockEmbed from "./page-block-embed"
+import PageBlockImage from "./page-block-image"
+import PageBlockText from "./page-block-text"
 
 const componentsMap = {
-  STRAPI__COMPONENT_SHARED_RICH_TEXT: BlockRichText,
-  STRAPI__COMPONENT_SHARED_MEDIA: BlockMedia,
-  STRAPI__COMPONENT_SHARED_QUOTE: BlockQuote,
-  // STRAPI__COMPONENT_SHARED_WORK_SAMPLE: BlockWorkSample,
+  STRAPI__COMPONENT_PAGE_EMBED: PageBlockEmbed,
+  STRAPI__COMPONENT_PAGE_IMAGE: PageBlockImage,
+  STRAPI__COMPONENT_PAGE_TEXT: PageBlockText,
 }
 
 const Block = ({ block }) => {
@@ -33,10 +31,10 @@ const BlocksRenderer = ({ blocks }) => {
 }
 
 export const query = graphql`
-  fragment Blocks on STRAPI__COMPONENT_SHARED_MEDIASTRAPI__COMPONENT_SHARED_QUOTESTRAPI__COMPONENT_SHARED_RICH_TEXTUnion {
+  fragment Blocks on STRAPI__COMPONENT_PAGE_EMBEDSTRAPI__COMPONENT_PAGE_IMAGESTRAPI__COMPONENT_PAGE_TEXTUnion {
     __typename
-    ... on STRAPI__COMPONENT_SHARED_RICH_TEXT {
-      richTextBody: body {
+    ... on STRAPI__COMPONENT_PAGE_TEXT {
+      richTextBody: text {
         __typename
         data {
           id
@@ -46,8 +44,8 @@ export const query = graphql`
         }
       }
     }
-    ... on STRAPI__COMPONENT_SHARED_MEDIA {
-      file {
+    ... on STRAPI__COMPONENT_PAGE_IMAGE {
+      image {
         mime
         localFile {
           childImageSharp {
@@ -56,9 +54,8 @@ export const query = graphql`
         }
       }
     }
-    ... on STRAPI__COMPONENT_SHARED_QUOTE {
-      title
-      quoteBody: body
+    ... on STRAPI__COMPONENT_PAGE_EMBED {
+      embed
     }
   }
 `

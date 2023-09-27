@@ -12,7 +12,7 @@ const Navbar = () => {
         <div className="flex flex-col items-baseline justify-end list-purple w-full text-black p-6">
           <Link
             className="font-medium border-b-2 border-black w-full hover:text-white"
-            to="/"
+            to="/profiles"
           >
             Member Profiles
           </Link>
@@ -30,7 +30,7 @@ const Navbar = () => {
           </Link>
           <Link
             className="font-medium border-b-2 border-black w-full hover:text-white"
-            to="/about"
+            to="/support"
           >
             Support Sixty
           </Link>
@@ -42,7 +42,7 @@ const Navbar = () => {
           </Link>
           <Link
             className="font-medium border-b-2 border-black w-full hover:text-white"
-            to="/about"
+            to="/faq"
           >
             FAQ
           </Link>

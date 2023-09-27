@@ -5,11 +5,11 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 const ResourceCard = ({ resource, index }) => {
   console.log(resource)
   function categoriesSection() {
-    if (resource.categories.data.length > 0) {
-      return resource.categories.data.map(category => {
+    if (resource.categories.length > 0) {
+      return resource.categories.map(category => {
         return (
           <span className="text-xs mr-2 rounded-full px-2 py-1 bg-gray-300">
-            {category.attributes.name}
+            {category.name}
           </span>
         )
       })

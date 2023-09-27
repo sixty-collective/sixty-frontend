@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 
-import { useStaticQuery, graphql, Link } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 import Layout from "../components/layout"
 import ProfilesGrid from "../components/profiles-grid"
 import Seo from "../components/seo"
@@ -12,6 +12,7 @@ import withLocation from "../components/with-location"
 
 const IndexPage = ({ queryStrings }) => {
   const { q } = queryStrings
+
   const {
     allStrapiProfile,
     strapiGlobal,
@@ -20,7 +21,7 @@ const IndexPage = ({ queryStrings }) => {
     search,
   } = useStaticQuery(graphql`
     query {
-      allStrapiProfile(limit: 3, sort: { createdAt: ASC }) {
+      allStrapiProfile(filter: { name: { regex: "/2/" } }) {
         nodes {
           ...ProfileCard
         }
@@ -65,8 +66,8 @@ const IndexPage = ({ queryStrings }) => {
     }
   }
 
-  const [input, setInput] = useState("")
-  const [resourceInput, setResourceInput] = useState("")
+  const [input, setInput] = useState(q)
+
   const [selectedDisciplines, setSelectedDisciplines] = useState([])
   const [selectedDescriptors, setSelectedDescriptors] = useState([])
   const [results, setResults] = useState([])
@@ -82,9 +83,11 @@ const IndexPage = ({ queryStrings }) => {
 
   const toggleDisciplines = () => {
     setOpenDisciplines(!openDisciplines)
+    setOpenDescriptors(false)
   }
   const toggleDescriptors = () => {
     setOpenDescriptors(!openDescriptors)
+    setOpenDisciplines(false)
   }
 
   const sendSearch = (value, type) => {
@@ -133,22 +136,18 @@ const IndexPage = ({ queryStrings }) => {
       setResults(response.data.data)
     })
   }
-  if (results.length === 0) {
-    axios
-      .get(
-        process.env.STRAPI_API_URL +
-          "/api/profiles?populate[0]=disciplines,profilePicture"
-      )
-      .then(response => {
-        setResults(response.data.data)
-      })
-  }
+
+  useEffect(() => {
+    if (q) {
+      sendSearch(q, "input")
+    } else {
+      sendSearch("", "input")
+    }
+  }, [])
+
   const handleInputChange = e => {
     setInput(e.target.value)
-  }
-
-  const handleResourceInputChange = e => {
-    setResourceInput(e.target.value)
+    sendSearch(e.target.value, "input")
   }
 
   const handleDisciplinesChange = position => {
@@ -323,72 +322,55 @@ const IndexPage = ({ queryStrings }) => {
         description={strapiGlobal.siteDescription}
       />
       <main className="flex flex-col justify-center items-center width-full">
-        <div className="container">
-          <h1 className="text-3xl py-20 font-bold w-full rounded-t-2xl">
-            Sixty Collective is a network of Midwest artists and arts workers.
-            Learn more about us.
-          </h1>
-        </div>
-        <div className="container grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
-          <div className="bg-white mt-20 mr-5 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
-            <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
-              Search and Hire Talent
-            </h2>
-            <div className="px-8 pb-8">
-              <p className="max-w-lg mt-3">
-                Some introductory text about searching for members to hire. This
-                part could be a few lines long and be similar to the copy on the
-                donation pages (weaving in some storytelling aspect, or
-                something, I dunno).
-              </p>
-              <div className="mt-5 flex">
-                <div>
-                  <div className="text-xs">Enter a custom search:</div>
-                  <input
-                    className=" rounded-full px-3 text-sm border-2 border-black max-w-xs mt-2 p-1"
-                    placeholder="Enter 'Name'"
-                    value={input}
-                    onChange={handleInputChange}
-                  />
-                  <Link href={"/profiles?q=" + input}>
-                    <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
-                      Search
-                    </button>
-                  </Link>
-                </div>
+        <div className=" w-1/2 bg-white mt-20 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
+          <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
+            Search and Hire Talent
+          </h2>
+          <div className="px-8 pb-8">
+            <p className="max-w-lg mt-3">
+              Some introductory text about searching for members to hire. This
+              part could be a few lines long and be similar to the copy on the
+              donation pages (weaving in some storytelling aspect, or something,
+              I dunno).
+            </p>
+            <div className="mt-5 flex">
+              <div>
+                <div className="text-xs">Enter a custom search:</div>
+                <input
+                  className=" rounded-full px-3 text-sm border-2 border-black max-w-xs mt-2 p-1"
+                  placeholder="Enter 'Name'"
+                  value={input}
+                  onChange={handleInputChange}
+                />
+                <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
+                  Search
+                </button>
               </div>
-            </div>
-          </div>
-          <div className="bg-white mt-20 ml-5 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
-            <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
-              Browse our Resource Library
-            </h2>
-            <div className="px-8 pb-8">
-              <p className="max-w-lg mt-3">
-                Browse our growing collection of carefully selected materials,
-                tools, and career advice about freelance life, hiring artists,
-                archiving, cultural advocacy, collective work, and more.
-              </p>
-              <div className="mt-5 flex">
-                <div>
-                  <div className="text-xs">Enter a custom search:</div>
-                  <input
-                    className=" rounded-full px-3 text-sm border-2 border-black max-w-xs mt-2 p-1"
-                    placeholder="Enter 'Taxes'"
-                    value={resourceInput}
-                    onChange={handleResourceInputChange}
-                  />
-                  <Link href={"/resources?q=" + resourceInput}>
-                    <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
-                      Search
-                    </button>
-                  </Link>
+              <div className="ml-5">
+                <div className="text-xs">
+                  Or select from these Disciplines and Descriptors:
+                </div>
+                <div className="mt-2">
+                  <button
+                    className="mr-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2"
+                    onClick={toggleDisciplines}
+                  >
+                    Disciplines
+                  </button>
+                  {disciplinesSection}
+                  <button
+                    className="mr-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2"
+                    onClick={toggleDescriptors}
+                  >
+                    Descriptors
+                  </button>
+                  {descriptorsSection}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <ProfilesGrid profiles={allStrapiProfile.nodes} />
+        <ProfilesGrid profiles={results} home={false} />
       </main>
       <CookieNotice
         acceptButtonText="Agree & Enter"

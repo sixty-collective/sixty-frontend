@@ -67,18 +67,22 @@ module.exports = {
           {
             singularName: "resource",
           },
-        ],
-        singleTypes: [
           {
-            singularName: "about",
+            singularName: "page",
             queryParams: {
               populate: {
+                coverImage: "*",
                 blocks: {
+                  populate: "*",
+                },
+                sideBlocks: {
                   populate: "*",
                 },
               },
             },
           },
+        ],
+        singleTypes: [
           {
             singularName: "global",
             queryParams: {
@@ -108,5 +112,9 @@ module.exports = {
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     "gatsby-transformer-remark",
+    {
+      resolve: `gatsby-plugin-gdpr-cookies`,
+      environments: ["production", "development"],
+    },
   ],
 }

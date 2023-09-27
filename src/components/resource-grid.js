@@ -9,11 +9,7 @@ const ResourceGrid = ({ resources }) => {
     <div>
       <div className="container py-20 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {resources.map((resource, index) => (
-          <ResourceCard
-            resource={resource.attributes}
-            key={resource.id}
-            index={index}
-          />
+          <ResourceCard resource={resource} key={resource} index={index} />
         ))}
       </div>
     </div>

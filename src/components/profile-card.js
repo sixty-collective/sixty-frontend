@@ -4,21 +4,43 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 const ProfileCard = ({ profile, index }) => {
   const colorIndex = index % 6
-  const availability = profile.availableForWork
-    ? "Available for hire"
-    : "Unavailable for hire"
+  const availability = profile.availableForWork ? (
+    <div className="rounded-full bg-green-500 w-3 h-3 border-2 border-black"></div>
+  ) : (
+    <div className="rounded-full bg-red-500 w-3 h-3 border-2 border-black"></div>
+  )
 
   function disciplinesSection() {
-    if (profile.disciplines.data.length > 0) {
-      return profile.disciplines.data.map(discipline => {
+    if (profile.disciplines?.length > 0) {
+      return profile.disciplines.map(discipline => {
         return (
           <span className="text-xs mr-2 rounded-full px-1 bg-gray-300">
-            {discipline.attributes.name}
+            {discipline.name}
           </span>
         )
       })
     } else {
       return <div></div>
+    }
+  }
+
+  function profilePicture() {
+    if (profile?.profilePicture?.localFile) {
+      return (
+        <GatsbyImage
+          image={getImage(profile?.profilePicture?.localFile)}
+          alt={profile?.profilePicture?.alternativeText}
+          className="profile-icon"
+        />
+      )
+    } else {
+      return (
+        <img
+          src={process.env.STRAPI_API_URL + profile.profilePicture?.url}
+          alt={profile.profilePicture?.alternativeText}
+          className="profile-icon"
+        />
+      )
     }
   }
 
@@ -31,22 +53,15 @@ const ProfileCard = ({ profile, index }) => {
         <div
           className={`flex card-header border-b-2 border-black px-5 py-3 justify-left items-center sixty-color-${colorIndex}`}
         >
-          <img
-            src={
-              process.env.STRAPI_API_URL +
-              profile.profilePicture?.data.attributes.url
-            }
-            alt={profile.profilePicture?.data.attributes.alternativeText}
-            className="profile-icon"
-          />
+          {profilePicture()}
           <div className="flex flex-col ml-3">
-            <h3 className="font-bold text-black">{profile.name}</h3>
-            <div className="flex text-xs">
-              <div className="border-2 border-black rounded-full px-1 bg-white">
+            <div className="flex items-center">
+              <h3 className="font-bold text-black mr-2">{profile.name}</h3>
+              {availability}
+            </div>
+            <div className="flex text-xs items-center">
+              <div className="border-2 border-black rounded-full px-1 mr-2 bg-white">
                 {profile.location}
-              </div>
-              <div className="ml-3 border-2 border-black rounded-full px-1 bg-white">
-                {availability}
               </div>
             </div>
           </div>
