@@ -33,7 +33,7 @@ module.exports = {
     {
       resolve: "gatsby-source-strapi",
       options: {
-        apiURL: process.env.STRAPI_API_URL || "http://127.0.0.1:1337",
+        apiURL: process.env.STRAPI_API_URL,
         accessToken: process.env.STRAPI_TOKEN,
         collectionTypes: [
           {
@@ -105,16 +105,12 @@ module.exports = {
         // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
         fieldName: "profile",
         // Url to query from
-        url: process.env.STRAPI_API_URL || "http://127.0.0.1:1337/graphql",
+        url: process.env.STRAPI_API_URL,
       },
     },
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     "gatsby-transformer-remark",
-    {
-      resolve: `gatsby-plugin-gdpr-cookies`,
-      environments: ["production", "development"],
-    },
   ],
 }
