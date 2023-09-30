@@ -45,14 +45,15 @@ export const query = graphql`
       }
     }
     ... on STRAPI__COMPONENT_PAGE_IMAGE {
-      image {
-        mime
-        localFile {
-          childImageSharp {
-            gatsbyImageData
-          }
-        }
-      }
+      # image {
+      #   mime
+      #   localFile {
+      #     childImageSharp {
+      #       gatsbyImageData
+      #     }
+      #   }
+      # }
+      __typename
     }
     ... on STRAPI__COMPONENT_PAGE_EMBED {
       embed

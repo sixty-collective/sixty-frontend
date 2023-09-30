@@ -5,11 +5,11 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 const ResourceCard = ({ resource, index }) => {
   console.log(resource)
   function categoriesSection() {
-    if (resource.categories.length > 0) {
-      return resource.categories.map(category => {
+    if (resource.attributes.categories.data.length > 0) {
+      return resource.attributes.categories.data.map(category => {
         return (
           <span className="text-xs mr-2 rounded-full px-2 py-1 bg-gray-300">
-            {category.name}
+            {category.attributes.name}
           </span>
         )
       })
@@ -22,15 +22,17 @@ const ResourceCard = ({ resource, index }) => {
     <div className="border-black border-2 rounded-3xl bg-white">
       <div className="flex card-header border-b-2 border-black px-2 py-3 justify-left items-center">
         <div className="flex flex-col ml-3">
-          <h3 className="font-bold text-black">{resource.title}</h3>
+          <h3 className="font-bold text-black">{resource.attributes.title}</h3>
         </div>
       </div>
       <div className="">
-        <p className="m-5 line-clamp-4 text-black">{resource.description}</p>
-        <Link to={resource.link} className="">
+        <p className="m-5 line-clamp-4 text-black">
+          {resource.attributes.description}
+        </p>
+        <Link to={resource.attributes.link} className="">
           <div className="m-5 text-xs">
             <span className="bg-gray-200 rounded-full px-2 py-1 hover:bg-gray-300">
-              {resource.link}
+              {resource.attributes.link}
             </span>
           </div>
         </Link>

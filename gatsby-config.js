@@ -4,32 +4,6 @@ require("dotenv").config({
 
 module.exports = {
   plugins: [
-    "gatsby-plugin-gatsby-cloud",
-    "gatsby-plugin-postcss",
-    {
-      resolve: `gatsby-omni-font-loader`,
-      options: {
-        enableListener: true,
-        preconnect: [
-          `https://fonts.googleapis.com`,
-          `https://fonts.gstatic.com`,
-        ],
-        web: [
-          {
-            name: `Fira Code`,
-            file: `https://fonts.googleapis.com/css2?family=Fira+Code&display=swap`,
-          },
-          {
-            name: `Nunito Sans`,
-            file: `https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,700&display=swap`,
-          },
-          {
-            name: `Poppins`,
-            file: `https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap`,
-          },
-        ],
-      },
-    },
     {
       resolve: "gatsby-source-strapi",
       options: {
@@ -39,8 +13,6 @@ module.exports = {
           {
             singularName: "profile",
             queryParams: {
-              publicationState:
-                process.env.GATSBY_IS_PREVIEW === "true" ? "preview" : "live",
               populate: {
                 workSamples: {
                   populate: "*",
@@ -72,6 +44,7 @@ module.exports = {
             queryParams: {
               populate: {
                 coverImage: "*",
+                image: "*",
                 blocks: {
                   populate: "*",
                 },
@@ -97,15 +70,30 @@ module.exports = {
         ],
       },
     },
+    "gatsby-plugin-gatsby-cloud",
+    "gatsby-plugin-postcss",
     {
-      resolve: "gatsby-source-graphql",
+      resolve: `gatsby-omni-font-loader`,
       options: {
-        // Arbitrary name for the remote schema Query type
-        typeName: "profiles",
-        // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
-        fieldName: "profile",
-        // Url to query from
-        url: process.env.STRAPI_API_URL,
+        enableListener: true,
+        preconnect: [
+          `https://fonts.googleapis.com`,
+          `https://fonts.gstatic.com`,
+        ],
+        web: [
+          {
+            name: `Fira Code`,
+            file: `https://fonts.googleapis.com/css2?family=Fira+Code&display=swap`,
+          },
+          {
+            name: `Nunito Sans`,
+            file: `https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,700&display=swap`,
+          },
+          {
+            name: `Poppins`,
+            file: `https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap`,
+          },
+        ],
       },
     },
     "gatsby-plugin-image",

@@ -1,8 +1,12 @@
-import React from "react"
+import React, { Img } from "react"
 import { Link, graphql } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 const ProfileCard = ({ profile, index }) => {
+  if (profile.attributes) {
+    profile = profile.attributes
+  }
+
   const colorIndex = index % 6
   const availability = profile.availableForWork ? (
     <div className="rounded-full bg-green-500 w-3 h-3 border-2 border-black"></div>
@@ -11,24 +15,44 @@ const ProfileCard = ({ profile, index }) => {
   )
 
   function disciplinesSection() {
-    if (profile.disciplines?.length > 0) {
-      return profile.disciplines.map(discipline => {
-        return (
-          <span className="text-xs mr-2 rounded-full px-1 bg-gray-300">
-            {discipline.name}
-          </span>
-        )
-      })
+    if (profile.disciplines) {
+      if (profile.disciplines.data) {
+        return profile.disciplines.data.map(discipline => {
+          return (
+            <span className="text-xs mr-2 rounded-full px-1 bg-gray-300">
+              {discipline.attributes.name}
+            </span>
+          )
+        })
+      } else {
+        return profile.disciplines.map(discipline => {
+          return (
+            <span className="text-xs mr-2 rounded-full px-1 bg-gray-300">
+              {discipline.name}
+            </span>
+          )
+        })
+      }
     } else {
       return <div></div>
     }
   }
 
   function profilePicture() {
+    console.log(profile)
     if (profile?.profilePicture?.localFile) {
       return (
         <GatsbyImage
           image={getImage(profile?.profilePicture?.localFile)}
+          alt={profile?.profilePicture?.alternativeText}
+          className="profile-icon"
+        />
+      )
+    } else if (profile.profilePicture?.data) {
+      console.log("???")
+      return (
+        <img
+          src={profile?.profilePicture?.data.attributes.url}
           alt={profile?.profilePicture?.alternativeText}
           className="profile-icon"
         />

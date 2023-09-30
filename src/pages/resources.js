@@ -70,7 +70,7 @@ const ResourcePage = ({ queryStrings }) => {
         "&filters[$or][0][categories][slug][$in]=" + categoriesUrl
       )
     }
-    console.log(url)
+
     axios.get(url).then(response => {
       setResults(response.data.data)
     })

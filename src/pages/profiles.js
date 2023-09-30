@@ -7,7 +7,7 @@ import ProfilesGrid from "../components/profiles-grid"
 import Seo from "../components/seo"
 import Headings from "../components/headings"
 import axios from "axios"
-import { CookieNotice } from "gatsby-cookie-notice"
+// import { CookieNotice } from "gatsby-cookie-notice"
 import withLocation from "../components/with-location"
 
 const IndexPage = ({ queryStrings }) => {
@@ -372,7 +372,7 @@ const IndexPage = ({ queryStrings }) => {
         </div>
         <ProfilesGrid profiles={results} home={false} />
       </main>
-      <CookieNotice
+      {/* <CookieNotice
         acceptButtonText="Agree & Enter"
         declineButton={false}
         backgroundClasses=""
@@ -407,7 +407,7 @@ const IndexPage = ({ queryStrings }) => {
             </p>
           </div>
         </div>
-      </CookieNotice>
+      </CookieNotice> */}
     </Layout>
   )
 }
