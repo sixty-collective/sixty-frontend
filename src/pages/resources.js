@@ -10,29 +10,23 @@ import withLocation from "../components/with-location"
 
 const ResourcePage = ({ queryStrings }) => {
   const { q } = queryStrings
-  const { allStrapiProfile, strapiGlobal, allStrapiCategory } =
-    useStaticQuery(graphql`
-      query {
-        allStrapiProfile(filter: { name: { regex: "/2/" } }) {
-          nodes {
-            ...ProfileCard
-          }
-        }
-        strapiGlobal {
-          siteName
-          siteDescription
-        }
-        allStrapiCategory {
-          edges {
-            node {
-              id
-              name
-              slug
-            }
+  const { strapiGlobal, allStrapiCategory } = useStaticQuery(graphql`
+    query {
+      strapiGlobal {
+        siteName
+        siteDescription
+      }
+      allStrapiCategory {
+        edges {
+          node {
+            id
+            name
+            slug
           }
         }
       }
-    `)
+    }
+  `)
 
   const [input, setInput] = useState(q)
   const [selectedCategories, setSelectedCategories] = useState([])

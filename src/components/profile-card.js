@@ -49,7 +49,6 @@ const ProfileCard = ({ profile, index }) => {
         />
       )
     } else if (profile.profilePicture?.data) {
-      console.log("???")
       return (
         <img
           src={profile?.profilePicture?.data.attributes.url}
@@ -60,7 +59,7 @@ const ProfileCard = ({ profile, index }) => {
     } else {
       return (
         <img
-          src={process.env.STRAPI_API_URL + profile.profilePicture?.url}
+          // src={process.env.STRAPI_API_URL + profile.profilePicture?.url}
           alt={profile.profilePicture?.alternativeText}
           className="profile-icon"
         />

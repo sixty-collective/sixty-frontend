@@ -1,16 +1,11 @@
-import React, { useState } from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import React from "react"
+import { graphql } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import BlocksRenderer from "../components/blocks-renderer"
 
 const Page = ({ data }) => {
-  const [visible, setVisible] = useState(false)
-
-  const handleToggle = () => {
-    setVisible(current => !current)
-  }
-  const { title, coverImage, blocks, sideBlocks, column } = data.strapiPage
+  const { title, coverImage, blocks, sideBlocks } = data.strapiPage
 
   function columnsToggle() {
     console.log(data.strapiPage)
