@@ -4,10 +4,10 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 const PageBlockImage = ({ data }) => {
   return (
     <div className="py-8">
-      {/* <GatsbyImage
+      <GatsbyImage
         image={getImage(data.image.localFile)}
         alt={data.image.alternativeText}
-      /> */}
+      />
     </div>
   )
 }

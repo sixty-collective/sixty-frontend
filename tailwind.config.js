@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         neutral: colors.neutral,
         primary: colors.sky,
+        black: "#1B1B1B",
       },
     },
     container: {
@@ -20,8 +21,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/line-clamp"),
-    require("@tailwindcss/typography"),
-  ],
+  plugins: [require("@tailwindcss/typography")],
 }

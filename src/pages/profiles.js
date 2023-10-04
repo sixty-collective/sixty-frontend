@@ -58,7 +58,6 @@ const IndexPage = ({ queryStrings }) => {
     status[index] = !status[index]
     setCheckboxStatus(status)
 
-    console.log(status)
     if (status.filter(status => status === true).length === 5) {
       setCookieAllow(true)
     } else {
@@ -66,7 +65,7 @@ const IndexPage = ({ queryStrings }) => {
     }
   }
 
-  const [input, setInput] = useState(q)
+  const [input, setInput] = useState(q || "")
 
   const [selectedDisciplines, setSelectedDisciplines] = useState([])
   const [selectedDescriptors, setSelectedDescriptors] = useState([])
@@ -90,7 +89,24 @@ const IndexPage = ({ queryStrings }) => {
     setOpenDisciplines(false)
   }
 
+  const disciplinesCountSection = () => {
+    if (selectedDisciplines.length > 0) {
+      return <span>({selectedDisciplines.length})</span>
+    } else {
+      return <span></span>
+    }
+  }
+
+  const descriptorsCountSection = () => {
+    if (selectedDescriptors.length > 0) {
+      return <span>({selectedDescriptors.length})</span>
+    } else {
+      return <span></span>
+    }
+  }
+
   const sendSearch = (value, type) => {
+    let searchDisciplines, searchDescriptors
     let url =
       process.env.STRAPI_API_URL +
       "/api/profiles?populate[0]=disciplines,profilePicture"
@@ -101,14 +117,20 @@ const IndexPage = ({ queryStrings }) => {
     }
 
     if (type === "descriptors") {
-      const descriptorsUrl = value.join(
+      searchDescriptors = value.map(selected => {
+        return selected.slug
+      })
+      const descriptorsUrl = searchDescriptors.join(
         "&filters[$or][1][descriptors][slug][$in]="
       )
       url = url.concat(
         "&filters[$or][0][descriptors][slug][$in]=" + descriptorsUrl
       )
     } else if (selectedDescriptors.length > 0) {
-      const descriptorsUrl = selectedDescriptors.join(
+      searchDescriptors = selectedDescriptors.map(selected => {
+        return selected.slug
+      })
+      const descriptorsUrl = searchDescriptors.join(
         "&filters[$or][1][descriptors][slug][$in]="
       )
       url = url.concat(
@@ -117,22 +139,29 @@ const IndexPage = ({ queryStrings }) => {
     }
 
     if (type === "disciplines") {
-      const disciplinesUrl = value.join(
+      searchDisciplines = value.map(selected => {
+        return selected.slug
+      })
+      const disciplinesUrl = searchDisciplines.join(
         "&filters[$or][1][disciplines][slug][$in]="
       )
       url = url.concat(
         "&filters[$or][0][disciplines][slug][$in]=" + disciplinesUrl
       )
     } else if (selectedDisciplines.length > 0) {
-      const disciplinesUrl = selectedDisciplines.join(
+      searchDisciplines = selectedDisciplines.map(selected => {
+        return selected.slug
+      })
+      const disciplinesUrl = searchDisciplines.join(
         "&filters[$or][1][disciplines][slug][$in]="
       )
       url = url.concat(
         "&filters[$or][0][disciplines][slug][$in]=" + disciplinesUrl
       )
     }
-
+    console.log(url)
     axios.get(url).then(response => {
+      console.log(response)
       setResults(response.data.data)
     })
   }
@@ -173,7 +202,8 @@ const IndexPage = ({ queryStrings }) => {
           type="checkbox"
           id={`custom-checkbox-${obj.node.slug}`}
           className={check}
-          name={obj.node.slug}
+          name={obj.node.name}
+          value={obj.node.slug}
           checked={checked}
           onChange={onChange}
         />
@@ -194,13 +224,13 @@ const IndexPage = ({ queryStrings }) => {
     const checkedBoxes = document.querySelectorAll(
       "input[class=disciplines-box]:checked"
     )
-    // console.log(checkedBoxes)
     const disciplinesFilters = Array.from(checkedBoxes).map(input => {
-      return input.name
+      return { name: input.name, slug: input.value }
     })
 
     setSelectedDisciplines(disciplinesFilters)
     toggleDisciplines()
+
     sendSearch(disciplinesFilters, "disciplines")
   }
 
@@ -210,16 +240,15 @@ const IndexPage = ({ queryStrings }) => {
     setCheckedDisciplinesState(
       new Array(allStrapiDiscipline.edges.length).fill(false)
     )
-    sendSearch([], "disciplines")
+    sendSearch([])
   }
 
   const handleDescriptorsApply = () => {
     const checkedBoxes = document.querySelectorAll(
       "input[class=descriptors-box]:checked"
     )
-    // console.log(checkedBoxes)
     const descriptorsFilters = Array.from(checkedBoxes).map(input => {
-      return input.name
+      return { name: input.name, slug: input.value }
     })
 
     setSelectedDescriptors(descriptorsFilters)
@@ -233,7 +262,7 @@ const IndexPage = ({ queryStrings }) => {
     setCheckedDescriptorsState(
       new Array(allStrapiDiscipline.edges.length).fill(false)
     )
-    sendSearch([], "descriptors")
+    sendSearch([])
   }
 
   function disciplines() {
@@ -314,6 +343,35 @@ const IndexPage = ({ queryStrings }) => {
     <span></span>
   )
 
+  const yourSearch =
+    selectedDisciplines.length > 0 || selectedDescriptors.length > 0 ? (
+      <div className="mt-5">
+        <div className="text-xs">Your Search:</div>
+        {selectedDisciplines.map((discipline, index) => {
+          return (
+            <span
+              className="text-xs mr-2 rounded-full px-1 bg-gray-300"
+              key={index}
+            >
+              {discipline.name}
+            </span>
+          )
+        })}
+        {selectedDescriptors.map((descriptors, index) => {
+          return (
+            <span
+              className="text-xs mr-2 rounded-full px-1 bg-gray-300"
+              key={index}
+            >
+              {descriptors.name}
+            </span>
+          )
+        })}
+      </div>
+    ) : (
+      <div></div>
+    )
+
   return (
     <Layout>
       <Seo seo={{ metaTitle: "Home" }} />
@@ -352,23 +410,37 @@ const IndexPage = ({ queryStrings }) => {
                 </div>
                 <div className="mt-2">
                   <button
-                    className="mr-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2"
+                    className={
+                      "mr-2 rounded-full px-3 text-sm p-1 border-black border-2 " +
+                      (selectedDisciplines.length > 0
+                        ? "bg-black text-white"
+                        : "bg-white text-black")
+                    }
                     onClick={toggleDisciplines}
                   >
-                    Disciplines
+                    Disciplines {disciplinesCountSection()}
                   </button>
                   {disciplinesSection}
                   <button
-                    className="mr-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2"
+                    className={
+                      "mr-2 rounded-full px-3 text-sm p-1 border-black border-2 " +
+                      (selectedDescriptors.length > 0
+                        ? "bg-black text-white"
+                        : "bg-white text-black")
+                    }
                     onClick={toggleDescriptors}
                   >
-                    Descriptors
+                    Descriptors {descriptorsCountSection()}
                   </button>
                   {descriptorsSection}
                 </div>
               </div>
             </div>
+            <div>{yourSearch}</div>
           </div>
+        </div>
+        <div className="container flex justify-start mt-10">
+          <h2 className="text-xl font-bold">Search Results</h2>
         </div>
         <ProfilesGrid profiles={results} home={false} />
       </main>

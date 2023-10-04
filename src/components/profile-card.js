@@ -17,17 +17,23 @@ const ProfileCard = ({ profile, index }) => {
   function disciplinesSection() {
     if (profile.disciplines) {
       if (profile.disciplines.data) {
-        return profile.disciplines.data.map(discipline => {
+        return profile.disciplines.data.map((discipline, index) => {
           return (
-            <span className="text-xs mr-2 rounded-full px-1 bg-gray-300">
+            <span
+              className="text-xs mr-2 rounded-full px-1 bg-gray-300"
+              key={index}
+            >
               {discipline.attributes.name}
             </span>
           )
         })
       } else {
-        return profile.disciplines.map(discipline => {
+        return profile.disciplines.map((discipline, index) => {
           return (
-            <span className="text-xs mr-2 rounded-full px-1 bg-gray-300">
+            <span
+              className="text-xs mr-2 rounded-full px-1 bg-gray-300"
+              key={index}
+            >
               {discipline.name}
             </span>
           )
@@ -39,7 +45,6 @@ const ProfileCard = ({ profile, index }) => {
   }
 
   function profilePicture() {
-    console.log(profile)
     if (profile?.profilePicture?.localFile) {
       return (
         <GatsbyImage

@@ -7,7 +7,7 @@ import ProfileCard from "./profile-card"
 const ProfilesGrid = ({ profiles }) => {
   return (
     <div>
-      <div className="container py-20 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="container py-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {profiles.map((profile, index) => (
           <ProfileCard profile={profile} key={index} index={index} />
         ))}

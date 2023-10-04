@@ -46,6 +46,15 @@ const IndexPage = ({ queryStrings }) => {
       strapiGlobal {
         siteName
         siteDescription
+        homeHeaderText {
+          data {
+            id
+            childMarkdownRemark {
+              html
+            }
+          }
+        }
+        sidebarText
       }
     }
   `)
@@ -316,7 +325,7 @@ const IndexPage = ({ queryStrings }) => {
   )
 
   return (
-    <Layout>
+    <Layout sidebarText={strapiGlobal.sidebarText}>
       <Seo seo={{ metaTitle: "Home" }} />
       <Headings
         title={strapiGlobal.siteName}
@@ -325,12 +334,16 @@ const IndexPage = ({ queryStrings }) => {
       <main className="flex flex-col justify-center items-center width-full">
         <div className="container">
           <h1 className="text-3xl py-20 font-bold w-full rounded-t-2xl">
-            Sixty Collective is a network of Midwest artists and arts workers.
-            Learn more about us.
+            <div
+              dangerouslySetInnerHTML={{
+                __html:
+                  strapiGlobal.homeHeaderText.data.childMarkdownRemark.html,
+              }}
+            />
           </h1>
         </div>
         <div className="container grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
-          <div className="bg-white mt-20 mr-5 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
+          <div className="bg-white mr-5 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
             <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
               Search and Hire Talent
             </h2>
@@ -359,7 +372,7 @@ const IndexPage = ({ queryStrings }) => {
               </div>
             </div>
           </div>
-          <div className="bg-white mt-20 ml-5 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
+          <div className="bg-white ml-5 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
             <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
               Browse our Resource Library
             </h2>
@@ -387,6 +400,14 @@ const IndexPage = ({ queryStrings }) => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex width-full justify-between container mt-20">
+          <h3 className="text-xl font-bold">Member Profiles</h3>
+          <Link href={"/profiles"}>
+            <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
+              View All Profiles
+            </button>
+          </Link>
         </div>
         <ProfilesGrid profiles={allStrapiProfile.nodes} />
       </main>

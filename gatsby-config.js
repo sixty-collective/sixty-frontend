@@ -31,6 +31,9 @@ module.exports = {
             singularName: "category",
           },
           {
+            singularName: "testimonial",
+          },
+          {
             singularName: "discipline",
           },
           {
@@ -46,10 +49,16 @@ module.exports = {
                 coverImage: "*",
                 image: "*",
                 blocks: {
-                  populate: "*",
+                  populate: {
+                    image: "*",
+                    qa: "*",
+                  },
                 },
                 sideBlocks: {
-                  populate: "*",
+                  populate: {
+                    image: "*",
+                    qa: "*",
+                  },
                 },
               },
             },
