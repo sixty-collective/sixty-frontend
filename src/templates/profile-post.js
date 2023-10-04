@@ -240,7 +240,7 @@ const ProfilePage = ({ data }) => {
   return (
     <Layout as="profile">
       <Seo seo={seo} />
-      <main className="mt-8 grid grid-cols-4 gap-3 p-20">
+      <main className="mt-8 grid grid-cols-4 gap-3 p-20 container">
         {mainProfileSection()}
         <div className="side-content flex flex-col col-span-1 p-5">
           <div

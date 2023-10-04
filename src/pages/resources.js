@@ -215,6 +215,9 @@ const ResourcePage = ({ queryStrings }) => {
             </div>
           </div>
         </div>
+        <div className="container flex justify-start mt-10">
+          <h2 className="text-xl font-bold">All Resources</h2>
+        </div>
         <ResourceGrid resources={results} />
       </main>
     </Layout>
