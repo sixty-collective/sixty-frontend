@@ -108,7 +108,7 @@ const IndexPage = ({ queryStrings }) => {
   const sendSearch = (value, type) => {
     let searchDisciplines, searchDescriptors
     let url =
-      process.env.STRAPI_API_URL +
+      "https://sixty-backend.onrender.com" +
       "/api/profiles?populate[0]=disciplines,profilePicture"
     if (type === "input") {
       url = url.concat("&filters[name][$contains]=" + value)

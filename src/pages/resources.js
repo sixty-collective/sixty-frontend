@@ -42,7 +42,8 @@ const ResourcePage = ({ queryStrings }) => {
 
   const sendSearch = (value, type) => {
     let url =
-      process.env.STRAPI_API_URL + "/api/resources?populate[0]=categories"
+      "https://sixty-backend.onrender.com" +
+      "/api/resources?populate[0]=categories"
     if (type === "input") {
       url = url.concat("&filters[title][$contains]=" + value)
     } else if (!!input) {
