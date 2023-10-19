@@ -31,6 +31,9 @@ const IndexPage = ({ queryStrings }) => {
             id
             name
             slug
+            discipline_category {
+              name
+            }
           }
         }
       }
@@ -40,6 +43,9 @@ const IndexPage = ({ queryStrings }) => {
             id
             name
             slug
+            descriptor_category {
+              name
+            }
           }
         }
       }
@@ -98,7 +104,7 @@ const IndexPage = ({ queryStrings }) => {
 
   const sendSearch = (value, type) => {
     let url =
-      "https://sixty-backend.onrender.comSTRAPI_API_URL" +
+      "http://127.0.0.1:1337" +
       "/api/profiles?populate[0]=disciplines,profilePicture"
     if (type === "input") {
       url = url.concat("&filters[name][$contains]=" + value)
@@ -145,7 +151,7 @@ const IndexPage = ({ queryStrings }) => {
   if (results.length === 0) {
     axios
       .get(
-        process.env.STRAPI_API_URL +
+        "http://127.0.0.1:1337" +
           "/api/profiles?populate[0]=disciplines,profilePicture"
       )
       .then(response => {

@@ -58,6 +58,10 @@
     "url": "https://github.com/gatsbyjs/gatsby/issues"
   },
   "overrides": {
-    "@graphql-tools/utils": "8.6.7"
+    "@graphql-tools/utils": "8.6.7",
+    "gatsby-graphiql-explorer": "3.11.0",
+    "gatsby": {
+      "gatsby-graphiql-explorer": "3.11.0"
+    }
   }
 }

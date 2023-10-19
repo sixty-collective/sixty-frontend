@@ -37,7 +37,13 @@ module.exports = {
             singularName: "discipline",
           },
           {
+            singularName: "discipline-category",
+          },
+          {
             singularName: "descriptor",
+          },
+          {
+            singularName: "descriptor-category",
           },
           {
             singularName: "resource",

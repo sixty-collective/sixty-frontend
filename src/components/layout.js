@@ -4,7 +4,7 @@ import Navbar from "./navbar"
 
 const Layout = ({ sidebarText, children }) => {
   return (
-    <div class="flex min-h-screen justify-between text-neutral-900">
+    <div className="flex min-h-screen justify-between text-neutral-900">
       <Navbar sidebarText={sidebarText} />
       <div className="content-section">
         {children}

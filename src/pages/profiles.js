@@ -13,43 +13,39 @@ import withLocation from "../components/with-location"
 const IndexPage = ({ queryStrings }) => {
   const { q } = queryStrings
 
-  const {
-    allStrapiProfile,
-    strapiGlobal,
-    allStrapiDiscipline,
-    allStrapiDescriptor,
-    search,
-  } = useStaticQuery(graphql`
-    query {
-      allStrapiProfile(filter: { name: { regex: "/2/" } }) {
-        nodes {
-          ...ProfileCard
-        }
-      }
-      allStrapiDiscipline {
-        edges {
-          node {
-            id
-            name
-            slug
+  const { strapiGlobal, allStrapiDiscipline, allStrapiDescriptor } =
+    useStaticQuery(graphql`
+      query {
+        allStrapiDiscipline {
+          edges {
+            node {
+              id
+              name
+              slug
+              discipline_category {
+                slug
+              }
+            }
           }
         }
-      }
-      allStrapiDescriptor {
-        edges {
-          node {
-            id
-            name
-            slug
+        allStrapiDescriptor {
+          edges {
+            node {
+              id
+              name
+              slug
+              descriptor_category {
+                slug
+              }
+            }
           }
         }
+        strapiGlobal {
+          siteName
+          siteDescription
+        }
       }
-      strapiGlobal {
-        siteName
-        siteDescription
-      }
-    }
-  `)
+    `)
 
   const [checkboxStatus, setCheckboxStatus] = useState(Array(5).fill(false))
 
@@ -66,7 +62,20 @@ const IndexPage = ({ queryStrings }) => {
   }
 
   const [input, setInput] = useState(q || "")
-
+  const [visible, setVisible] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ])
+  const [descriptorVisible, setDescriptorVisible] = useState([
+    false,
+    false,
+    false,
+    false,
+  ])
   const [selectedDisciplines, setSelectedDisciplines] = useState([])
   const [selectedDescriptors, setSelectedDescriptors] = useState([])
   const [results, setResults] = useState([])
@@ -108,7 +117,7 @@ const IndexPage = ({ queryStrings }) => {
   const sendSearch = (value, type) => {
     let searchDisciplines, searchDescriptors
     let url =
-      "https://sixty-backend.onrender.com" +
+      "http://127.0.0.1:1337" +
       "/api/profiles?populate[0]=disciplines,profilePicture"
     if (type === "input") {
       url = url.concat("&filters[name][$contains]=" + value)
@@ -159,7 +168,6 @@ const IndexPage = ({ queryStrings }) => {
         "&filters[$or][0][disciplines][slug][$in]=" + disciplinesUrl
       )
     }
-    console.log(url)
     axios.get(url).then(response => {
       console.log(response)
       setResults(response.data.data)
@@ -200,14 +208,14 @@ const IndexPage = ({ queryStrings }) => {
       <>
         <input
           type="checkbox"
-          id={`custom-checkbox-${obj.node.slug}`}
+          id={`custom-checkbox-${obj.slug}`}
           className={check}
-          name={obj.node.name}
-          value={obj.node.slug}
+          name={obj.name}
+          value={obj.slug}
           checked={checked}
           onChange={onChange}
         />
-        <span className="ml-2">{obj.node.name}</span>
+        <span className="ml-2">{obj.name}</span>
       </>
     )
   }
@@ -266,22 +274,287 @@ const IndexPage = ({ queryStrings }) => {
   }
 
   function disciplines() {
+    let pDisciplines = []
+    let vDisciplines = []
+    let rDisciplines = []
+    let wDisciplines = []
+    let aDisciplines = []
+    let lDisciplines = []
+    allStrapiDiscipline.edges.forEach(discipline => {
+      switch (discipline.node.discipline_category.slug) {
+        case "performance-music-sound":
+          pDisciplines.push(discipline.node)
+          return
+        case "visual-art-design-film":
+          vDisciplines.push(discipline.node)
+          return
+        case "3-d-art-and-design-fashion-styling":
+          rDisciplines.push(discipline.node)
+          return
+        case "archiving-research-history":
+          aDisciplines.push(discipline.node)
+          return
+        case "arts-administration-leadership-education-therapy":
+          lDisciplines.push(discipline.node)
+          return
+        case "writing-editing-interviewing":
+          wDisciplines.push(discipline.node)
+          return
+      }
+    })
     return (
-      <div className="border-2 border-black rounded-2xl">
-        <div className="p-5">
-          {allStrapiDiscipline.edges.map((discipline, index) => {
-            return (
-              <li className="list-none" key={index}>
-                <Checkbox
-                  obj={discipline}
-                  index={index}
-                  check="disciplines-box"
-                  checked={checkedDisciplinesState[index]}
-                  onChange={() => handleDisciplinesChange(index)}
-                />
-              </li>
-            )
-          })}
+      <div className="border-2 border-black rounded-2xl max-h-96 overflow-scroll">
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              visible[0] ? "overflow-none" : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Visual Art & Design</h2>
+            <div className="flex flex-wrap mt-2">
+              {vDisciplines.map((discipline, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={discipline}
+                      index={index}
+                      check="disciplines-box"
+                      checked={checkedDisciplinesState[index]}
+                      onChange={() => handleDisciplinesChange(index)}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setVisible([!visible[0], false, false, false, false, false])
+            }
+          >
+            {visible[0] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              visible[1] ? "overflow-none" : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Writing & Editing</h2>
+            <div className="flex flex-wrap mt-2">
+              {wDisciplines.map((discipline, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={discipline}
+                      index={index}
+                      check="disciplines-box"
+                      checked={
+                        checkedDisciplinesState[vDisciplines.length + index]
+                      }
+                      onChange={() =>
+                        handleDisciplinesChange(vDisciplines.length + index)
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setVisible([false, !visible[1], false, false, false, false])
+            }
+          >
+            {visible[1] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              visible[2] ? "overflow-none" : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Research & Curation</h2>
+            <div className="flex flex-wrap mt-2">
+              {aDisciplines.map((discipline, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={discipline}
+                      index={index}
+                      check="disciplines-box"
+                      checked={
+                        checkedDisciplinesState[
+                          vDisciplines.length + wDisciplines.length + index
+                        ]
+                      }
+                      onChange={() =>
+                        handleDisciplinesChange(
+                          vDisciplines.length + wDisciplines.length + index
+                        )
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setVisible([false, false, !visible[2], false, false, false])
+            }
+          >
+            {visible[2] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              visible[3] ? "overflow-none" : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Performance & Sound</h2>
+            <div className="flex flex-wrap mt-2">
+              {pDisciplines.map((discipline, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={discipline}
+                      index={index}
+                      check="disciplines-box"
+                      checked={
+                        checkedDisciplinesState[
+                          vDisciplines.length +
+                            wDisciplines.length +
+                            aDisciplines.length +
+                            index
+                        ]
+                      }
+                      onChange={() =>
+                        handleDisciplinesChange(
+                          vDisciplines.length +
+                            wDisciplines.length +
+                            aDisciplines.length +
+                            index
+                        )
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setVisible([false, false, false, !visible[3], false, false])
+            }
+          >
+            {visible[3] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              visible[4] ? "overflow-none" : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Arts Administration & Leadership</h2>
+            <div className="flex flex-wrap mt-2">
+              {lDisciplines.map((discipline, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={discipline}
+                      index={index}
+                      check="disciplines-box"
+                      checked={
+                        checkedDisciplinesState[
+                          vDisciplines.length +
+                            wDisciplines.length +
+                            aDisciplines.length +
+                            pDisciplines.length +
+                            index
+                        ]
+                      }
+                      onChange={() =>
+                        handleDisciplinesChange(
+                          vDisciplines.length +
+                            wDisciplines.length +
+                            aDisciplines.length +
+                            pDisciplines.length +
+                            index
+                        )
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setVisible([false, false, false, false, !visible[4], false])
+            }
+          >
+            {visible[4] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 border-black max-w-md	">
+          <div
+            className={
+              visible[5] ? "overflow-none" : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">3D Art & Design, Fashion</h2>
+            <div className="flex flex-wrap mt-2">
+              {rDisciplines.map((discipline, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={discipline}
+                      index={index}
+                      check="disciplines-box"
+                      checked={
+                        checkedDisciplinesState[
+                          vDisciplines.length +
+                            wDisciplines.length +
+                            pDisciplines.length +
+                            aDisciplines.length +
+                            lDisciplines.length +
+                            index
+                        ]
+                      }
+                      onChange={() =>
+                        handleDisciplinesChange(
+                          vDisciplines.length +
+                            wDisciplines.length +
+                            pDisciplines.length +
+                            aDisciplines.length +
+                            lDisciplines.length +
+                            index
+                        )
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setVisible([false, false, false, false, false, !visible[5]])
+            }
+          >
+            {visible[5] ? "See less" : "See more"}
+          </button>
         </div>
         <div className="flex border-t-2 border-black p-5 justify-between items-center">
           <a href="#" onClick={handleClearDisciplines}>
@@ -298,29 +571,198 @@ const IndexPage = ({ queryStrings }) => {
     )
   }
 
-  const disciplinesSection = openDisciplines ? (
-    <div className="absolute bg-white mt-3">{disciplines()}</div>
-  ) : (
-    <span></span>
-  )
+  const disciplinesSection = () => {
+    if (openDisciplines) {
+      return <div className="absolute bg-white mt-3 z-10">{disciplines()}</div>
+    } else {
+      ;<span></span>
+    }
+  }
 
   function descriptors() {
+    let cDescriptors = []
+    let jDescriptors = []
+    let aDescriptors = []
+    let eDescriptors = []
+    allStrapiDescriptor.edges.forEach(descriptor => {
+      switch (descriptor.node.descriptor_category.slug) {
+        case "culture-and-identity-alignment":
+          cDescriptors.push(descriptor.node)
+          return
+        case "justice-organizing-labor":
+          jDescriptors.push(descriptor.node)
+          return
+        case "area-of-focus-practice":
+          aDescriptors.push(descriptor.node)
+          return
+        case "education":
+          eDescriptors.push(descriptor.node)
+          return
+      }
+    })
     return (
-      <div className="border-2 border-black rounded-2xl">
-        <div className="p-5">
-          {allStrapiDescriptor.edges.map((descriptor, index) => {
-            return (
-              <li className="list-none" key={index}>
-                <Checkbox
-                  obj={descriptor}
-                  index={index}
-                  check="descriptors-box"
-                  checked={checkedDescriptorsState[index]}
-                  onChange={() => handleDescriptorsChange(index)}
-                />
-              </li>
-            )
-          })}
+      <div className="border-2 border-black rounded-2xl max-h-96 overflow-scroll">
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              descriptorVisible[0]
+                ? "overflow-none"
+                : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Culture & Identity Alignment</h2>
+            <div className="flex flex-wrap mt-2">
+              {cDescriptors.map((descriptor, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={descriptor}
+                      index={index}
+                      check="descriptors-box"
+                      checked={checkedDescriptorsState[index]}
+                      onChange={() => handleDescriptorsChange(index)}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setDescriptorVisible([!descriptorVisible[0], false, false, false])
+            }
+          >
+            {descriptorVisible[0] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              descriptorVisible[1]
+                ? "overflow-none"
+                : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Justice, Organizing, Labor</h2>
+            <div className="flex flex-wrap mt-2">
+              {jDescriptors.map((descriptor, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={descriptor}
+                      index={index}
+                      check="descriptors-box"
+                      checked={
+                        checkedDescriptorsState[cDescriptors.length + index]
+                      }
+                      onChange={() =>
+                        handleDescriptorsChange(cDescriptors.length + index)
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setDescriptorVisible([false, !descriptorVisible[1], false, false])
+            }
+          >
+            {descriptorVisible[1] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              descriptorVisible[2]
+                ? "overflow-none"
+                : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Area of Focus</h2>
+            <div className="flex flex-wrap mt-2">
+              {aDescriptors.map((descriptor, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={descriptor}
+                      index={index}
+                      check="descriptors-box"
+                      checked={
+                        checkedDescriptorsState[
+                          cDescriptors.length + jDescriptors.length + index
+                        ]
+                      }
+                      onChange={() =>
+                        handleDescriptorsChange(
+                          cDescriptors.length + jDescriptors.length + index
+                        )
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setDescriptorVisible([false, false, !descriptorVisible[2], false])
+            }
+          >
+            {descriptorVisible[2] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 border-black max-w-md	">
+          <div
+            className={
+              descriptorVisible[3]
+                ? "overflow-none"
+                : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Education</h2>
+            <div className="flex flex-wrap mt-2">
+              {eDescriptors.map((descriptor, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                    <Checkbox
+                      obj={descriptor}
+                      index={index}
+                      check="descriptors-box"
+                      checked={
+                        checkedDescriptorsState[
+                          cDescriptors.length +
+                            jDescriptors.length +
+                            aDescriptors.length +
+                            index
+                        ]
+                      }
+                      onChange={() =>
+                        handleDescriptorsChange(
+                          cDescriptors.length +
+                            jDescriptors.length +
+                            aDescriptors.length +
+                            index
+                        )
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setDescriptorVisible([false, false, false, !descriptorVisible[3]])
+            }
+          >
+            {descriptorVisible[3] ? "See less" : "See more"}
+          </button>
         </div>
         <div className="flex border-t-2 border-black p-5 justify-between items-center">
           <a href="#" onClick={handleClearDescriptors}>
@@ -338,7 +780,7 @@ const IndexPage = ({ queryStrings }) => {
   }
 
   const descriptorsSection = openDescriptors ? (
-    <div className="absolute bg-white mt-3">{descriptors()}</div>
+    <div className="absolute bg-white mt-3 z-10">{descriptors()}</div>
   ) : (
     <span></span>
   )
@@ -420,7 +862,7 @@ const IndexPage = ({ queryStrings }) => {
                   >
                     Disciplines {disciplinesCountSection()}
                   </button>
-                  {disciplinesSection}
+                  {disciplinesSection()}
                   <button
                     className={
                       "mr-2 rounded-full px-3 text-sm p-1 border-black border-2 " +
