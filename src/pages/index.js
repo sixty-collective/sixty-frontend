@@ -104,7 +104,7 @@ const IndexPage = ({ queryStrings }) => {
 
   const sendSearch = (value, type) => {
     let url =
-      "http://127.0.0.1:1337" +
+      "https://sixty-backend.onrender.com" +
       "/api/profiles?populate[0]=disciplines,profilePicture"
     if (type === "input") {
       url = url.concat("&filters[name][$contains]=" + value)
@@ -151,7 +151,7 @@ const IndexPage = ({ queryStrings }) => {
   if (results.length === 0) {
     axios
       .get(
-        "http://127.0.0.1:1337" +
+        "https://sixty-backend.onrender.com" +
           "/api/profiles?populate[0]=disciplines,profilePicture"
       )
       .then(response => {
