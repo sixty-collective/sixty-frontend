@@ -4,65 +4,100 @@ import { StaticImage } from "gatsby-plugin-image"
 
 const Navbar = ({ sidebarText }) => {
   return (
-    <header className="fixed bg-black text-white h-full shadow-2xl">
+    <header className="relative w-full md:fixed text-black md:w-52 md:h-full shadow-2xl border-r-2 border-black">
       <nav className="flex flex-col items-baseline justify-between">
-        <Link to="/" className="text-xl font-medium p-4">
+        <Link to="/" className="text-xl font-bold p-5">
           <StaticImage className="" src="../images/logo.png" />
         </Link>
-        <div className="mt-20 flex flex-col items-baseline justify-end list-purple w-full text-black p-6">
+        <div className="flex flex-col items-baseline justify-end w-full text-black p-5 border-y-2 border-black">
           <Link
-            className="font-medium border-b-2 border-black w-full hover:text-white"
+            className="font-bold w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
             to="/profiles"
           >
-            Member Profiles
+            Member Profiles{" "}
+            
           </Link>
           <Link
-            className="font-medium border-b-2 border-black w-full hover:text-white"
+            className="font-bold w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
             to="/resources"
           >
-            Resource Library
+            Knowledge Share
+            
           </Link>
           <Link
-            className="font-medium border-b-2 border-black w-full hover:text-white"
-            to="/merch"
-          >
-            Merch
-          </Link>
-          <Link
-            className="font-medium border-b-2 border-black w-full hover:text-white"
-            to="/support"
-          >
-            Support Sixty
-          </Link>
-          <Link
-            className="font-medium border-b-2 border-black w-full hover:text-white"
+            className="font-bold w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
             to="/about"
           >
             About Us
+            
           </Link>
           <Link
-            className="font-medium border-b-2 border-black w-full hover:text-white"
+            className="font-bold w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
+            to="/support"
+          >
+            Support Sixty
+            
+          </Link>
+          <Link
+            className="font-bold w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
             to="/faq"
           >
             FAQ
-          </Link>
-          <Link
-            className="font-medium border-b-2 border-black w-full hover:text-white"
-            to="/testimonials"
-          >
-            Testimonials
-          </Link>
-          <Link className="font-medium w-full hover:text-white" to="/contact">
-            Contact Us
+            
           </Link>
         </div>
         <div className="p-5 w-full">
-          <p className="text-sm">{sidebarText}</p>
-          <input className="mt-4 rounded-xl w-full"></input>
-          <button className="rounded-full bg-yellow text-black text-sm px-2 py-1 mt-2">
-            Sign Up
+          {/* <p className="text-sm">{sidebarText}</p> */}
+          <p className="text-sm">
+          Paid opportunities, grants, residencies, and more sent to your inbox.
+          </p>
+          <button className="rounded-full text-black text-sm px-2 py-1 mt-5 border-2 border-black w-full">
+            Sign Me Up
           </button>
-          <div className="mt-5 text-xs">Community Agreements</div>
+        </div>
+        <div className="flex flex-col items-baseline justify-end w-full text-black p-5 border-y-2 border-black">
+        <Link
+            className="uppercase text-xs py-1 w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
+            to="/testimonials"
+          >
+            Community Agreements
+            
+          </Link>
+          <Link
+            className="uppercase text-xs py-1 w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
+            to="/testimonials"
+          >
+            Testimonials
+            
+          </Link>
+          <Link
+            className="uppercase text-xs py-1 border-black w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
+            to="/contact"
+          >
+            Contact Us
+            
+          </Link>
+        </div>
+          <div className="pt-5 pb-3 flex justify-center items-center w-full border-b-2 border-black">
+          <div>
+            <Link to="/" className="text-xl font-bold">
+              <StaticImage className="w-6 h-6" src="../images/instagram-black.svg" />
+            </Link>
+            <Link to="/" className="text-xl font-bold  ml-3">
+              <StaticImage className="w-6 h-6" src="../images/x-twitter-black.svg" />
+            </Link>
+          </div>
+        </div>
+        <div className="p-4 flex justify-center items-center w-full border-b-2 border-black">
+        Sixty Collective is a network of artists, writers, and arts workers based in the Midwest.
         </div>
       </nav>
     </header>

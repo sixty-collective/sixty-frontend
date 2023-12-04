@@ -10,7 +10,7 @@ const Page = ({ data }) => {
   function columnsToggle() {
     if (sideBlocks === null) {
       return (
-        <main className="grid grid-cols-1 gap-3 p-20">
+        <main className="w-full grid grid-cols-1 gap-3 pt-10">
           <BlocksRenderer blocks={blocks} />
         </main>
       )

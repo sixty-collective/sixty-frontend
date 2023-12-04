@@ -1,6 +1,9 @@
 import React, { Img } from "react"
 import { Link, graphql } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons"
 
 const ProfileCard = ({ profile, index }) => {
   if (profile.attributes) {
@@ -20,7 +23,7 @@ const ProfileCard = ({ profile, index }) => {
         return profile.disciplines.data.map((discipline, index) => {
           return (
             <span
-              className="text-xs mr-2 rounded-full px-1 bg-gray-300"
+              className="text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block"
               key={index}
             >
               {discipline.attributes.name}
@@ -31,7 +34,7 @@ const ProfileCard = ({ profile, index }) => {
         return profile.disciplines.map((discipline, index) => {
           return (
             <span
-              className="text-xs mr-2 rounded-full px-1 bg-gray-300"
+              className="text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block"
               key={index}
             >
               {discipline.name}
@@ -89,14 +92,16 @@ const ProfileCard = ({ profile, index }) => {
             </div>
             <div className="flex text-xs items-center">
               <div className="border-2 border-black rounded-full px-1 mr-2 bg-white">
-                {profile.location}
+                <FontAwesomeIcon icon={faLocationDot} />
+                <span className="ml-2">{profile.location}</span>
               </div>
             </div>
           </div>
         </div>
         <div className="">
           <p className="m-5 line-clamp-4 text-black">{profile.bio}</p>
-          <div className="p-4 border-t-2 border-black">
+          <div className="p-4 border-t-2 border-black max-h-20 relative">
+            <div className="absolute w-full h-4 bg-white bottom-0	"></div>
             {disciplinesSection()}
           </div>
         </div>
@@ -139,6 +144,8 @@ export const query = graphql`
       disciplines {
         nameForWorkSamples
       }
+      embed
+      embedSource
     }
   }
 `

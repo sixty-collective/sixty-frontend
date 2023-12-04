@@ -76,6 +76,7 @@ module.exports = {
             queryParams: {
               populate: {
                 favicon: "*",
+                headerImage: "*",
                 defaultSeo: {
                   populate: "*",
                 },
@@ -106,7 +107,7 @@ module.exports = {
           },
           {
             name: `Poppins`,
-            file: `https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap`,
+            file: `https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap`,
           },
         ],
       },

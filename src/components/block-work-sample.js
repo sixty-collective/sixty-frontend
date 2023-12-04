@@ -3,9 +3,10 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLink } from "@fortawesome/free-solid-svg-icons"
 
 const BlockWorkSample = ({ data }) => {
-  console.log(data)
   const isVideo = data.images
 
   function disciplinesSection() {
@@ -22,34 +23,104 @@ const BlockWorkSample = ({ data }) => {
     }
   }
 
+  function PreviousArrow(props) {
+    const { className, style, onClick } = props
+    return (
+      <div
+        className={className}
+        style={{ ...style, left: "10px", zIndex: "10" }}
+        onClick={onClick}
+      />
+    )
+  }
+
+  function NextArrow(props) {
+    const { className, style, onClick } = props
+    return (
+      <div
+        className={className}
+        style={{ ...style, right: "10px" }}
+        onClick={onClick}
+      />
+    )
+  }
+
+  function mediaSection() {
+    if (!!data.embed && data.embedSource == "Vimeo") {
+      const vimeoLink = data.link.match(/[^/]+$/g)
+      return (
+        <div>
+          <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+            <iframe
+              src={"https://player.vimeo.com/video/" + vimeoLink}
+              style={{
+                position: "absolute",
+                top: "0",
+                left: "0",
+                width: "100%",
+                height: "100%",
+              }}
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <script src="https://player.vimeo.com/api/player.js"></script>
+        </div>
+      )
+    } else if (!!data.embed && data.embedSource == "YouTube") {
+      const youTubeLink = data.link.match(/[^/=]+$/g)
+      return (
+        <div>
+          <iframe
+            className="aspect-video	w-full"
+            src={"https://www.youtube.com/embed/" + youTubeLink}
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+      )
+    } else {
+      return (
+        <Slider
+          dots={true}
+          infinite={true}
+          speed={300}
+          slidesToShow={1}
+          slidesToScroll={1}
+          arrows={true}
+          swipe={true}
+          adaptiveHeight={true}
+          nextArrow={<NextArrow />}
+          prevArrow={<PreviousArrow />}
+        >
+          {data.images.map(file => (
+            <GatsbyImage
+              key={file.id}
+              image={getImage(file.localFile)}
+              alt={file.alternativeText}
+            />
+          ))}
+        </Slider>
+      )
+    }
+  }
+
   return (
     <div className="card bg-white rounded-3xl border-black border-2">
       <div className="card-header border-b-2 border-black p-5 flex justify-center items-center">
         {disciplinesSection()}
       </div>
-      <Slider
-        dots={true}
-        infinite={true}
-        speed={300}
-        slidesToShow={1}
-        slidesToScroll={1}
-        arrows={true}
-        swipe={true}
-      >
-        {data.images.map(file => (
-          <GatsbyImage
-            key={file.id}
-            image={getImage(file.localFile)}
-            alt={file.alternativeText}
-          />
-        ))}
-      </Slider>
+      {mediaSection()}
       <div className="p-10">
         <p className="font-bold pb-4 text-2xl">{data.name}</p>
         <p className="pb-4">{data.description}</p>
         <a className="flex justify-left" href={data.link}>
-          <button className="rounded-full bg-gray-200 hover:bg-gray-300 px-2 py-1">
-            {data.link}
+          <button className="rounded-full bg-gray-200 hover:bg-gray-300 px-2 py-1 ">
+            <FontAwesomeIcon icon={faLink} />{" "}
+            <span className="underline">{data.link}</span>
           </button>
         </a>
       </div>

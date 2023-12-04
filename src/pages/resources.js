@@ -177,21 +177,21 @@ const ResourcePage = ({ queryStrings }) => {
         description={strapiGlobal.siteDescription}
       />
       <main className="flex flex-col justify-center items-center width-full">
-        <div className=" w-1/2 bg-white mt-20 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
-          <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
-            Browse our Resource Library
+      <div className="flex flex-col w-full border-black border-b-2">
+        <h2 className="text-8xl text-center uppercase font-bold w-full px-8 pt-10 knowledge-gradient">
+            Knowledge Share
           </h2>
-          <div className="px-8 pb-8">
-            <p className="max-w-lg mt-3">
-              Browse our growing collection of carefully selected materials,
-              tools, and career advice about freelance life, hiring artists,
-              archiving, cultural advocacy, collective work, and more.
+          <div className="flex w-full flex-col items-center justify-center">
+          <p className="p-10 text-center max-w-md poppins w-full">
+          Browse through our carefully selected articles, tools, career advice, and more.
             </p>
-            <div className="mt-5 flex">
-              <div>
+            <div className="px-20 w-full">
+            <div className="flex flex-col border-black px-48 py-8 mx-10 rounded-t-extra knowledge-gradient top-curve-border w-full">
+            <div className="flex flex-row justify-center">
+              <div className="mr-5 w-1/2">
                 <div className="text-xs">Enter a custom search:</div>
                 <input
-                  className=" rounded-full px-3 text-sm border-2 border-black max-w-xs mt-2 p-1"
+                  className=" rounded-full px-3 text-sm border-2 border-black mt-2 p-1 w-64"
                   placeholder="Enter 'Taxes'"
                   value={input}
                   onChange={handleInputChange}
@@ -200,7 +200,7 @@ const ResourcePage = ({ queryStrings }) => {
                   Search
                 </button>
               </div>
-              <div className="ml-5">
+              <div className="ml-5 w-1/2">
                 <div className="text-xs">Or select from these Categories:</div>
                 <div className="mt-2">
                   <button
@@ -211,6 +211,8 @@ const ResourcePage = ({ queryStrings }) => {
                   </button>
                   {categoriesSection}
                 </div>
+              </div>
+              </div>
               </div>
             </div>
           </div>

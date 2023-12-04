@@ -3,12 +3,59 @@
 @tailwind utilities;
 
 body {
-  background: #EFEFEF;
+  background: #F7F4F0;
   font-family: 'Nunito Sans';
+}
+
+.poppins {
+  font-family: 'Poppins';
 }
 
 header {
   width: 200px;
+  font-family: 'Poppins';
+}
+
+h2 {
+  font-family: 'Poppins';
+}
+
+.rounded-t-extra {
+  border-top-left-radius: 5rem;
+border-top-right-radius: 5rem;
+}
+
+.top-curve-border {
+  box-shadow: inset 0 0 0 2px  black;
+  margin-left: -2px;
+  margin-bottom: -2px;
+  margin-right: -2px;
+}
+
+.member-gradient{
+  background: linear-gradient(90deg, #ADDAB8 13.12%, #8ECBEF 91.14%);
+}
+
+h2.member-gradient{
+  background: linear-gradient(90deg, #ADDAB8 13.12%, #8ECBEF 91.14%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+.knowledge-gradient{
+  background: linear-gradient(95deg, #FFB57F 7.37%, #F3ACB7 90.46%);
+}
+
+h2.knowledge-gradient{
+  background: linear-gradient(95deg, #FFB57F 7.37%, #F3ACB7 90.46%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 }
 
 .content-section{
@@ -31,6 +78,10 @@ border: 7px #FABA46;
 
 .bg-yellow{
   background: #FABA46;
+}
+
+.bg-purple {
+  background: #D09FC9;
 }
 
 .profile-icon{
@@ -64,7 +115,7 @@ border: 7px #FABA46;
   background: #FABA46;
 }
 
-form{
+form, .font-fira{
   font-family: 'Fira Code', monospace;
 }
 
@@ -96,4 +147,22 @@ h1 a{
 }
 .answer_wrapper.open {
   height: auto;
+}
+
+.slick-dots li {
+  margin: 0 !important;
+}
+
+.slick-dots li button:before {
+  font-size: 10px !important;
+}
+
+.polygon {
+  visibility: hidden;
+
+}
+
+
+.active .polygon {
+  visibility: visible;
 }

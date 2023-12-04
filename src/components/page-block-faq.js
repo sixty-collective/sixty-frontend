@@ -4,7 +4,6 @@ const PageBlockFaq = ({ data }) => {
   const [clicked, setClicked] = useState("0")
 
   const handleToggle = index => {
-    console.log(index)
     if (clicked === index) {
       return setClicked("0")
     }
@@ -20,7 +19,7 @@ const PageBlockFaq = ({ data }) => {
         key={index}
       >
         <button onClick={() => handleToggle(index)}>
-          <div className="font-bold">{question.question}</div>
+          <div className="font-bold text-left	">{question.question}</div>
         </button>
         <div className={`answer_wrapper ${clicked === index ? "open" : ""}`}>
           <div className="pt-5">{question.answer}</div>

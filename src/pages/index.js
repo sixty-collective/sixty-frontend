@@ -3,17 +3,20 @@ import PropTypes from "prop-types"
 
 import { useStaticQuery, graphql, Link } from "gatsby"
 import Layout from "../components/layout"
-import ProfilesGrid from "../components/profiles-grid"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Seo from "../components/seo"
 import Headings from "../components/headings"
 import axios from "axios"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 // import { CookieNotice } from "gatsby-cookie-notice"
 import withLocation from "../components/with-location"
 
 const IndexPage = ({ queryStrings }) => {
   const { q } = queryStrings
   const {
-    allStrapiProfile,
+    allStrapiTestimonial,
     strapiGlobal,
     allStrapiDiscipline,
     allStrapiDescriptor,
@@ -23,6 +26,15 @@ const IndexPage = ({ queryStrings }) => {
       allStrapiProfile(limit: 3, sort: { createdAt: ASC }) {
         nodes {
           ...ProfileCard
+        }
+      }
+      allStrapiTestimonial(limit: 3, sort: { createdAt: ASC }) {
+        edges {
+          node {
+            id
+            name
+            body
+          }
         }
       }
       allStrapiDiscipline {
@@ -57,6 +69,13 @@ const IndexPage = ({ queryStrings }) => {
             id
             childMarkdownRemark {
               html
+            }
+          }
+        }
+        headerImage {
+          localFile {
+            childImageSharp {
+              gatsbyImageData
             }
           }
         }
@@ -148,6 +167,28 @@ const IndexPage = ({ queryStrings }) => {
       setResults(response.data.data)
     })
   }
+
+  function PreviousArrow(props) {
+    const { className, style, onClick } = props
+    return (
+      <div
+        className="bg-white border-black border-2 w-10 h-10 font-fira rounded-full text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -left-20 flex items-center justify-center"
+        onClick={onClick}
+      >&lt;</div>
+    )
+  }
+
+  function NextArrow(props) {
+    const { className, style, onClick } = props
+    return (
+      <div
+        className="bg-white border-black border-2 w-10 h-10 font-fira rounded-full text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -right-20 flex items-center justify-center"
+        onClick={onClick}
+      >&gt;
+      </div>
+    )
+  }
+  
   if (results.length === 0) {
     axios
       .get(
@@ -338,8 +379,13 @@ const IndexPage = ({ queryStrings }) => {
         description={strapiGlobal.siteDescription}
       />
       <main className="flex flex-col justify-center items-center width-full">
-        <div className="container">
-          <h1 className="text-3xl py-20 font-bold w-full rounded-t-2xl">
+      <GatsbyImage
+          image={getImage(strapiGlobal.headerImage?.localFile)}
+          alt={strapiGlobal.headerImage?.alternativeText}
+          className="w-full max-h-96"
+        />
+        <div className="w-full">
+          <h1 className="text-xl w-full bg-black text-white text-center p-5">
             <div
               dangerouslySetInnerHTML={{
                 __html:
@@ -348,74 +394,107 @@ const IndexPage = ({ queryStrings }) => {
             />
           </h1>
         </div>
-        <div className="container grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
-          <div className="bg-white mr-5 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
-            <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
-              Search and Hire Talent
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+          <div className="flex flex-col border-r-2 border-black">
+            <h2 className="text-5xl text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
+              Member <br/>Profiles
             </h2>
-            <div className="px-8 pb-8">
-              <p className="max-w-lg mt-3">
-                Some introductory text about searching for members to hire. This
-                part could be a few lines long and be similar to the copy on the
-                donation pages (weaving in some storytelling aspect, or
-                something, I dunno).
+            <div className="">
+              <div className="flex w-full align-center justify-center">
+              <p className="p-10 text-center max-w-md poppins">
+              Learn about our members, hire talent, find collaborators, and more.
               </p>
-              <div className="mt-5 flex">
-                <div>
-                  <div className="text-xs">Enter a custom search:</div>
+
+              </div>
+              <div className="flex flex border-black p-8 rounded-t-3xl member-gradient top-curve-border flex-col">
+                <div className="w-full text-center">
                   <input
-                    className=" rounded-full px-3 text-sm border-2 border-black max-w-xs mt-2 p-1"
+                    className=" rounded-full px-3 text-sm border-2 border-black p-1 w-3/6"
                     placeholder="Enter 'Name'"
                     value={input}
                     onChange={handleInputChange}
                   />
-                  <Link href={"/profiles?q=" + input}>
+                  <Link className="w-full text-center" href={"/profiles?q=" + input}>
                     <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
                       Search
                     </button>
                   </Link>
                 </div>
+                <div className="w-full text-center mt-5 underline font-bold">
+                <Link href={"/profiles"}>View All Member Profiles</Link>
+                </div>
               </div>
             </div>
           </div>
-          <div className="bg-white ml-5 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
-            <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
-              Browse our Resource Library
+          <div className="flex flex-col border-r-2 border-black">
+            <h2 className="text-5xl text-center uppercase font-bold w-full px-8 pt-10 knowledge-gradient">
+              Knowledge <br/>Share
             </h2>
-            <div className="px-8 pb-8">
-              <p className="max-w-lg mt-3">
-                Browse our growing collection of carefully selected materials,
-                tools, and career advice about freelance life, hiring artists,
-                archiving, cultural advocacy, collective work, and more.
+            <div className="">
+              <div className="flex w-full align-center justify-center">
+              <p className="p-10 text-center max-w-md poppins">
+              Browse through our carefully selected articles, tools, career advice, and more.
               </p>
-              <div className="mt-5 flex">
-                <div>
-                  <div className="text-xs">Enter a custom search:</div>
+
+              </div>
+              <div className="flex flex border-black p-8 rounded-t-3xl knowledge-gradient top-curve-border flex-col">
+                <div className="w-full text-center">
                   <input
-                    className=" rounded-full px-3 text-sm border-2 border-black max-w-xs mt-2 p-1"
+                    className=" rounded-full px-3 text-sm border-2 border-black p-1 w-3/6"
                     placeholder="Enter 'Taxes'"
                     value={resourceInput}
                     onChange={handleResourceInputChange}
                   />
-                  <Link href={"/resources?q=" + resourceInput}>
+                  <Link className="w-full text-center" href={"/resources?q=" + resourceInput}>
                     <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
                       Search
                     </button>
                   </Link>
                 </div>
+                <div className="w-full text-center mt-5 underline font-bold">
+                <Link href={"/resources"}>View All Resources</Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="flex width-full justify-between container mt-20">
-          <h3 className="text-xl font-bold">Member Profiles</h3>
-          <Link href={"/profiles"}>
-            <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
-              View All Profiles
-            </button>
-          </Link>
+        <div className="flex flex-col width-full justify-center items-center container p-10">
+          <h3 className="text-3xl font-black text-center">Paid opportunities, grants, residencies,<br/> and more sent to your inbox.</h3>
+          <button className="rounded-full text-black text-sm px-2 py-1 mt-5 border-2 border-black w-48">
+            Sign Me Up
+          </button>
         </div>
-        <ProfilesGrid profiles={allStrapiProfile.nodes} />
+        <div className="w-full flex items-center justify-center bg-purple py-20">
+          <div className="w-1/2">
+        <Slider
+          dots={false}
+          infinite={true}
+          speed={300}
+          slidesToShow={1}
+          slidesToScroll={1}
+          arrows={true}
+          swipe={true}
+          adaptiveHeight={true}
+          nextArrow={<NextArrow />}
+          prevArrow={<PreviousArrow />}
+        >
+          {allStrapiTestimonial.edges.map((testimonial, index) => (
+            <div
+            className="border-black border-2 rounded-3xl bg-white p-5 font-fira text-center"
+            key={index}
+          >
+            {testimonial.node.body}
+          </div>
+          ))}
+        </Slider>
+        <div className="text-center pt-10">
+            <a className="underline font-bold" href="/testimonials">Submit a Testimonial</a>
+
+        </div>
+          </div>
+        </div>
+        <div>
+        </div>
       </main>
       {/* <CookieNotice
         acceptButtonText="Agree & Enter"

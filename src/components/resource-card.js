@@ -8,7 +8,7 @@ const ResourceCard = ({ resource, index }) => {
     if (resource.attributes.categories.data.length > 0) {
       return resource.attributes.categories.data.map(category => {
         return (
-          <span className="text-xs mr-2 rounded-full px-2 py-1 bg-gray-300">
+          <span className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border">
             {category.attributes.name}
           </span>
         )
@@ -31,7 +31,7 @@ const ResourceCard = ({ resource, index }) => {
         </p>
         <Link to={resource.attributes.link} className="">
           <div className="m-5 text-xs">
-            <span className="bg-gray-200 rounded-full px-2 py-1 hover:bg-gray-300">
+            <span className="knowledge-gradient rounded-full px-2 py-1 hover:bg-gray-300">
               {resource.attributes.link}
             </span>
           </div>

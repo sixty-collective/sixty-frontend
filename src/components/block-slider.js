@@ -15,6 +15,7 @@ const BlockSlider = ({ data }) => {
         slidesToScroll={1}
         arrows={true}
         swipe={true}
+        adaptiveHeight={true}
       >
         {data.files.map(file => (
           <GatsbyImage

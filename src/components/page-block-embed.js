@@ -25,7 +25,7 @@ const PageBlockEmbed = ({ data }) => {
           {allStrapiTestimonial.edges.map((testimonial, index) => {
             return (
               <div
-                className="border-black border-2 rounded-3xl bg-white p-5 mb-10"
+                className="border-black border-2 rounded-3xl bg-white p-5 mb-10 font-fira"
                 key={index}
               >
                 {testimonial.node.body}

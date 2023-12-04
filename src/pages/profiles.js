@@ -303,7 +303,7 @@ const IndexPage = ({ queryStrings }) => {
       }
     })
     return (
-      <div className="border-2 border-black rounded-2xl max-h-96 overflow-scroll">
+      <div className="border-2 border-black rounded-2xl max-h-96 overflow-scroll bg-white">
         <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
           <div
             className={
@@ -573,7 +573,7 @@ const IndexPage = ({ queryStrings }) => {
 
   const disciplinesSection = () => {
     if (openDisciplines) {
-      return <div className="absolute bg-white mt-3 z-10">{disciplines()}</div>
+      return <div className="absolute mt-3 z-10">{disciplines()}</div>
     } else {
       ;<span></span>
     }
@@ -601,7 +601,7 @@ const IndexPage = ({ queryStrings }) => {
       }
     })
     return (
-      <div className="border-2 border-black rounded-2xl max-h-96 overflow-scroll">
+      <div className="border-2 border-black rounded-2xl max-h-96 overflow-scroll bg-white">
         <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
           <div
             className={
@@ -780,7 +780,7 @@ const IndexPage = ({ queryStrings }) => {
   }
 
   const descriptorsSection = openDescriptors ? (
-    <div className="absolute bg-white mt-3 z-10">{descriptors()}</div>
+    <div className="absolute mt-3 z-10">{descriptors()}</div>
   ) : (
     <span></span>
   )
@@ -792,7 +792,7 @@ const IndexPage = ({ queryStrings }) => {
         {selectedDisciplines.map((discipline, index) => {
           return (
             <span
-              className="text-xs mr-2 rounded-full px-1 bg-gray-300"
+            className="text-xs mr-2 rounded-full px-1 bg-white inline-block font-fira border-black border"
               key={index}
             >
               {discipline.name}
@@ -802,7 +802,7 @@ const IndexPage = ({ queryStrings }) => {
         {selectedDescriptors.map((descriptors, index) => {
           return (
             <span
-              className="text-xs mr-2 rounded-full px-1 bg-gray-300"
+            className="text-xs mr-2 rounded-full px-1 bg-white inline-block font-fira border-black border"
               key={index}
             >
               {descriptors.name}
@@ -821,23 +821,22 @@ const IndexPage = ({ queryStrings }) => {
         title={strapiGlobal.siteName}
         description={strapiGlobal.siteDescription}
       />
-      <main className="flex flex-col justify-center items-center width-full">
-        <div className=" w-1/2 bg-white mt-20 flex flex-col gap-3 bg-white rounded-3xl border-2 border-black">
-          <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
-            Search and Hire Talent
-          </h2>
-          <div className="px-8 pb-8">
-            <p className="max-w-lg mt-3">
-              Some introductory text about searching for members to hire. This
-              part could be a few lines long and be similar to the copy on the
-              donation pages (weaving in some storytelling aspect, or something,
-              I dunno).
+      <main className="flex flex-col justify-center items-center w-full">
+      <div className="flex flex-col w-full border-black border-b-2">
+        <h2 className="text-8xl text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
+              Member Profiles
+            </h2>
+          <div className="flex w-full flex-col items-center justify-center">
+          <p className="p-10 text-center max-w-md poppins w-full">
+            Learn about our members, hire talent, find collaborators, and more.
             </p>
-            <div className="mt-5 flex">
-              <div>
+            <div className="px-20 w-full">
+            <div className="flex flex-col border-black px-48 py-8 mx-10 rounded-t-extra member-gradient top-curve-border w-full">
+            <div className="flex flex-row justify-center">
+              <div className="mr-5 w-1/2">
                 <div className="text-xs">Enter a custom search:</div>
                 <input
-                  className=" rounded-full px-3 text-sm border-2 border-black max-w-xs mt-2 p-1"
+                  className=" rounded-full px-3 text-sm border-2 border-black mt-2 p-1 w-64"
                   placeholder="Enter 'Name'"
                   value={input}
                   onChange={handleInputChange}
@@ -846,7 +845,7 @@ const IndexPage = ({ queryStrings }) => {
                   Search
                 </button>
               </div>
-              <div className="ml-5">
+              <div className="ml-5 w-1/2">
                 <div className="text-xs">
                   Or select from these Disciplines and Descriptors:
                 </div>
@@ -877,8 +876,12 @@ const IndexPage = ({ queryStrings }) => {
                   {descriptorsSection}
                 </div>
               </div>
+
             </div>
             <div>{yourSearch}</div>
+            </div>
+
+            </div>
           </div>
         </div>
         <div className="container flex justify-start mt-10">

@@ -4,6 +4,14 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import BlockWorkSample from "../components/block-work-sample"
 import Seo from "../components/seo"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { StaticImage } from "gatsby-plugin-image"
+
+import {
+  faGlobe,
+  faLocationDot,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons"
 
 const ProfilePage = ({ data }) => {
   const [visible, setVisible] = useState(false)
@@ -23,6 +31,12 @@ const ProfilePage = ({ data }) => {
     shareImage: profile.name,
   }
 
+  const availabilityColor = profile.availableForWork ? (
+    <div className="rounded-full bg-green-500 w-3 h-3 border-2 border-black inline-block mr-2"></div>
+  ) : (
+    <div className="rounded-full bg-red-500 w-3 h-3 border-2 border-black inline-block mr-2"></div>
+  )
+
   function contactText() {
     if (visible) {
       return "PROFILE"
@@ -35,7 +49,7 @@ const ProfilePage = ({ data }) => {
     if (profile.disciplines.length > 0) {
       return profile.disciplines.map(discipline => {
         return (
-          <span className="text-xs mr-2 rounded-full px-1 bg-gray-300">
+          <span className="text-xs mr-2 rounded-full px-1 bg-gray-300 inline-block">
             {discipline.name}
           </span>
         )
@@ -48,7 +62,13 @@ const ProfilePage = ({ data }) => {
   function mainProfileSection() {
     if (visible) {
       return (
-        <div className="main-content col-span-3 p-5">
+        <div className="main-content col-span-3 p-5 relative">
+          <div
+            className="absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
+            onClick={handleToggle}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} /> Back to Profile
+          </div>
           <div className="card bg-white rounded-3xl border-black border-2">
             <div className="card-header border-b-2 border-black p-5 flex justify-center items-center">
               <h2 className="text-xl font-bold">Contact {profile.name}</h2>
@@ -258,10 +278,12 @@ const ProfilePage = ({ data }) => {
               <div className="mt-2 text-sm text-neutral-700">
                 {profile.pronouns}
               </div>
-              <div className="mt-2 text-sm text-neutral-700 rounded-full bg-white border-2 border-black px-2">
-                {profile.location}
+              <div className="mt-2 text-sm text-neutral-700 rounded-full bg-white border-2 border-black px-2 flex items-center">
+                <FontAwesomeIcon icon={faLocationDot} />{" "}
+                <span className="ml-2">{profile.location}</span>
               </div>
-              <div className="mt-2 text-sm text-neutral-700 rounded-full bg-white border-2 border-black px-2">
+              <div className="mt-2 text-sm text-neutral-700 rounded-full bg-white border-2 border-black px-2 flex items-center">
+                {availabilityColor}
                 {availability}
               </div>
             </div>
@@ -272,12 +294,27 @@ const ProfilePage = ({ data }) => {
           >
             {contactText()}
           </button>
-          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5">
-            <a href={profile.website}>{profile.website}</a>
-            <br></br>
-            <a href={profile.instagramHandle}>{profile.instagramHandle}</a>
+          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip break-words	hyphens-auto	">
+            <div className="flex items-center justify-left ">
+              <FontAwesomeIcon icon={faGlobe} />
+              <a className="ml-3 hover:underline" href={profile.website}>
+                {profile.website}
+              </a>
+            </div>
+            <div className="flex items-center justify-left ">
+              <StaticImage
+                className="w-4"
+                src="../images/instagram-black.svg"
+              />
+              <a
+                className="ml-2 hover:underline"
+                href={"https://instagram.com/" + profile.instagramHandle}
+              >
+                @{profile.instagramHandle}
+              </a>
+            </div>
           </div>
-          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5">
+          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip">
             {disciplinesSection()}
           </div>
         </div>
@@ -307,6 +344,8 @@ export const pageQuery = graphql`
         disciplines {
           nameForWorkSamples
         }
+        embed
+        embedSource
       }
       pronouns
       website
