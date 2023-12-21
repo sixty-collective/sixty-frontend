@@ -49,8 +49,22 @@ const ProfilePage = ({ data }) => {
     if (profile.disciplines.length > 0) {
       return profile.disciplines.map(discipline => {
         return (
-          <span className="text-xs mr-2 rounded-full px-1 bg-gray-300 inline-block">
+          <span className="line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
             {discipline.name}
+          </span>
+        )
+      })
+    } else {
+      return <div></div>
+    }
+  }
+
+  function descriptorsSection() {
+    if (profile.descriptors.length > 0) {
+      return profile.descriptors.map(descriptor => {
+        return (
+          <span className="line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
+            {descriptor.name}
           </span>
         )
       })
@@ -248,7 +262,7 @@ const ProfilePage = ({ data }) => {
             <h2 className="text-3xl font-bold">Work Samples</h2>
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
               {profile.workSamples.map(sample => (
-                <BlockWorkSample data={sample} />
+                <BlockWorkSample data={sample} colorIndex={colorIndex} />
               ))}
             </div>
           </div>
@@ -288,35 +302,30 @@ const ProfilePage = ({ data }) => {
               </div>
             </div>
           </div>
+          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-4 overflow-clip">
+            {disciplinesSection()}{descriptorsSection()}
+          </div>
+          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip break-words justify-center	hyphens-auto items-center	flex">
+              <a className="hover:opacity-50 px-2 text-2xl" href={profile.website}>
+                <FontAwesomeIcon icon={faGlobe} />
+              </a>
+              <a
+                className="hover:opacity-50 px-2	"
+                href={"https://instagram.com/" + profile.instagramHandle}
+              >
+              <StaticImage
+                alt=""
+                className="w-6"
+                src="../images/instagram-black.svg"
+              />
+              </a>
+          </div>
           <button
             onClick={handleToggle}
             className="font-bold text-xl bg-slate-900 width-full text-white py-3 px-5 mt-5 rounded-full"
           >
             {contactText()}
           </button>
-          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip break-words	hyphens-auto	">
-            <div className="flex items-center justify-left ">
-              <FontAwesomeIcon icon={faGlobe} />
-              <a className="ml-3 hover:underline" href={profile.website}>
-                {profile.website}
-              </a>
-            </div>
-            <div className="flex items-center justify-left ">
-              <StaticImage
-                className="w-4"
-                src="../images/instagram-black.svg"
-              />
-              <a
-                className="ml-2 hover:underline"
-                href={"https://instagram.com/" + profile.instagramHandle}
-              >
-                @{profile.instagramHandle}
-              </a>
-            </div>
-          </div>
-          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip">
-            {disciplinesSection()}
-          </div>
         </div>
       </main>
     </Layout>
@@ -367,6 +376,9 @@ export const pageQuery = graphql`
         }
       }
       disciplines {
+        name
+      }
+      descriptors {
         name
       }
     }

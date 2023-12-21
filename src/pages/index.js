@@ -385,7 +385,7 @@ const IndexPage = ({ queryStrings }) => {
           className="w-full max-h-96"
         />
         <div className="w-full">
-          <h1 className="text-xl w-full bg-black text-white text-center p-5">
+          <h1 className="text-xl w-full bg-black text-white text-center p-5 home-header-text">
             <div
               dangerouslySetInnerHTML={{
                 __html:
@@ -395,8 +395,8 @@ const IndexPage = ({ queryStrings }) => {
           </h1>
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-          <div className="flex flex-col border-r-2 border-black">
-            <h2 className="text-5xl text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
+          <div className="flex flex-col border-r-2 border-black bg-[#E1EEF6]">
+            <h2 className="text-7xl leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
               Member <br/>Profiles
             </h2>
             <div className="">
@@ -404,21 +404,40 @@ const IndexPage = ({ queryStrings }) => {
               <p className="p-10 text-center max-w-md poppins">
               Learn about our members, hire talent, find collaborators, and more.
               </p>
-
               </div>
               <div className="flex flex border-black p-8 rounded-t-3xl member-gradient top-curve-border flex-col">
+              <div className="w-full text-center font-bold text-sm mb-5">
+                  Search profiles by popular discipline:
+                </div>
                 <div className="w-full text-center">
-                  <input
-                    className=" rounded-full px-3 text-sm border-2 border-black p-1 w-3/6"
-                    placeholder="Enter 'Name'"
-                    value={input}
-                    onChange={handleInputChange}
-                  />
-                  <Link className="w-full text-center" href={"/profiles?q=" + input}>
-                    <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
-                      Search
-                    </button>
-                  </Link>
+                <Link href={"/profiles?disciplineName=Writer&disciplineSlug=writer"}>
+                <span
+                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
+                  
+                >
+                  Writer
+                </span></Link>
+                <Link href={"/profiles?disciplineName=Photographer&disciplineSlug=photographer"}>
+                <span
+                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
+                  
+                >
+                  Photographer
+                </span></Link>
+                <Link href={"/profiles?disciplineName=Editor&disciplineSlug=editor"}>
+                <span
+                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
+                  
+                >
+                  Editor
+                </span></Link>
+                <Link href={"/profiles?disciplineName=Illustrator&disciplineSlug=illustrator"}>
+                <span
+                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
+                  
+                >
+                  Illustrator
+                </span></Link>
                 </div>
                 <div className="w-full text-center mt-5 underline font-bold">
                 <Link href={"/profiles"}>View All Member Profiles</Link>
@@ -426,8 +445,8 @@ const IndexPage = ({ queryStrings }) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col border-r-2 border-black">
-            <h2 className="text-5xl text-center uppercase font-bold w-full px-8 pt-10 knowledge-gradient">
+          <div className="flex flex-col border-r-2 border-black bg-[#F8E3D3]">
+            <h2 className="text-7xl leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 knowledge-gradient">
               Knowledge <br/>Share
             </h2>
             <div className="">
@@ -438,18 +457,31 @@ const IndexPage = ({ queryStrings }) => {
 
               </div>
               <div className="flex flex border-black p-8 rounded-t-3xl knowledge-gradient top-curve-border flex-col">
+                <div className="w-full text-center font-bold text-sm mb-5">
+                  Search resources by popular tag:
+                </div>
                 <div className="w-full text-center">
-                  <input
-                    className=" rounded-full px-3 text-sm border-2 border-black p-1 w-3/6"
-                    placeholder="Enter 'Taxes'"
-                    value={resourceInput}
-                    onChange={handleResourceInputChange}
-                  />
-                  <Link className="w-full text-center" href={"/resources?q=" + resourceInput}>
-                    <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
-                      Search
-                    </button>
-                  </Link>
+                <Link href={"/resources?tagName=Activism%20%26%20Advocacy&tagSlug=activism-advocacy"}>
+                <span
+                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#F8E3D3]"
+                  
+                >
+                  Activism & Advocacy
+                </span></Link>
+                <Link href={"/resources?tagName=Accessibility&tagSlug=accessibility"}>
+                <span
+                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#F8E3D3]"
+                  
+                >
+                  Accessibility
+                </span></Link>
+                <Link href={"/resources?tagName=Financial&tagSlug=financial"}>
+                <span
+                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#F8E3D3]"
+                  
+                >
+                  Financial
+                </span></Link>
                 </div>
                 <div className="w-full text-center mt-5 underline font-bold">
                 <Link href={"/resources"}>View All Resources</Link>
@@ -460,9 +492,11 @@ const IndexPage = ({ queryStrings }) => {
         </div>
         <div className="flex flex-col width-full justify-center items-center container p-10">
           <h3 className="text-3xl font-black text-center">Paid opportunities, grants, residencies,<br/> and more sent to your inbox.</h3>
-          <button className="rounded-full text-black text-sm px-2 py-1 mt-5 border-2 border-black w-48">
+          <a href="/sign-up">
+          <button className="hover:bg-black hover:text-[#F7F4F0] rounded-full text-black text-sm px-2 py-1 mt-5 border-2 border-black w-48">
             Sign Me Up
           </button>
+          </a>
         </div>
         <div className="w-full flex items-center justify-center bg-purple py-20">
           <div className="w-1/2">
@@ -474,13 +508,13 @@ const IndexPage = ({ queryStrings }) => {
           slidesToScroll={1}
           arrows={true}
           swipe={true}
-          adaptiveHeight={true}
+          adaptiveHeight={false}
           nextArrow={<NextArrow />}
           prevArrow={<PreviousArrow />}
         >
           {allStrapiTestimonial.edges.map((testimonial, index) => (
             <div
-            className="border-black border-2 rounded-3xl bg-white p-5 font-fira text-center"
+            className="border-black border-2 rounded-3xl bg-white p-5 font-fira text-center line-clamp-4"
             key={index}
           >
             {testimonial.node.body}

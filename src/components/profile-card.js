@@ -47,6 +47,36 @@ const ProfileCard = ({ profile, index }) => {
     }
   }
 
+  function descriptorsSection() {
+    if (profile.descriptors) {
+      if (profile.descriptors.data) {
+        return profile.descriptors.data.map((descriptor, index) => {
+          return (
+            <span
+              className="text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block"
+              key={index}
+            >
+              {descriptor.attributes.name}
+            </span>
+          )
+        })
+      } else {
+        return profile.descriptors.map((descriptor, index) => {
+          return (
+            <span
+              className="text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block"
+              key={index}
+            >
+              {descriptor.name}
+            </span>
+          )
+        })
+      }
+    } else {
+      return <div></div>
+    }
+  }
+
   function profilePicture() {
     if (profile?.profilePicture?.localFile) {
       return (
@@ -102,7 +132,7 @@ const ProfileCard = ({ profile, index }) => {
           <p className="m-5 line-clamp-4 text-black">{profile.bio}</p>
           <div className="p-4 border-t-2 border-black max-h-20 relative">
             <div className="absolute w-full h-4 bg-white bottom-0	"></div>
-            {disciplinesSection()}
+            {disciplinesSection()}{descriptorsSection()}
           </div>
         </div>
       </div>
@@ -126,6 +156,9 @@ export const query = graphql`
     availableForWork
     location
     disciplines {
+      name
+    }
+    descriptors {
       name
     }
     workSamples {

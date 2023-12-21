@@ -11,7 +11,7 @@ const MobileNav = ({ sidebarText }) => {
   return (
     <header className="flex justify-between items-center w-full md:hidden text-black md:w-48 md:h-full shadow-2xl">
       <Link to="/" className="text-xl font-bold p-4 w-40">
-        <StaticImage className="" src="../images/logo.png" />
+        <StaticImage alt="" className="" src="../images/logo.png" />
       </Link>
       <FontAwesomeIcon className="p-4 text-3xl" icon={faBars} />
       <nav className="hidden flex flex-col items-baseline justify-between">
@@ -23,7 +23,7 @@ const MobileNav = ({ sidebarText }) => {
             to="/profiles"
           >
             Member Profiles{" "}
-            <StaticImage
+            <StaticImage alt=""
               className="polygon w-3 h-3"
               src="../images/polygon.svg"
             />
@@ -35,7 +35,7 @@ const MobileNav = ({ sidebarText }) => {
             to="/resources"
           >
             Resource Library
-            <StaticImage
+            <StaticImage alt=""
               className="polygon w-3 h-3"
               src="../images/polygon.svg"
             />
@@ -47,7 +47,7 @@ const MobileNav = ({ sidebarText }) => {
             to="/merch"
           >
             Merch
-            <StaticImage
+            <StaticImage alt=""
               className="polygon w-3 h-3"
               src="../images/polygon.svg"
             />
@@ -59,7 +59,7 @@ const MobileNav = ({ sidebarText }) => {
             to="/support"
           >
             Support Sixty
-            <StaticImage
+            <StaticImage alt=""
               className="polygon w-3 h-3"
               src="../images/polygon.svg"
             />
@@ -71,7 +71,7 @@ const MobileNav = ({ sidebarText }) => {
             to="/about"
           >
             About Us
-            <StaticImage
+            <StaticImage alt=""
               className="polygon w-3 h-3"
               src="../images/polygon.svg"
             />
@@ -83,7 +83,7 @@ const MobileNav = ({ sidebarText }) => {
             to="/faq"
           >
             FAQ
-            <StaticImage
+            <StaticImage alt=""
               className="polygon w-3 h-3"
               src="../images/polygon.svg"
             />
@@ -95,7 +95,7 @@ const MobileNav = ({ sidebarText }) => {
             to="/testimonials"
           >
             Testimonials
-            <StaticImage
+            <StaticImage alt=""
               className="polygon w-3 h-3"
               src="../images/polygon.svg"
             />
@@ -107,7 +107,7 @@ const MobileNav = ({ sidebarText }) => {
             to="/contact"
           >
             Contact Us
-            <StaticImage
+            <StaticImage alt=""
               className="polygon w-3 h-3"
               src="../images/polygon.svg"
             />
@@ -126,10 +126,10 @@ const MobileNav = ({ sidebarText }) => {
           <div className="mt-5 text-xs">Community Agreements</div>
           <div className="mt-5 flex justify-left items-center">
             <Link to="/" className="text-xl font-bold">
-              <StaticImage className="w-6 h-6" src="../images/instagram.svg" />
+              <StaticImage alt="" className="w-6 h-6" src="../images/instagram.svg" />
             </Link>
             <Link to="/" className="text-xl font-bold  ml-3">
-              <StaticImage className="w-6 h-6" src="../images/x-twitter.svg" />
+              <StaticImage alt="" className="w-6 h-6" src="../images/x-twitter.svg" />
             </Link>
           </div>
         </div>

@@ -20,6 +20,9 @@ module.exports = {
                 disciplines: {
                   populate: "*",
                 },
+                descriptors: {
+                  populate: "*",
+                },
                 profilePicture: "*",
               },
             },
@@ -29,6 +32,9 @@ module.exports = {
           },
           {
             singularName: "category",
+          },
+          {
+            singularName: "resource-tag",
           },
           {
             singularName: "testimonial",
@@ -99,7 +105,7 @@ module.exports = {
         web: [
           {
             name: `Fira Code`,
-            file: `https://fonts.googleapis.com/css2?family=Fira+Code&display=swap`,
+            file: `https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap`,
           },
           {
             name: `Nunito Sans`,

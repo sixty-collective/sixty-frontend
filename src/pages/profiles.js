@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
+import { StaticImage } from "gatsby-plugin-image"
 
 import { useStaticQuery, graphql } from "gatsby"
 import Layout from "../components/layout"
@@ -11,7 +12,7 @@ import axios from "axios"
 import withLocation from "../components/with-location"
 
 const IndexPage = ({ queryStrings }) => {
-  const { q } = queryStrings
+  const { disciplineName, disciplineSlug } = queryStrings
 
   const { strapiGlobal, allStrapiDiscipline, allStrapiDescriptor } =
     useStaticQuery(graphql`
@@ -61,7 +62,10 @@ const IndexPage = ({ queryStrings }) => {
     }
   }
 
-  const [input, setInput] = useState(q || "")
+  const [input, setInput] = useState("")
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [initial, setInitial] = useState(true)
   const [visible, setVisible] = useState([
     false,
     false,
@@ -80,10 +84,10 @@ const IndexPage = ({ queryStrings }) => {
   const [selectedDescriptors, setSelectedDescriptors] = useState([])
   const [results, setResults] = useState([])
   const [checkedDisciplinesState, setCheckedDisciplinesState] = useState(
-    new Array(allStrapiDiscipline.edges.length).fill(false)
+    new Array(allStrapiDiscipline.edges.length).fill({status: false, discipline: ""})
   )
   const [checkedDescriptorsState, setCheckedDescriptorsState] = useState(
-    new Array(allStrapiDescriptor.edges.length).fill(false)
+    new Array(allStrapiDescriptor.edges.length).fill({status: false, descriptor: ""})
   )
   const [openDisciplines, setOpenDisciplines] = React.useState(false)
   const [openDescriptors, setOpenDescriptors] = React.useState(false)
@@ -100,106 +104,106 @@ const IndexPage = ({ queryStrings }) => {
 
   const disciplinesCountSection = () => {
     if (selectedDisciplines.length > 0) {
-      return <span>({selectedDisciplines.length})</span>
+      return <span className="mr-2">({selectedDisciplines.length})</span>
     } else {
-      return <span></span>
+      return <span className="mr-2"></span>
     }
   }
 
   const descriptorsCountSection = () => {
     if (selectedDescriptors.length > 0) {
-      return <span>({selectedDescriptors.length})</span>
+      return <span className="mr-2">({selectedDescriptors.length})</span>
     } else {
-      return <span></span>
+      return <span className="mr-2"></span>
     }
   }
 
-  const sendSearch = (value, type) => {
-    let searchDisciplines, searchDescriptors
-    let url =
-      "https://sixty-backend.onrender.com" +
-      "/api/profiles?populate[0]=disciplines,profilePicture"
-    if (type === "input") {
-      url = url.concat("&filters[name][$contains]=" + value)
-    } else if (!!input) {
-      url = url.concat("&filters[name][$contains]=" + input)
+  const sendSearch = async (resetPage) => {
+    setIsLoading(true);
+    let url;
+    if (resetPage) {
+      url =
+      process.env.STRAPI_API_URL +
+      "/api/profiles?pagination[page]=" + 1 + "&populate[0]=disciplines,descriptors,profilePicture"
+    } else {
+      url =
+        process.env.STRAPI_API_URL +
+        "/api/profiles?pagination[page]=" + page + "&populate[0]=disciplines,descriptors,profilePicture"
+    }
+    // if (type === "input") {
+    //   url = url.concat("&filters[name][$contains]=" + value)
+    // } else if (!!input) {
+    //   url = url.concat("&filters[name][$contains]=" + input)
+    // }
+
+    if (selectedDescriptors.length > 0) {
+      selectedDescriptors.forEach((selected, index) => {
+        url = url.concat("&filters[$or][" + index + "][descriptors][slug][$in]=" + selected.slug)
+      })
     }
 
-    if (type === "descriptors") {
-      searchDescriptors = value.map(selected => {
-        return selected.slug
+    if (selectedDisciplines.length > 0) {
+      selectedDisciplines.forEach((selected, index) => {
+        url = url.concat("&filters[$or][" + index + "][disciplines][slug][$in]=" + selected.slug)
       })
-      const descriptorsUrl = searchDescriptors.join(
-        "&filters[$or][1][descriptors][slug][$in]="
-      )
-      url = url.concat(
-        "&filters[$or][0][descriptors][slug][$in]=" + descriptorsUrl
-      )
-    } else if (selectedDescriptors.length > 0) {
-      searchDescriptors = selectedDescriptors.map(selected => {
-        return selected.slug
-      })
-      const descriptorsUrl = searchDescriptors.join(
-        "&filters[$or][1][descriptors][slug][$in]="
-      )
-      url = url.concat(
-        "&filters[$or][0][descriptors][slug][$in]=" + descriptorsUrl
-      )
     }
-
-    if (type === "disciplines") {
-      searchDisciplines = value.map(selected => {
-        return selected.slug
+    console.log(url)
+    try {
+      await axios.get(url).then(async response => {
+        if (resetPage) {
+          setResults(response.data.data)
+          setPage(() => {
+            return 2;
+          });
+        } else {
+          setResults((prevResults) => {
+            return [...prevResults, ...response.data.data]
+          })
+          setPage((prevPage) => {
+            return prevPage + 1;
+          });
+        }
       })
-      const disciplinesUrl = searchDisciplines.join(
-        "&filters[$or][1][disciplines][slug][$in]="
-      )
-      url = url.concat(
-        "&filters[$or][0][disciplines][slug][$in]=" + disciplinesUrl
-      )
-    } else if (selectedDisciplines.length > 0) {
-      searchDisciplines = selectedDisciplines.map(selected => {
-        return selected.slug
-      })
-      const disciplinesUrl = searchDisciplines.join(
-        "&filters[$or][1][disciplines][slug][$in]="
-      )
-      url = url.concat(
-        "&filters[$or][0][disciplines][slug][$in]=" + disciplinesUrl
-      )
+    } finally {
+      setIsLoading(false);
     }
-    axios.get(url).then(response => {
-      console.log(response)
-      setResults(response.data.data)
-    })
   }
+
+  const handleScroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop + 5 < document.documentElement.offsetHeight || isLoading) {
+      return;
+    }
+    sendSearch();
+  };
 
   useEffect(() => {
-    if (q) {
-      sendSearch(q, "input")
-    } else {
-      sendSearch("", "input")
+    if (disciplineSlug && initial) {
+      setInitial(false)
+      setSelectedDisciplines([{ name: disciplineName, slug: disciplineSlug }])
     }
-  }, [])
+    sendSearch(true)
+  }, [selectedDisciplines, selectedDescriptors])
 
-  const handleInputChange = e => {
-    setInput(e.target.value)
-    sendSearch(e.target.value, "input")
-  }
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isLoading]);
 
-  const handleDisciplinesChange = position => {
+  const handleDisciplinesChange = (position, discipline) => {
     const updatedCheckedDisciplinesState = checkedDisciplinesState.map(
-      (item, index) => (index === position ? !item : item)
+      (item, index) => {
+        return (index === position ? {status: !item.status, discipline: discipline} : item)
+      }
     )
-
     setCheckedDisciplinesState(updatedCheckedDisciplinesState)
   }
 
-  const handleDescriptorsChange = position => {
+  const handleDescriptorsChange = (position, descriptor) => {
     const updatedCheckedDescriptorsState = checkedDescriptorsState.map(
-      (item, index) => (index === position ? !item : item)
+      (item, index) => {
+        return (index === position ? {status: !item.status, descriptor: descriptor} : item)
+      }
     )
-
     setCheckedDescriptorsState(updatedCheckedDescriptorsState)
   }
 
@@ -238,17 +242,42 @@ const IndexPage = ({ queryStrings }) => {
 
     setSelectedDisciplines(disciplinesFilters)
     toggleDisciplines()
-
-    sendSearch(disciplinesFilters, "disciplines")
   }
 
   const handleClearDisciplines = () => {
     setSelectedDisciplines([])
     toggleDisciplines()
     setCheckedDisciplinesState(
-      new Array(allStrapiDiscipline.edges.length).fill(false)
+      new Array(allStrapiDiscipline.edges.length).fill({status: false, discipline: ""})
     )
-    sendSearch([])
+  }
+
+  const handleClearSpecificDiscipline = (clearDiscipline) => {
+    setSelectedDisciplines(selectedDisciplines.filter(function(discipline) { 
+        return discipline != clearDiscipline 
+    }));
+    let newArray = checkedDisciplinesState.map(function(discipline) { 
+      if (discipline.discipline.slug != clearDiscipline.slug) {
+        return discipline
+      } else {
+        return {status: false, discipline: discipline.discipline}
+      }
+    })
+    setCheckedDisciplinesState(newArray)
+  }
+
+  const handleClearSpecificDescriptor = (clearDescriptor) => {
+    setSelectedDescriptors(selectedDescriptors.filter(function(descriptor) { 
+        return descriptor != clearDescriptor 
+    }));
+    let newArray = checkedDescriptorsState.map(function(descriptor) { 
+      if (descriptor.descriptor.slug != clearDescriptor.slug) {
+        return descriptor
+      } else {
+        return {status: false, descriptor: descriptor.descriptor}
+      }
+    })
+    setCheckedDescriptorsState(newArray)
   }
 
   const handleDescriptorsApply = () => {
@@ -261,16 +290,14 @@ const IndexPage = ({ queryStrings }) => {
 
     setSelectedDescriptors(descriptorsFilters)
     toggleDescriptors()
-    sendSearch(descriptorsFilters, "descriptors")
   }
 
   const handleClearDescriptors = () => {
     setSelectedDescriptors([])
     toggleDescriptors()
     setCheckedDescriptorsState(
-      new Array(allStrapiDiscipline.edges.length).fill(false)
+      new Array(allStrapiDescriptor.edges.length).fill({status: false, descriptor: ""})
     )
-    sendSearch([])
   }
 
   function disciplines() {
@@ -319,8 +346,8 @@ const IndexPage = ({ queryStrings }) => {
                       obj={discipline}
                       index={index}
                       check="disciplines-box"
-                      checked={checkedDisciplinesState[index]}
-                      onChange={() => handleDisciplinesChange(index)}
+                      checked={checkedDisciplinesState[index].status}
+                      onChange={() => handleDisciplinesChange(index, discipline)}
                     />
                   </div>
                 )
@@ -352,10 +379,10 @@ const IndexPage = ({ queryStrings }) => {
                       index={index}
                       check="disciplines-box"
                       checked={
-                        checkedDisciplinesState[vDisciplines.length + index]
+                        checkedDisciplinesState[vDisciplines.length + index].status
                       }
                       onChange={() =>
-                        handleDisciplinesChange(vDisciplines.length + index)
+                        handleDisciplinesChange(vDisciplines.length + index, discipline)
                       }
                     />
                   </div>
@@ -390,11 +417,11 @@ const IndexPage = ({ queryStrings }) => {
                       checked={
                         checkedDisciplinesState[
                           vDisciplines.length + wDisciplines.length + index
-                        ]
+                        ].status
                       }
                       onChange={() =>
                         handleDisciplinesChange(
-                          vDisciplines.length + wDisciplines.length + index
+                          vDisciplines.length + wDisciplines.length + index, discipline
                         )
                       }
                     />
@@ -433,14 +460,14 @@ const IndexPage = ({ queryStrings }) => {
                             wDisciplines.length +
                             aDisciplines.length +
                             index
-                        ]
+                        ].status
                       }
                       onChange={() =>
                         handleDisciplinesChange(
                           vDisciplines.length +
                             wDisciplines.length +
                             aDisciplines.length +
-                            index
+                            index, discipline
                         )
                       }
                     />
@@ -480,7 +507,7 @@ const IndexPage = ({ queryStrings }) => {
                             aDisciplines.length +
                             pDisciplines.length +
                             index
-                        ]
+                        ].status
                       }
                       onChange={() =>
                         handleDisciplinesChange(
@@ -488,7 +515,7 @@ const IndexPage = ({ queryStrings }) => {
                             wDisciplines.length +
                             aDisciplines.length +
                             pDisciplines.length +
-                            index
+                            index, discipline
                         )
                       }
                     />
@@ -529,7 +556,7 @@ const IndexPage = ({ queryStrings }) => {
                             aDisciplines.length +
                             lDisciplines.length +
                             index
-                        ]
+                        ].status
                       }
                       onChange={() =>
                         handleDisciplinesChange(
@@ -538,7 +565,7 @@ const IndexPage = ({ queryStrings }) => {
                             pDisciplines.length +
                             aDisciplines.length +
                             lDisciplines.length +
-                            index
+                            index, discipline
                         )
                       }
                     />
@@ -619,8 +646,8 @@ const IndexPage = ({ queryStrings }) => {
                       obj={descriptor}
                       index={index}
                       check="descriptors-box"
-                      checked={checkedDescriptorsState[index]}
-                      onChange={() => handleDescriptorsChange(index)}
+                      checked={checkedDescriptorsState[index].status}
+                      onChange={() => handleDescriptorsChange(index, descriptor)}
                     />
                   </div>
                 )
@@ -654,10 +681,10 @@ const IndexPage = ({ queryStrings }) => {
                       index={index}
                       check="descriptors-box"
                       checked={
-                        checkedDescriptorsState[cDescriptors.length + index]
+                        checkedDescriptorsState[cDescriptors.length + index].status
                       }
                       onChange={() =>
-                        handleDescriptorsChange(cDescriptors.length + index)
+                        handleDescriptorsChange(cDescriptors.length + index, descriptor)
                       }
                     />
                   </div>
@@ -694,11 +721,11 @@ const IndexPage = ({ queryStrings }) => {
                       checked={
                         checkedDescriptorsState[
                           cDescriptors.length + jDescriptors.length + index
-                        ]
+                        ].status
                       }
                       onChange={() =>
                         handleDescriptorsChange(
-                          cDescriptors.length + jDescriptors.length + index
+                          cDescriptors.length + jDescriptors.length + index, descriptor
                         )
                       }
                     />
@@ -739,14 +766,14 @@ const IndexPage = ({ queryStrings }) => {
                             jDescriptors.length +
                             aDescriptors.length +
                             index
-                        ]
+                        ].status
                       }
                       onChange={() =>
                         handleDescriptorsChange(
                           cDescriptors.length +
                             jDescriptors.length +
                             aDescriptors.length +
-                            index
+                            index, descriptor
                         )
                       }
                     />
@@ -788,24 +815,30 @@ const IndexPage = ({ queryStrings }) => {
   const yourSearch =
     selectedDisciplines.length > 0 || selectedDescriptors.length > 0 ? (
       <div className="mt-5">
-        <div className="text-xs">Your Search:</div>
+        <div className="text-xs">Your search:</div>
         {selectedDisciplines.map((discipline, index) => {
           return (
             <span
-            className="text-xs mr-2 rounded-full px-1 bg-white inline-block font-fira border-black border"
+            className="text-xs mr-2 rounded-full px-1 bg-white inline-flex font-fira border-black border items-center"
               key={index}
             >
-              {discipline.name}
+              <a href="#" onClick={() => handleClearSpecificDiscipline(discipline)}>
+                <StaticImage alt="" className="w-4 h-4" objectFit="contain" src="../images/close.png" />
+              </a>
+              <span className="pl-1">{discipline.name}</span>
             </span>
           )
         })}
-        {selectedDescriptors.map((descriptors, index) => {
+        {selectedDescriptors.map((descriptor, index) => {
           return (
             <span
             className="text-xs mr-2 rounded-full px-1 bg-white inline-block font-fira border-black border"
               key={index}
             >
-              {descriptors.name}
+              <a href="#" onClick={() => handleClearSpecificDescriptor(descriptor)}>
+                <StaticImage alt="" className="w-4 h-4" objectFit="contain" src="../images/close.png" />
+              </a>
+              {descriptor.name}
             </span>
           )
         })}
@@ -823,27 +856,24 @@ const IndexPage = ({ queryStrings }) => {
       />
       <main className="flex flex-col justify-center items-center w-full">
       <div className="flex flex-col w-full border-black border-b-2">
-        <h2 className="text-8xl text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
+        <h2 className="text-8xl text-center uppercase font-bold w-full mb-10 px-8 pt-10 member-gradient">
               Member Profiles
             </h2>
           <div className="flex w-full flex-col items-center justify-center">
-          <p className="p-10 text-center max-w-md poppins w-full">
-            Learn about our members, hire talent, find collaborators, and more.
-            </p>
             <div className="px-20 w-full">
-            <div className="flex flex-col border-black px-48 py-8 mx-10 rounded-t-extra member-gradient top-curve-border w-full">
+            <div className="flex flex-col border-black px-32 py-8 mx-10 rounded-t-extra member-gradient top-curve-border w-full">
             <div className="flex flex-row justify-center">
               <div className="mr-5 w-1/2">
-                <div className="text-xs">Enter a custom search:</div>
-                <input
+                <div className="">Learn about our members, hire talent, find collaborators, and more.</div>
+                {/* <input
                   className=" rounded-full px-3 text-sm border-2 border-black mt-2 p-1 w-64"
                   placeholder="Enter 'Name'"
                   value={input}
                   onChange={handleInputChange}
                 />
-                <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
+                <button onClick={handleSearchPress} className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
                   Search
-                </button>
+                </button> */}
               </div>
               <div className="ml-5 w-1/2">
                 <div className="text-xs">
@@ -852,26 +882,38 @@ const IndexPage = ({ queryStrings }) => {
                 <div className="mt-2">
                   <button
                     className={
-                      "mr-2 rounded-full px-3 text-sm p-1 border-black border-2 " +
-                      (selectedDisciplines.length > 0
+                      "mr-2 rounded-full px-3 text-sm p-1 border-black border-2 inline-flex items-center " +
+                      (openDisciplines || selectedDisciplines.length > 0
                         ? "bg-black text-white"
                         : "bg-white text-black")
                     }
                     onClick={toggleDisciplines}
                   >
-                    Disciplines {disciplinesCountSection()}
+                    Disciplines {disciplinesCountSection()} {openDisciplines ? <svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5" fill="none">
+      <path d="M5.00784 0.00168852C5.17445 0.00136286 5.3359 0.0594578 5.46419 0.165889L9.74241 3.73547C9.88803 3.85665 9.9796 4.03079 9.99698 4.21956C10.0144 4.40834 9.95614 4.5963 9.83511 4.7421C9.71408 4.88789 9.54016 4.97957 9.35161 4.99698C9.16307 5.01438 8.97534 4.95608 8.82973 4.83491L5.00784 1.63656L1.18596 4.72068C1.11303 4.77998 1.0291 4.82427 0.939019 4.85099C0.848934 4.87771 0.754464 4.88635 0.661036 4.87639C0.567607 4.86644 0.477064 4.8381 0.39461 4.793C0.312157 4.7479 0.239419 4.68693 0.180577 4.61359C0.115277 4.54018 0.0658217 4.45407 0.0353089 4.36063C0.00479609 4.2672 -0.00611584 4.16847 0.00325593 4.07061C0.0126277 3.97276 0.04208 3.8779 0.0897704 3.79198C0.137461 3.70605 0.202361 3.63092 0.280403 3.57127L4.55863 0.123055C4.6906 0.0334463 4.84876 -0.00928495 5.00784 0.00168852Z" fill="white" />
+    </svg> : (selectedDisciplines.length > 0 ? <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
+      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="white"/>
+    </svg> : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
+      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="#1B1B1B"/>
+    </svg>)}
                   </button>
                   {disciplinesSection()}
                   <button
                     className={
-                      "mr-2 rounded-full px-3 text-sm p-1 border-black border-2 " +
-                      (selectedDescriptors.length > 0
+                      "mr-2 rounded-full px-3 text-sm p-1 border-black border-2 inline-flex items-center " +
+                      (openDescriptors || selectedDescriptors.length > 0
                         ? "bg-black text-white"
                         : "bg-white text-black")
                     }
-                    onClick={toggleDescriptors}
+                    onClick={toggleDescriptors} 
                   >
-                    Descriptors {descriptorsCountSection()}
+                    Descriptors {descriptorsCountSection()} {openDescriptors ? <svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5" fill="none">
+      <path d="M5.00784 0.00168852C5.17445 0.00136286 5.3359 0.0594578 5.46419 0.165889L9.74241 3.73547C9.88803 3.85665 9.9796 4.03079 9.99698 4.21956C10.0144 4.40834 9.95614 4.5963 9.83511 4.7421C9.71408 4.88789 9.54016 4.97957 9.35161 4.99698C9.16307 5.01438 8.97534 4.95608 8.82973 4.83491L5.00784 1.63656L1.18596 4.72068C1.11303 4.77998 1.0291 4.82427 0.939019 4.85099C0.848934 4.87771 0.754464 4.88635 0.661036 4.87639C0.567607 4.86644 0.477064 4.8381 0.39461 4.793C0.312157 4.7479 0.239419 4.68693 0.180577 4.61359C0.115277 4.54018 0.0658217 4.45407 0.0353089 4.36063C0.00479609 4.2672 -0.00611584 4.16847 0.00325593 4.07061C0.0126277 3.97276 0.04208 3.8779 0.0897704 3.79198C0.137461 3.70605 0.202361 3.63092 0.280403 3.57127L4.55863 0.123055C4.6906 0.0334463 4.84876 -0.00928495 5.00784 0.00168852Z" fill="white" />
+    </svg> : (selectedDescriptors.length > 0 ? <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
+      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="white"/>
+    </svg> : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
+      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="#1B1B1B"/>
+    </svg>)}
                   </button>
                   {descriptorsSection}
                 </div>

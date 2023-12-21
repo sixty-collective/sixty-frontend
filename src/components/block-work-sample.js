@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLink } from "@fortawesome/free-solid-svg-icons"
 
-const BlockWorkSample = ({ data }) => {
+const BlockWorkSample = ({ data, colorIndex }) => {
   const isVideo = data.images
 
   function disciplinesSection() {
@@ -118,7 +118,7 @@ const BlockWorkSample = ({ data }) => {
         <p className="font-bold pb-4 text-2xl">{data.name}</p>
         <p className="pb-4">{data.description}</p>
         <a className="flex justify-left" href={data.link}>
-          <button className="rounded-full bg-gray-200 hover:bg-gray-300 px-2 py-1 ">
+          <button className={`rounded-full sixty-color-${colorIndex} hover:opacity-70 px-2 py-1`}>
             <FontAwesomeIcon icon={faLink} />{" "}
             <span className="underline">{data.link}</span>
           </button>

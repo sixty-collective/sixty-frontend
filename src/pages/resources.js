@@ -7,10 +7,12 @@ import Seo from "../components/seo"
 import Headings from "../components/headings"
 import axios from "axios"
 import withLocation from "../components/with-location"
+import { StaticImage } from "gatsby-plugin-image"
+
 
 const ResourcePage = ({ queryStrings }) => {
-  const { q } = queryStrings
-  const { strapiGlobal, allStrapiCategory } = useStaticQuery(graphql`
+  const { tagName, tagSlug } = queryStrings
+  const { strapiGlobal, allStrapiCategory, allStrapiResourceTag } = useStaticQuery(graphql`
     query {
       strapiGlobal {
         siteName
@@ -25,93 +27,210 @@ const ResourcePage = ({ queryStrings }) => {
           }
         }
       }
+      allStrapiResourceTag {
+        edges {
+          node {
+            id
+            name
+            slug
+          }
+        }
+      }
     }
   `)
 
-  const [input, setInput] = useState(q)
+  const [initial, setInitial] = useState(true)
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([])
+  const [selectedTags, setSelectedTags] = useState([])
   const [results, setResults] = useState([])
   const [checkedCategoriesState, setCheckedCategoriesState] = useState(
-    new Array(allStrapiCategory.edges.length).fill(false)
+    new Array(allStrapiCategory.edges.length).fill({status: false, category: ""})
+  )
+  const [checkedTagsState, setCheckedTagsState] = useState(
+    new Array(allStrapiResourceTag.edges.length).fill({status: false, tag: ""})
   )
   const [openCategories, setOpenCategories] = React.useState(false)
+  const [openTags, setOpenTags] = React.useState(false)
 
   const toggleCategories = () => {
     setOpenCategories(!openCategories)
+    setOpenTags(false)
   }
 
-  const sendSearch = (value, type) => {
-    let url =
-      process.env.STRAPI_API_URL + "/api/resources?populate[0]=categories"
-    if (type === "input") {
-      url = url.concat("&filters[title][$contains]=" + value)
-    } else if (!!input) {
-      url = url.concat("&filters[title][$contains]=" + input)
-    }
-
-    if (type === "categories") {
-      const categoriesUrl = value.join(
-        "&filters[$or][1][categories][slug][$in]="
-      )
-      url = url.concat(
-        "&filters[$or][0][categories][slug][$in]=" + categoriesUrl
-      )
-    } else if (selectedCategories.length > 0) {
-      const categoriesUrl = selectedCategories.join(
-        "&filters[$or][1][categories][slug][$in]="
-      )
-      url = url.concat(
-        "&filters[$or][0][categories][slug][$in]=" + categoriesUrl
-      )
-    }
-
-    axios.get(url).then(response => {
-      setResults(response.data.data)
-    })
+  const toggleTags = () => {
+    setOpenTags(!openTags)
+    setOpenCategories(false)
   }
+
+  const categoriesCountSection = () => {
+    if (selectedCategories.length > 0) {
+      return <span className="mr-2">({selectedCategories.length})</span>
+    } else {
+      return <span className="mr-2"></span>
+    }
+  }
+
+  const tagsCountSection = () => {
+    if (selectedTags.length > 0) {
+      return <span className="mr-2">({selectedTags.length})</span>
+    } else {
+      return <span className="mr-2"></span>
+    }
+  }
+
+  const sendSearch = async (resetPage) => {
+    setIsLoading(true);
+    let url;
+    if (resetPage) {
+      url =
+      process.env.STRAPI_API_URL + "/api/resources?pagination[page]="+ 1 + "&populate[0]=categories,resource_tags"
+    } else {
+      url =
+      process.env.STRAPI_API_URL + "/api/resources?pagination[page]="+ page + "&populate[0]=categories,resource_tags"
+    }
+    
+    if (selectedCategories.length > 0) {
+      selectedCategories.forEach((selected, index) => {
+        url = url.concat("&filters[$or][" + index + "][categories][slug][$in]=" + selected.slug)
+      })
+    }
+    
+    if (selectedTags.length > 0) {
+      selectedTags.forEach((selected, index) => {
+        url = url.concat("&filters[$or][" + index + "][resource_tags][slug][$in]=" + selected.slug)
+      })
+    }
+
+    try {
+      await axios.get(url).then(async response => {
+        if (resetPage) {
+          setResults(response.data.data)
+          setPage(() => {
+            return 2;
+          });
+        } else {
+          setResults((prevResults) => {
+            return [...prevResults, ...response.data.data]
+          })
+          setPage((prevPage) => {
+            return prevPage + 1;
+          });
+        }
+      })
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const handleScroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop + 5 < document.documentElement.offsetHeight || isLoading) {
+      return;
+    }
+    sendSearch();
+  };
 
   useEffect(() => {
-    if (q) {
-      sendSearch(q, "input")
-    } else {
-      sendSearch("", "input")
+    if (tagSlug && initial) {
+      setInitial(false)
+      setSelectedTags([{ name: tagName, slug: tagSlug }])
     }
-  }, [])
+    sendSearch(true)
+  }, [selectedCategories, selectedTags])
 
-  const handleInputChange = e => {
-    setInput(e.target.value)
-    sendSearch(e.target.value, "input")
-  }
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isLoading]);
+  
 
   const handleCategoriesApply = () => {
     const checkedBoxes = document.querySelectorAll(
       "input[class=categories-box]:checked"
     )
-    // console.log(checkedBoxes)
     const categoriesFilters = Array.from(checkedBoxes).map(input => {
-      return input.name
+      return { name: input.name, slug: input.value }
     })
 
     setSelectedCategories(categoriesFilters)
     toggleCategories()
-    sendSearch(categoriesFilters, "categories")
+  }
+
+  const handleTagsApply = () => {
+    const checkedBoxes = document.querySelectorAll(
+      "input[class=tags-box]:checked"
+    )
+    const tagsFilters = Array.from(checkedBoxes).map(input => {
+      return { name: input.name, slug: input.value }
+    })
+
+    setSelectedTags(tagsFilters)
+    toggleTags()
   }
 
   const handleClearCategories = () => {
     setSelectedCategories([])
     toggleCategories()
     setCheckedCategoriesState(
-      new Array(allStrapiCategory.edges.length).fill(false)
+      new Array(allStrapiCategory.edges.length).fill({status: false, category: ""})
     )
-    sendSearch([], "categories")
   }
 
-  const handleCategoriesChange = position => {
+  const handleClearTags = () => {
+    setSelectedTags([])
+    toggleTags()
+    setCheckedTagsState(
+      new Array(allStrapiResourceTag.edges.length).fill({status: false, tag: ""})
+    )
+  }
+
+  const handleCategoriesChange = (position, category) => {
     const updatedCheckedCategoriesState = checkedCategoriesState.map(
-      (item, index) => (index === position ? !item : item)
+      (item, index) => {
+        return (index === position ? {status: !item.status, category: category} : item)
+      }
     )
 
     setCheckedCategoriesState(updatedCheckedCategoriesState)
+  }
+
+  const handleTagsChange = (position, tag) => {
+    const updatedCheckedTagsState = checkedTagsState.map(
+      (item, index) => {
+        return (index === position ? {status: !item.status, tag: tag} : item)
+      }
+    )
+
+    setCheckedTagsState(updatedCheckedTagsState)
+  }
+
+  const handleClearSpecificCategory = (clearCategory) => {
+    setSelectedCategories(selectedCategories.filter(function(category) { 
+        return category != clearCategory 
+    }));
+    let newArray = checkedCategoriesState.map(function(category) { 
+      if (category.category.slug != clearCategory.slug) {
+        return category
+      } else {
+        return {status: false, category: category.category}
+      }
+    })
+    setCheckedCategoriesState(newArray)
+  }
+
+  const handleClearSpecificTag = (clearTag) => {
+    setSelectedTags(selectedTags.filter(function(tag) { 
+        return tag != clearTag 
+    }));
+    let newArray = checkedTagsState.map(function(tag) { 
+      if (tag.tag.slug != clearTag.slug) {
+        return tag
+      } else {
+        return {status: false, tag: tag.tag}
+      }
+    })
+    setCheckedTagsState(newArray)
   }
 
   const Checkbox = ({ obj, index, check, checked, onChange }) => {
@@ -121,7 +240,8 @@ const ResourcePage = ({ queryStrings }) => {
           type="checkbox"
           id={`custom-checkbox-${obj.node.slug}`}
           className={check}
-          name={obj.node.slug}
+          name={obj.node.name}
+          value={obj.node.slug}
           checked={checked}
           onChange={onChange}
         />
@@ -132,7 +252,7 @@ const ResourcePage = ({ queryStrings }) => {
 
   function categories() {
     return (
-      <div className="border-2 border-black rounded-2xl">
+      <div className=" bg-white border-2 border-black rounded-2xl bg-white">
         <div className="p-5">
           {allStrapiCategory.edges.map((category, index) => {
             return (
@@ -141,8 +261,8 @@ const ResourcePage = ({ queryStrings }) => {
                   obj={category}
                   index={index}
                   check="categories-box"
-                  checked={checkedCategoriesState[index]}
-                  onChange={() => handleCategoriesChange(index)}
+                  checked={checkedCategoriesState[index].status}
+                  onChange={() => handleCategoriesChange(index, category)}
                 />
               </li>
             )
@@ -163,11 +283,97 @@ const ResourcePage = ({ queryStrings }) => {
     )
   }
 
+  function tags() {
+    return (
+      <div className=" bg-white border-2 border-black rounded-2xl bg-white">
+        <div className="p-5">
+          {allStrapiResourceTag.edges.map((tag, index) => {
+            return (
+              <li className="list-none" key={index}>
+                <Checkbox
+                  obj={tag}
+                  index={index}
+                  check="tags-box"
+                  checked={checkedTagsState[index].status}
+                  onChange={() => handleTagsChange(index,tag)}
+                />
+              </li>
+            )
+          })}
+        </div>
+        <div className="flex border-t-2 border-black p-5 justify-between items-center">
+          <a href="#" onClick={handleClearTags}>
+            Clear All
+          </a>
+          <button
+            className="rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2"
+            onClick={handleTagsApply}
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   const categoriesSection = openCategories ? (
-    <div className="absolute bg-white mt-3">{categories()}</div>
+    <div className="absolute mt-3">{categories()}</div>
   ) : (
     <span></span>
   )
+
+  const tagsSection = openTags ? (
+    <div className="absolute mt-3">{tags()}</div>
+  ) : (
+    <span></span>
+  )
+
+  const yourSearch =
+    selectedCategories.length > 0 || selectedTags.length > 0 ? (
+      <div className="mt-5">
+        <div className="text-xs">Your search:</div>
+        {selectedCategories.map((categories, index) => {
+          return (
+            <span
+            className="text-xs mr-2 rounded-full px-1 bg-white inline-flex font-fira border-black border items-center"
+              key={index}
+            >
+              <a href="#" onClick={() => handleClearSpecificCategory(categories)}>
+                <StaticImage alt="" className="w-4 h-4" objectFit="contain" src="../images/close.png" />
+              </a>
+              <span className="pl-1">{categories.name}</span>
+            </span>
+          )
+        })}
+        {selectedTags.map((tag, index) => {
+          return (
+            <span
+            className="text-xs mr-2 rounded-full px-1 bg-white inline-block font-fira border-black border"
+              key={index}
+            >
+              <a href="#" onClick={() => handleClearSpecificTag(tag)}>
+                <StaticImage alt="" className="w-4 h-4" objectFit="contain" src="../images/close.png" />
+              </a>
+              {tag.name}
+            </span>
+          )
+        })}
+      </div>
+    ) : (
+      <div></div>
+    )
+
+  const downArrow = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
+      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="#1B1B1B"/>
+    </svg>
+  );
+
+  const upArrow = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5" fill="none">
+      <path d="M5.00784 0.00168852C5.17445 0.00136286 5.3359 0.0594578 5.46419 0.165889L9.74241 3.73547C9.88803 3.85665 9.9796 4.03079 9.99698 4.21956C10.0144 4.40834 9.95614 4.5963 9.83511 4.7421C9.71408 4.88789 9.54016 4.97957 9.35161 4.99698C9.16307 5.01438 8.97534 4.95608 8.82973 4.83491L5.00784 1.63656L1.18596 4.72068C1.11303 4.77998 1.0291 4.82427 0.939019 4.85099C0.848934 4.87771 0.754464 4.88635 0.661036 4.87639C0.567607 4.86644 0.477064 4.8381 0.39461 4.793C0.312157 4.7479 0.239419 4.68693 0.180577 4.61359C0.115277 4.54018 0.0658217 4.45407 0.0353089 4.36063C0.00479609 4.2672 -0.00611584 4.16847 0.00325593 4.07061C0.0126277 3.97276 0.04208 3.8779 0.0897704 3.79198C0.137461 3.70605 0.202361 3.63092 0.280403 3.57127L4.55863 0.123055C4.6906 0.0334463 4.84876 -0.00928495 5.00784 0.00168852Z" fill="white"/>
+    </svg>
+  );
 
   return (
     <Layout>
@@ -178,47 +384,64 @@ const ResourcePage = ({ queryStrings }) => {
       />
       <main className="flex flex-col justify-center items-center width-full">
       <div className="flex flex-col w-full border-black border-b-2">
-        <h2 className="text-8xl text-center uppercase font-bold w-full px-8 pt-10 knowledge-gradient">
+        <h2 className="text-8xl text-center uppercase font-bold w-full px-8 pt-10 mb-10 knowledge-gradient">
             Knowledge Share
           </h2>
           <div className="flex w-full flex-col items-center justify-center">
-          <p className="p-10 text-center max-w-md poppins w-full">
-          Browse through our carefully selected articles, tools, career advice, and more.
-            </p>
             <div className="px-20 w-full">
-            <div className="flex flex-col border-black px-48 py-8 mx-10 rounded-t-extra knowledge-gradient top-curve-border w-full">
+            <div className="flex flex-col border-black px-32 py-8 mx-10 rounded-t-extra knowledge-gradient top-curve-border w-full">
             <div className="flex flex-row justify-center">
               <div className="mr-5 w-1/2">
-                <div className="text-xs">Enter a custom search:</div>
-                <input
-                  className=" rounded-full px-3 text-sm border-2 border-black mt-2 p-1 w-64"
-                  placeholder="Enter 'Taxes'"
-                  value={input}
-                  onChange={handleInputChange}
-                />
-                <button className="ml-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2">
-                  Search
-                </button>
+                <div className="">Browse through our carefully selected articles, tools, career advice, and more.</div>
               </div>
               <div className="ml-5 w-1/2">
                 <div className="text-xs">Or select from these Categories:</div>
                 <div className="mt-2">
                   <button
-                    className="mr-2 rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2"
+                    className={"mr-2 rounded-full px-3 text-sm p-1 border-black border-2 inline-flex items-center " + 
+                    (openCategories || selectedCategories.length > 0
+                      ? "bg-black text-white "
+                      : "bg-white text-black ")
+                    }
                     onClick={toggleCategories}
                   >
-                    Categories
+                    Categories {categoriesCountSection()} {openCategories ? <svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5" fill="none">
+      <path d="M5.00784 0.00168852C5.17445 0.00136286 5.3359 0.0594578 5.46419 0.165889L9.74241 3.73547C9.88803 3.85665 9.9796 4.03079 9.99698 4.21956C10.0144 4.40834 9.95614 4.5963 9.83511 4.7421C9.71408 4.88789 9.54016 4.97957 9.35161 4.99698C9.16307 5.01438 8.97534 4.95608 8.82973 4.83491L5.00784 1.63656L1.18596 4.72068C1.11303 4.77998 1.0291 4.82427 0.939019 4.85099C0.848934 4.87771 0.754464 4.88635 0.661036 4.87639C0.567607 4.86644 0.477064 4.8381 0.39461 4.793C0.312157 4.7479 0.239419 4.68693 0.180577 4.61359C0.115277 4.54018 0.0658217 4.45407 0.0353089 4.36063C0.00479609 4.2672 -0.00611584 4.16847 0.00325593 4.07061C0.0126277 3.97276 0.04208 3.8779 0.0897704 3.79198C0.137461 3.70605 0.202361 3.63092 0.280403 3.57127L4.55863 0.123055C4.6906 0.0334463 4.84876 -0.00928495 5.00784 0.00168852Z" fill="white" />
+    </svg> : (selectedCategories.length > 0 ? <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
+      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="white"/>
+    </svg> : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
+      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="#1B1B1B"/>
+    </svg>)}
                   </button>
                   {categoriesSection}
+                  <button
+                    className={
+                      "mr-2 rounded-full px-3 text-sm p-1 border-black border-2 inline-flex items-center " +
+                      (openTags || selectedTags.length > 0
+                        ? "bg-black text-white"
+                        : "bg-white text-black")
+                    }
+                    onClick={toggleTags}
+                  >
+                    Tags {tagsCountSection()} {openTags ? <svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5" fill="none">
+      <path d="M5.00784 0.00168852C5.17445 0.00136286 5.3359 0.0594578 5.46419 0.165889L9.74241 3.73547C9.88803 3.85665 9.9796 4.03079 9.99698 4.21956C10.0144 4.40834 9.95614 4.5963 9.83511 4.7421C9.71408 4.88789 9.54016 4.97957 9.35161 4.99698C9.16307 5.01438 8.97534 4.95608 8.82973 4.83491L5.00784 1.63656L1.18596 4.72068C1.11303 4.77998 1.0291 4.82427 0.939019 4.85099C0.848934 4.87771 0.754464 4.88635 0.661036 4.87639C0.567607 4.86644 0.477064 4.8381 0.39461 4.793C0.312157 4.7479 0.239419 4.68693 0.180577 4.61359C0.115277 4.54018 0.0658217 4.45407 0.0353089 4.36063C0.00479609 4.2672 -0.00611584 4.16847 0.00325593 4.07061C0.0126277 3.97276 0.04208 3.8779 0.0897704 3.79198C0.137461 3.70605 0.202361 3.63092 0.280403 3.57127L4.55863 0.123055C4.6906 0.0334463 4.84876 -0.00928495 5.00784 0.00168852Z" fill="white" />
+    </svg> : (selectedTags.length > 0 ? <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
+      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="white"/>
+    </svg> : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
+      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="#1B1B1B"/>
+    </svg>)}
+                  </button>
+                  {tagsSection}
                 </div>
               </div>
               </div>
+              <div>{yourSearch}</div>
               </div>
             </div>
           </div>
         </div>
         <div className="container flex justify-start mt-10">
-          <h2 className="text-xl font-bold">All Resources</h2>
+          <h2 className="text-xl font-bold">Search Results</h2>
         </div>
         <ResourceGrid resources={results} />
       </main>

@@ -9,6 +9,9 @@ module.exports = {
         primary: colors.sky,
         black: "#1B1B1B",
       },
+      lineHeight: {
+        'extra-tight': '0.8'
+      }
     },
     container: {
       center: true,
