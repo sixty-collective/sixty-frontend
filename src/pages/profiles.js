@@ -135,7 +135,7 @@ const IndexPage = ({ queryStrings }) => {
     // } else if (!!input) {
     //   url = url.concat("&filters[name][$contains]=" + input)
     // }
-
+    
     if (selectedDescriptors.length > 0) {
       selectedDescriptors.forEach((selected, index) => {
         url = url.concat("&filters[$or][" + index + "][descriptors][slug][$in]=" + selected.slug)
@@ -147,7 +147,7 @@ const IndexPage = ({ queryStrings }) => {
         url = url.concat("&filters[$or][" + index + "][disciplines][slug][$in]=" + selected.slug)
       })
     }
-    console.log(url)
+
     try {
       await axios.get(url).then(async response => {
         if (resetPage) {
@@ -155,6 +155,7 @@ const IndexPage = ({ queryStrings }) => {
           setPage(() => {
             return 2;
           });
+          console.log(response.data.data, selectedDisciplines)
         } else {
           setResults((prevResults) => {
             return [...prevResults, ...response.data.data]
@@ -176,11 +177,12 @@ const IndexPage = ({ queryStrings }) => {
     sendSearch();
   };
 
+  if (disciplineSlug && initial) {
+    setInitial(false)
+    setSelectedDisciplines([{ name: disciplineName, slug: disciplineSlug }])
+  }
+
   useEffect(() => {
-    if (disciplineSlug && initial) {
-      setInitial(false)
-      setSelectedDisciplines([{ name: disciplineName, slug: disciplineSlug }])
-    }
     sendSearch(true)
   }, [selectedDisciplines, selectedDescriptors])
 
