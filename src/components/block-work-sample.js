@@ -46,8 +46,8 @@ const BlockWorkSample = ({ data, colorIndex }) => {
   }
 
   function mediaSection() {
-    if (!!data.embed && data.embedLink.includes("vimeo")) {
-      const vimeoLink = data.embedLink.match(/[^/]+$/g)
+    if (!!data.embed && data.embedLink?.includes("vimeo")) {
+      const vimeoLink = data.embedLink?.match(/[^/]+$/g)
       return (
         <div>
           <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
@@ -69,8 +69,8 @@ const BlockWorkSample = ({ data, colorIndex }) => {
           <script src="https://player.vimeo.com/api/player.js"></script>
         </div>
       )
-    } else if (!!data.embed && data.embedLink.includes("youtube")) {
-      const youTubeLink = data.embedLink.match(/[^/=]+$/g)
+    } else if (!!data.embed && data.embedLink?.includes("youtube")) {
+      const youTubeLink = data.embedLink?.match(/[^/=]+$/g)
       return (
         <div>
           <iframe
