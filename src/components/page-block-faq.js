@@ -12,18 +12,18 @@ const PageBlockFaq = ({ data }) => {
     setClicked(index)
   }
 
-  return  <div className="columns-2">
+  return  <div className="md:columns-2">
 
     {data.qa.map((question, index) => {
       return (
         <div
-          className={`break-inside-avoid	 font-fira accordion_item border-black border-2 rounded-3xl bg-white pt-5 pl-5 pr-5 pb-2 mb-10 ${
+          className={`break-inside-avoid font-fira accordion_item border-black border-2 rounded-3xl bg-white pt-5 pl-5 pr-5 pb-2 mb-10 ${
             clicked === index ? "active" : ""
           } `}
           key={index}
         >
           <button onClick={() => handleToggle(index)}>
-            <div className="font-bold text-left	">{question.question}</div>
+            <div className="font-medium text-left	">{question.question}</div>
           </button>
           <div className={`answer_wrapper ${clicked === index ? "open" : ""}`}>
             <div className="pt-5">{question.answer}</div>

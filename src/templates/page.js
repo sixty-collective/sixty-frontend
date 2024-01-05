@@ -16,7 +16,7 @@ const Page = ({ data }) => {
       )
     } else {
       return (
-        <main className="mt-8 grid grid-cols-2 gap-20">
+        <main className="md:mt-8 grid md:grid-cols-2 md:gap-20">
           <BlocksRenderer blocks={blocks} />
           <BlocksRenderer blocks={sideBlocks} />
         </main>
@@ -31,7 +31,7 @@ const Page = ({ data }) => {
         alt={coverImage.alternativeText}
         className="max-h-56 w-full"
       />
-      <div className="container pt-20">
+      <div className="container pt-10 md:pt-20">
         <h1 className="text-4xl font-bold text-black">{title}</h1>
         {columnsToggle()}
       </div>

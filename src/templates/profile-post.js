@@ -49,7 +49,7 @@ const ProfilePage = ({ data }) => {
     if (profile.disciplines.length > 0) {
       return profile.disciplines.map(discipline => {
         return (
-          <span className="line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
+          <span className="text-center line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
             {discipline.name}
           </span>
         )
@@ -63,7 +63,7 @@ const ProfilePage = ({ data }) => {
     if (profile.descriptors.length > 0) {
       return profile.descriptors.map(descriptor => {
         return (
-          <span className="line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
+          <span className="text-center line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
             {descriptor.name}
           </span>
         )
@@ -76,7 +76,7 @@ const ProfilePage = ({ data }) => {
   function mainProfileSection() {
     if (visible) {
       return (
-        <div className="main-content col-span-3 p-5 relative">
+        <div className="main-content col-span-3 pt-5 md:p-5 mt-10 md:mt-0 relative">
           <div
             className="absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
             onClick={handleToggle}
@@ -167,7 +167,7 @@ const ProfilePage = ({ data }) => {
                   className="bg-gray-200 rounded-lg p-2"
                 />
                 <>
-                  <div>What is the budget for this project?*</div>
+                  <div className="mt-10 mb-2">What is the budget for this project?*</div>
                   <div className="flex mt-5">
                     <input
                       type="radio"
@@ -241,7 +241,7 @@ const ProfilePage = ({ data }) => {
       )
     } else {
       return (
-        <div className="main-content col-span-3 p-5">
+        <div className="main-content col-span-3 pt-5 md:p-5">
           <div className="card bg-white rounded-3xl border-black border-2">
             <div className="px-10 py-10">
               <p className="font-bold mb-2">What you should know about me</p>
@@ -274,16 +274,16 @@ const ProfilePage = ({ data }) => {
   return (
     <Layout as="profile">
       <Seo seo={seo} />
-      <main className="mt-8 grid grid-cols-4 gap-3 p-20 container">
+      <main className="flex flex-col-reverse mt-8 md:grid md:grid-cols-4 md:gap-3 md:p-20 container">
         {mainProfileSection()}
-        <div className="side-content flex flex-col col-span-1 p-5">
+        <div className="side-content flex flex-col col-span-1 md:p-5">
           <div
             className={`sixty-color-${colorIndex} py-8 flex flex-col justify-center items-center border-2 rounded-2xl border-black`}
           >
             <GatsbyImage
               image={getImage(profile?.profilePicture?.localFile)}
               alt={profile?.profilePicture?.alternativeText}
-              className="profile-picture"
+              className="profile-picture border-2 border-black"
             />
             <div className="pt-2 name-card flex justify-center items-center flex-col">
               <h1 className="text-lg font-bold text-neutral-700">
@@ -302,7 +302,7 @@ const ProfilePage = ({ data }) => {
               </div>
             </div>
           </div>
-          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-4 overflow-clip">
+          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-4 overflow-clip text-center">
             {disciplinesSection()}{descriptorsSection()}
           </div>
           <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip break-words justify-center	hyphens-auto items-center	flex">
@@ -354,7 +354,7 @@ export const pageQuery = graphql`
           nameForWorkSamples
         }
         embed
-        embedSource
+        embedLink
       }
       pronouns
       website

@@ -37,9 +37,12 @@ h2 {
   font-family: 'Poppins';
 }
 
+@media screen and (min-width: 768px) {
 .rounded-t-extra {
-  border-top-left-radius: 5rem;
-border-top-right-radius: 5rem;
+    border-top-left-radius: 5rem;
+    border-top-right-radius: 5rem;
+    
+  }
 }
 
 .top-curve-border {
@@ -89,8 +92,6 @@ h2.knowledge-gradient{
 height: 75px;
 flex-shrink: 0;
 border-radius: 50%;
-stroke-width: 7px;
-border: 7px #FABA46;
 }
 
 .bg-yellow{

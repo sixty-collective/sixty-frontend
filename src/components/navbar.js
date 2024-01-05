@@ -4,7 +4,7 @@ import { StaticImage } from "gatsby-plugin-image"
 
 const Navbar = ({ sidebarText }) => {
   return (
-    <header className="relative w-full md:fixed text-black md:w-52 md:h-full shadow-2xl border-r-2 border-black">
+    <header className="hidden md:block relative w-full md:fixed text-black md:w-52 md:h-full shadow-2xl border-r-2 border-black">
       <nav className="flex flex-col items-baseline justify-between">
         <Link to="/" className="text-xl font-bold p-5 hover:opacity-50">
           <StaticImage alt="" className="" src="../images/logo.png" />

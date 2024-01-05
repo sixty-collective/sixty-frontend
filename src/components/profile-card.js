@@ -83,7 +83,7 @@ const ProfileCard = ({ profile, index }) => {
         <GatsbyImage
           image={getImage(profile?.profilePicture?.localFile)}
           alt={profile?.profilePicture?.alternativeText}
-          className="profile-icon"
+          className="profile-icon  border-2 border-black"
         />
       )
     } else if (profile.profilePicture?.data) {
@@ -91,7 +91,7 @@ const ProfileCard = ({ profile, index }) => {
         <img
           src={profile?.profilePicture?.data.attributes.url}
           alt={profile?.profilePicture?.alternativeText}
-          className="profile-icon"
+          className="profile-icon  border-2 border-black"
         />
       )
     } else {
@@ -99,7 +99,7 @@ const ProfileCard = ({ profile, index }) => {
         <img
           // src={process.env.STRAPI_API_URL + profile.profilePicture?.url}
           alt={profile.profilePicture?.alternativeText}
-          className="profile-icon"
+          className="profile-icon  border-2 border-black"
         />
       )
     }
@@ -130,8 +130,8 @@ const ProfileCard = ({ profile, index }) => {
         </div>
         <div className="">
           <p className="m-5 line-clamp-4 text-black">{profile.bio}</p>
-          <div className="p-4 border-t-2 border-black max-h-20 relative">
-            <div className="absolute w-full h-4 bg-white bottom-0	"></div>
+          <div className="p-4 border-t-2 border-black max-h-20 relative text-center">
+            <div className="absolute w-full h-4 bg-white bottom-0"></div>
             {disciplinesSection()}{descriptorsSection()}
           </div>
         </div>
@@ -178,7 +178,7 @@ export const query = graphql`
         nameForWorkSamples
       }
       embed
-      embedSource
+      embedLink
     }
   }
 `

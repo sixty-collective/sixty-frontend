@@ -42,20 +42,20 @@ const ResourceCard = ({ resource, index }) => {
         <p className="min-h-[7.8rem] m-5 line-clamp-5 text-black group-hover:line-clamp-none group-hover:h-auto">
           {resource.attributes.description}
         </p>
-        {resource.attributes.link.length > 45 ? (<a href={resource.attributes.link} className="">
+        {resource.attributes.link.length > 45 ? (<a target="_blank" href={resource.attributes.link} className="">
           <div className="m-5 text-xs">
             <span className="knowledge-gradient line-clamp-1 rounded-full px-2 py-1 hover:underline">
               {resource.attributes.link}
             </span>
           </div>
-        </a>): (<a href={resource.attributes.link} className="">
+        </a>): (<a target="_blank" href={resource.attributes.link} className="">
           <div className="m-5 text-xs">
             <span className="knowledge-gradient rounded-full px-2 py-1 hover:bg-gray-300 hover:underline">
               {resource.attributes.link}
             </span>
           </div>
         </a>)}
-        <div className="p-4 border-t-2 border-black min-h-20 relative group-hover:h-auto">
+        <div className="p-4 border-t-2 border-black min-h-20 relative group-hover:h-auto text-center">
         {/* <div class="absolute w-full h-4 bg-white bottom-0	"></div> */}
           {categoriesSection()}{tagsSection()}
           </div>

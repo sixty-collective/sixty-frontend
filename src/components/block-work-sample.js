@@ -13,7 +13,7 @@ const BlockWorkSample = ({ data, colorIndex }) => {
     if (data.disciplines.length > 0) {
       return data.disciplines.map(discipline => {
         return (
-          <span className="text-xs mr-2 rounded-full px-1 bg-gray-300">
+          <span className="text-center line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
             {discipline.nameForWorkSamples}
           </span>
         )
@@ -46,13 +46,14 @@ const BlockWorkSample = ({ data, colorIndex }) => {
   }
 
   function mediaSection() {
-    if (!!data.embed && data.embedSource == "Vimeo") {
-      const vimeoLink = data.link.match(/[^/]+$/g)
+    if (!!data.embed && data.embedLink.includes("vimeo")) {
+      const vimeoLink = data.embedLink.match(/[^/]+$/g)
       return (
         <div>
           <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
             <iframe
-              src={"https://player.vimeo.com/video/" + vimeoLink}
+              // src={"https://player.vimeo.com/video/" + vimeoLink}
+              src={data.embedLink}
               style={{
                 position: "absolute",
                 top: "0",
@@ -68,13 +69,14 @@ const BlockWorkSample = ({ data, colorIndex }) => {
           <script src="https://player.vimeo.com/api/player.js"></script>
         </div>
       )
-    } else if (!!data.embed && data.embedSource == "YouTube") {
-      const youTubeLink = data.link.match(/[^/=]+$/g)
+    } else if (!!data.embed && data.embedLink.includes("youtube")) {
+      const youTubeLink = data.embedLink.match(/[^/=]+$/g)
       return (
         <div>
           <iframe
             className="aspect-video	w-full"
-            src={"https://www.youtube.com/embed/" + youTubeLink}
+            // src={"https://www.youtube.com/embed/" + youTubeLink}
+            src={data.embedLink}
             title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -82,7 +84,7 @@ const BlockWorkSample = ({ data, colorIndex }) => {
           ></iframe>
         </div>
       )
-    } else {
+    } else if (data.images) {
       return (
         <Slider
           dots={true}
@@ -105,6 +107,8 @@ const BlockWorkSample = ({ data, colorIndex }) => {
           ))}
         </Slider>
       )
+    } else {
+      <div></div>
     }
   }
 

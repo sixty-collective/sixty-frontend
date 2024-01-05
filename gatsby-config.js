@@ -105,7 +105,7 @@ module.exports = {
         web: [
           {
             name: `Fira Code`,
-            file: `https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap`,
+            file: `https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap`,
           },
           {
             name: `Nunito Sans`,

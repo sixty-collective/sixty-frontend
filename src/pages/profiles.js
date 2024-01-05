@@ -856,16 +856,16 @@ const IndexPage = ({ queryStrings }) => {
         title={strapiGlobal.siteName}
         description={strapiGlobal.siteDescription}
       />
-      <main className="flex flex-col justify-center items-center w-full">
-      <div className="flex flex-col w-full border-black border-b-2">
-        <h2 className="text-8xl text-center uppercase font-bold w-full mb-10 px-8 pt-10 member-gradient">
+      <main className="flex flex-col justify-center items-center w-full ">
+      <div className="flex flex-col w-full border-black border-b-2 items-center ">
+        <h2 className="text-7xl leading-extra-tight md:text-8xl text-center uppercase font-bold w-full mb-10 px-8 pt-10 member-gradient">
               Member Profiles
             </h2>
-          <div className="flex w-full flex-col items-center justify-center">
-            <div className="px-20 w-full">
-            <div className="flex flex-col border-black px-32 py-8 mx-10 rounded-t-extra member-gradient top-curve-border w-full">
-            <div className="flex flex-row justify-center">
-              <div className="mr-5 w-1/2">
+          <div className="flex w-full flex-col items-center justify-center max-w-screen-xl margin-auto">
+            <div className="md:px-20 w-full">
+            <div className="flex flex-col border-black px-8 md:px-32 py-8 mx-10 rounded-t-3xl rounded-t-extra member-gradient top-curve-border">
+            <div className="flex flex-row justify-center w-full">
+              <div className="font-bold mr-5 hidden md:w-1/2 md:block">
                 <div className="">Learn about our members, hire talent, find collaborators, and more.</div>
                 {/* <input
                   className=" rounded-full px-3 text-sm border-2 border-black mt-2 p-1 w-64"
@@ -877,11 +877,14 @@ const IndexPage = ({ queryStrings }) => {
                   Search
                 </button> */}
               </div>
-              <div className="ml-5 w-1/2">
-                <div className="text-xs">
+              <div className="ml-5 w-full flex items-center flex-col md:w-1/2 md:items-start">
+                <div className="hidden text-xs md:block">
                   Or select from these Disciplines and Descriptors:
                 </div>
-                <div className="mt-2">
+                <div className="block text-md md:hidden">
+                  Select from these Disciplines and Descriptors:
+                </div>
+                <div className="mt-2 text-left">
                   <button
                     className={
                       "mr-2 rounded-full px-3 text-sm p-1 border-black border-2 inline-flex items-center " +

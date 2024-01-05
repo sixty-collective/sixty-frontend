@@ -172,7 +172,7 @@ const IndexPage = ({ queryStrings }) => {
     const { className, style, onClick } = props
     return (
       <div
-        className="bg-white border-black border-2 w-10 h-10 font-fira rounded-full text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -left-20 flex items-center justify-center"
+        className="bg-white border-black border-2 w-10 h-10 font-fira rounded-full text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -left-14 md:-left-20 flex items-center justify-center"
         onClick={onClick}
       >&lt;</div>
     )
@@ -182,7 +182,7 @@ const IndexPage = ({ queryStrings }) => {
     const { className, style, onClick } = props
     return (
       <div
-        className="bg-white border-black border-2 w-10 h-10 font-fira rounded-full text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -right-20 flex items-center justify-center"
+        className="bg-white border-black border-2 w-10 h-10 font-fira rounded-full text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -right-14 md:-right-20 flex items-center justify-center"
         onClick={onClick}
       >&gt;
       </div>
@@ -385,7 +385,7 @@ const IndexPage = ({ queryStrings }) => {
           className="w-full max-h-96"
         />
         <div className="w-full">
-          <h1 className="text-xl w-full bg-black text-white text-center p-5 home-header-text">
+          <h1 className="text-xl w-full bg-black font-bold text-white text-center p-5 home-header-text">
             <div
               dangerouslySetInnerHTML={{
                 __html:
@@ -405,7 +405,7 @@ const IndexPage = ({ queryStrings }) => {
               Learn about our members, hire talent, find collaborators, and more.
               </p>
               </div>
-              <div className="flex flex border-black p-8 rounded-t-3xl member-gradient top-curve-border flex-col">
+              <div className="flex border-black p-8 rounded-t-3xl member-gradient top-curve-border flex-col">
               <div className="w-full text-center font-bold text-sm mb-5">
                   Search profiles by popular discipline:
                 </div>
@@ -445,8 +445,8 @@ const IndexPage = ({ queryStrings }) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col border-r-2 border-black bg-[#F8E3D3]">
-            <h2 className="text-7xl leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 knowledge-gradient">
+          <div className="flex flex-col border-r-2 border-black bg-[#F8E3D3] border-t-2 md:border-t-0">
+            <h2 className="text-7xl leading-extra-tight text-center uppercase font-bold w-full md:px-8 pt-10 knowledge-gradient">
               Knowledge <br/>Share
             </h2>
             <div className="">
@@ -456,7 +456,7 @@ const IndexPage = ({ queryStrings }) => {
               </p>
 
               </div>
-              <div className="flex flex border-black p-8 rounded-t-3xl knowledge-gradient top-curve-border flex-col">
+              <div className="flex border-black p-8 rounded-t-3xl knowledge-gradient top-curve-border flex-col">
                 <div className="w-full text-center font-bold text-sm mb-5">
                   Search resources by popular tag:
                 </div>
@@ -491,15 +491,15 @@ const IndexPage = ({ queryStrings }) => {
           </div>
         </div>
         <div className="flex flex-col width-full justify-center items-center container p-10">
-          <h3 className="text-3xl font-black text-center">Paid opportunities, grants, residencies,<br/> and more sent to your inbox.</h3>
+          <h3 className="text-3xl font-bold text-center poppins">Paid opportunities, grants, residencies,<br/> and more sent to your inbox.</h3>
           <a href="/sign-up">
           <button className="hover:bg-black hover:text-[#F7F4F0] rounded-full text-black text-sm px-2 py-1 mt-5 border-2 border-black w-48">
             Sign Me Up
           </button>
           </a>
         </div>
-        <div className="w-full flex items-center justify-center bg-purple py-20">
-          <div className="w-1/2">
+        <div className="w-full flex items-center justify-center bg-purple py-10 md:py-20">
+          <div className="w-3/4 md:w-1/2">
         <Slider
           dots={false}
           infinite={true}
