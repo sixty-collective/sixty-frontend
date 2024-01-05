@@ -261,7 +261,7 @@ const ProfilePage = ({ data }) => {
           <div className="mt-12">
             <h2 className="text-3xl font-bold">Work Samples</h2>
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
-              {profile.workSamples.map(sample => (
+              {profile.workSamples?.map(sample => (
                 <BlockWorkSample data={sample} colorIndex={colorIndex} />
               ))}
             </div>
