@@ -67,6 +67,14 @@ const Navbar = ({ sidebarText }) => {
         <Link
             className="uppercase text-xs py-1 w-full hover:text-gray-600 flex items-center justify-between"
             activeClassName="active underline"
+            to="/member"
+          >
+            Become a Member
+            
+          </Link>
+          <Link
+            className="uppercase text-xs py-1 w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
             to="/community-agreements"
           >
             Community Agreements

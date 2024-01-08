@@ -8,7 +8,7 @@ import ProfilesGrid from "../components/profiles-grid"
 import Seo from "../components/seo"
 import Headings from "../components/headings"
 import axios from "axios"
-// import { CookieNotice } from "gatsby-cookie-notice"
+import { CookieNotice } from "gatsby-cookie-notice"
 import withLocation from "../components/with-location"
 
 const IndexPage = ({ queryStrings }) => {
@@ -602,7 +602,7 @@ const IndexPage = ({ queryStrings }) => {
 
   const disciplinesSection = () => {
     if (openDisciplines) {
-      return <div className="absolute mt-3 z-10">{disciplines()}</div>
+      return <div className="absolute mt-3 z-50">{disciplines()}</div>
     } else {
       ;<span></span>
     }
@@ -809,9 +809,19 @@ const IndexPage = ({ queryStrings }) => {
   }
 
   const descriptorsSection = openDescriptors ? (
-    <div className="absolute mt-3 z-10">{descriptors()}</div>
+    <div className="absolute mt-3 z-50">{descriptors()}</div>
   ) : (
     <span></span>
+  )
+
+  const profileGrid = (results.length > 0) ? (
+    <ProfilesGrid profiles={results} home={false} />
+  ) : (
+    <div className="container">
+    <div className="mt-10 p-10 bg-white rounded-3xl font-fira border-black border-2 shadow-md">
+    Unfortunately, there are no profiles that match your search requirements. We are regularly updating our database with more members, so please check back again soon. 
+    </div>
+  </div>
   )
 
   const yourSearch =
@@ -866,7 +876,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-col border-black px-8 md:px-32 py-8 mx-10 rounded-t-3xl rounded-t-extra member-gradient top-curve-border">
             <div className="flex flex-row justify-center w-full">
               <div className="font-bold mr-5 hidden md:w-1/2 md:block">
-                <div className="">Learn about our members, hire talent, find collaborators, and more.</div>
+                <div className="poppins font-bold">Learn about our members, hire talent, find collaborators, and more.</div>
                 {/* <input
                   className=" rounded-full px-3 text-sm border-2 border-black mt-2 p-1 w-64"
                   placeholder="Enter 'Name'"
@@ -934,9 +944,11 @@ const IndexPage = ({ queryStrings }) => {
         <div className="container flex justify-start mt-10">
           <h2 className="text-xl font-bold">Search Results</h2>
         </div>
-        <ProfilesGrid profiles={results} home={false} />
+        {
+          profileGrid
+        }
       </main>
-      {/* <CookieNotice
+      <CookieNotice
         acceptButtonText="Agree & Enter"
         declineButton={false}
         backgroundClasses=""
@@ -946,13 +958,13 @@ const IndexPage = ({ queryStrings }) => {
           (cookieAllow ? "cookieAllow" : "cookieNotAllow")
         }
         backgroundWrapperClasses="absolute w-full h-full top-0 left-0 bg-gray-400/75"
-        buttonWrapperClasses="pb-10 flex justify-center bg-white w-1/2 border-b-2 border-l-2 border-r-2 rounded-b-3xl border-black m-auto"
+        buttonWrapperClasses="pt-5 ml-5 mr-5 pb-10 md:m-auto flex justify-center bg-white w-auto md:w-1/2 border-b-2 border-l-2 border-r-2 rounded-b-3xl border-black m-auto"
       >
-        <div className="m-auto w-1/2 bg-white mt-20 flex flex-col gap-3 bg-white rounded-t-3xl border-t-2 border-l-2 border-r-2 border-black">
-          <h2 className="text-xl font-bold bg-black text-white w-full px-8 p-2 rounded-t-2xl">
+        <div className="ml-5 mr-5 w-auto md:w-1/2 md:m-auto bg-white md:mt-20 flex flex-col bg-white rounded-t-2xl">
+          <h2 className="text-md md:text-xl font-medium bg-green text-black text-center w-full p-4 border-2 border-black rounded-t-2xl">
             Community Agreements
           </h2>
-          <div className="p-10">
+          <div className="pt-2 pb-0 pl-5 pr-5 md:p-10 border-l-2 border-r-2 border-black">
             {Array(5)
               .fill(0)
               .map((_, index) => (
@@ -962,16 +974,16 @@ const IndexPage = ({ queryStrings }) => {
                     checked={checkboxStatus[index]}
                     onChange={() => buttonHandler(index)}
                   />
-                  <span className="ml-5 mt-5 mb-5">{agreements[index]}</span>
+                  <span className="text-sm m-2 md:ml-5 md:mt-5 md:mb-5">{agreements[index]}</span>
                 </li>
               ))}
-            <p>
+            <p className="pt-5">
               This website uses cookies to keep track of whether the Community
               Agreements has been accepted.
             </p>
           </div>
         </div>
-      </CookieNotice> */}
+      </CookieNotice>
     </Layout>
   )
 }

@@ -21,7 +21,7 @@ const MobileNav = ({ sidebarText }) => {
       </button>
       <nav className={"" + (open ? 'flex flex-col absolute items-baseline justify-start bg-[#F7F4F0] h-full top-0' : 'hidden')}>
         <div className="block p-10"></div>
-        <div className="flex grow flex-col items-baseline justify-center w-full text-3xl text-black p-5 border-y-2 border-black">
+        <div className="flex grow flex-col items-baseline justify-center w-full text-2xl text-black p-5 border-y-2 border-black">
           <Link
             className="pb-2 font-bold w-full hover:text-gray-600 flex items-center justify-between"
             activeClassName="active underline"
@@ -76,8 +76,16 @@ const MobileNav = ({ sidebarText }) => {
           </a>
         </div>
         <div className="flex flex-col items-baseline justify-end w-full text-black p-5 border-y-2 border-black">
-        <Link
-            className="uppercase text-xl py-3 w-full hover:text-gray-600 flex items-center justify-between"
+          <Link
+            className="uppercase text-lg py-2 w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
+            to="/member"
+          >
+            Become a Member
+            
+          </Link>
+          <Link
+            className="uppercase text-lg py-2 w-full hover:text-gray-600 flex items-center justify-between"
             activeClassName="active underline"
             to="/community-agreements"
           >
@@ -85,7 +93,7 @@ const MobileNav = ({ sidebarText }) => {
             
           </Link>
           <Link
-            className="uppercase text-xl py-3 w-full hover:text-gray-600 flex items-center justify-between"
+            className="uppercase text-lg py-2 w-full hover:text-gray-600 flex items-center justify-between"
             activeClassName="active underline"
             to="/testimonials"
           >
@@ -93,7 +101,7 @@ const MobileNav = ({ sidebarText }) => {
             
           </Link>
           <Link
-            className="uppercase text-xl py-3 border-black w-full hover:text-gray-600 flex items-center justify-between"
+            className="uppercase text-lg py-2 border-black w-full hover:text-gray-600 flex items-center justify-between"
             activeClassName="active underline"
             to="/contact"
           >

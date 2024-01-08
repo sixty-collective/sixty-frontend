@@ -8,9 +8,32 @@ import Headings from "../components/headings"
 import axios from "axios"
 import withLocation from "../components/with-location"
 import { StaticImage } from "gatsby-plugin-image"
+import { CookieNotice } from "gatsby-cookie-notice"
+
 
 
 const ResourcePage = ({ queryStrings }) => {
+  const [checkboxStatus, setCheckboxStatus] = useState(Array(5).fill(false))
+
+  function buttonHandler(index) {
+    let status = [...checkboxStatus]
+    status[index] = !status[index]
+    setCheckboxStatus(status)
+
+    if (status.filter(status => status === true).length === 5) {
+      setCookieAllow(true)
+    } else {
+      setCookieAllow(false)
+    }
+  }
+  const [cookieAllow, setCookieAllow] = React.useState(false)
+  const agreements = [
+    "Assume the best of people and situations (until proven otherwise) by treating everyone you meet through this platform with grace, kindness, and respect.",
+    "Listen to understand each other’s perspectives, boundaries, needs, curiosities, and opinions.",
+    "Strive for clarity and accuracy with the terms, payment, timelines, and other details of gigs and collaborations, including when those terms shift and change.",
+    "Place people over productivity by acknowledging that while we’re all doing incredibly important work, we’re also living during wild and challenging times.",
+    "Keep things confidential between collaborators, unless consent is clearly expressed by everyone involved.",
+  ]
   const { tagName, tagSlug } = queryStrings
   const { strapiGlobal, allStrapiCategory, allStrapiResourceTag } = useStaticQuery(graphql`
     query {
@@ -317,13 +340,13 @@ const ResourcePage = ({ queryStrings }) => {
   }
 
   const categoriesSection = openCategories ? (
-    <div className="absolute mt-3">{categories()}</div>
+    <div className="absolute mt-3 z-50">{categories()}</div>
   ) : (
     <span></span>
   )
 
   const tagsSection = openTags ? (
-    <div className="absolute mt-3">{tags()}</div>
+    <div className="absolute mt-3 z-50">{tags()}</div>
   ) : (
     <span></span>
   )
@@ -375,6 +398,16 @@ const ResourcePage = ({ queryStrings }) => {
     </svg>
   );
 
+  const resourceGrid = (results.length > 0) ? (
+    <ResourceGrid resources={results} />
+  ) : (
+    <div className="container">
+    <div className="mt-10 p-10 bg-white rounded-3xl font-fira border-black border-2 shadow-md">
+    Unfortunately, there are no resources that match your search requirements. We are regularly updating our database with more members, so please check back again soon. 
+    </div>
+  </div>
+  )
+
   return (
     <Layout>
       <Seo seo={{ metaTitle: "Home" }} />
@@ -391,7 +424,7 @@ const ResourcePage = ({ queryStrings }) => {
             <div className="md:px-20 w-full">
             <div className="flex flex-col border-black px-8 md:px-32 py-8 mx-10 rounded-t-extra rounded-t-3xl knowledge-gradient top-curve-border">
             <div className="flex flex-row justify-center w-full">
-              <div className="mr-5 font-bold  hidden md:w-1/2 md:block">
+              <div className="mr-5 font-bold poppins hidden md:w-1/2 md:block">
                 <div className="">Browse through our carefully selected articles, tools, career advice, and more.</div>
               </div>
               <div className="ml-5 w-full flex items-center flex-col md:w-1/2 md:items-start">
@@ -446,8 +479,44 @@ const ResourcePage = ({ queryStrings }) => {
         <div className="container flex justify-start mt-10">
           <h2 className="text-xl font-bold">Search Results</h2>
         </div>
-        <ResourceGrid resources={results} />
+        {resourceGrid}
       </main>
+      <CookieNotice
+        acceptButtonText="Agree & Enter"
+        declineButton={false}
+        backgroundClasses=""
+        personalizeButtonEnable={false}
+        acceptButtonClasses={
+          "rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2 " +
+          (cookieAllow ? "cookieAllow" : "cookieNotAllow")
+        }
+        backgroundWrapperClasses="absolute w-full h-full top-0 left-0 bg-gray-400/75"
+        buttonWrapperClasses="pt-5 ml-5 mr-5 pb-10 md:m-auto flex justify-center bg-white w-auto md:w-1/2 border-b-2 border-l-2 border-r-2 rounded-b-3xl border-black m-auto"
+      >
+        <div className="ml-5 mr-5 w-auto md:w-1/2 md:m-auto bg-white md:mt-20 flex flex-col bg-white rounded-t-2xl">
+          <h2 className="text-md md:text-xl font-medium bg-green text-black text-center w-full p-4 border-2 border-black rounded-t-2xl">
+            Community Agreements
+          </h2>
+          <div className="pt-2 pb-0 pl-5 pr-5 md:p-10 border-l-2 border-r-2 border-black">
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <li className="list-none flex">
+                  <input
+                    type="checkbox"
+                    checked={checkboxStatus[index]}
+                    onChange={() => buttonHandler(index)}
+                  />
+                  <span className="text-sm m-2 md:ml-5 md:mt-5 md:mb-5">{agreements[index]}</span>
+                </li>
+              ))}
+            <p className="pt-5">
+              This website uses cookies to keep track of whether the Community
+              Agreements has been accepted.
+            </p>
+          </div>
+        </div>
+      </CookieNotice>
     </Layout>
   )
 }

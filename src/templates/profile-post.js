@@ -271,6 +271,61 @@ const ProfilePage = ({ data }) => {
     }
   }
 
+  function defaultProfileImage() {
+    switch (colorIndex) {
+      case 0:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Pink.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-picture  border-2 border-black">
+        </StaticImage>);
+      case 1:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Purple.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-picture  border-2 border-black">
+        </StaticImage>);
+      case 2:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Green.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-picture  border-2 border-black">
+        </StaticImage>);
+      case 3:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Orange.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-picture  border-2 border-black">
+        </StaticImage>);
+      case 4:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Blue.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-picture  border-2 border-black">
+        </StaticImage>);
+      case 5:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Yellow.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-picture  border-2 border-black">
+        </StaticImage>);
+      default:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Grey.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-picture  border-2 border-black">
+        </StaticImage>);
+  }}
+
+  function profilePicture() {
+    if (profile?.profilePicture) {
+      return (
+        <GatsbyImage
+              image={getImage(profile?.profilePicture?.localFile)}
+              alt={profile?.profilePicture?.alternativeText}
+              className="profile-picture border-2 border-black"
+            />
+      )
+    } else {
+      return (
+      defaultProfileImage()
+      )
+    }
+  }
+
   return (
     <Layout as="profile">
       <Seo seo={seo} />
@@ -280,11 +335,8 @@ const ProfilePage = ({ data }) => {
           <div
             className={`sixty-color-${colorIndex} py-8 flex flex-col justify-center items-center border-2 rounded-2xl border-black`}
           >
-            <GatsbyImage
-              image={getImage(profile?.profilePicture?.localFile)}
-              alt={profile?.profilePicture?.alternativeText}
-              className="profile-picture border-2 border-black"
-            />
+            {profilePicture()}
+            
             <div className="pt-2 name-card flex justify-center items-center flex-col">
               <h1 className="text-lg font-bold text-neutral-700">
                 {profile.name}

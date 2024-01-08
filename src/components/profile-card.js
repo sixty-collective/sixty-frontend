@@ -1,6 +1,6 @@
 import React, { Img } from "react"
 import { Link, graphql } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { GatsbyImage, StaticImage, getImage } from "gatsby-plugin-image"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons"
@@ -11,6 +11,44 @@ const ProfileCard = ({ profile, index }) => {
   }
 
   const colorIndex = index % 6
+  function defaultProfileImage() {
+    switch (colorIndex) {
+      case 0:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Pink.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-icon  border-2 border-black">
+        </StaticImage>);
+      case 1:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Purple.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-icon  border-2 border-black">
+        </StaticImage>);
+      case 2:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Green.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-icon  border-2 border-black">
+        </StaticImage>);
+      case 3:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Orange.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-icon  border-2 border-black">
+        </StaticImage>);
+      case 4:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Blue.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-icon  border-2 border-black">
+        </StaticImage>);
+      case 5:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Yellow.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-icon  border-2 border-black">
+        </StaticImage>);
+      default:
+        return (<StaticImage src="../images/Avatar_ProfilePic_Grey.jpg"
+        alt={profile.profilePicture?.alternativeText}
+        className="profile-icon  border-2 border-black">
+        </StaticImage>);
+  }}
   const availability = profile.availableForWork ? (
     <div className="rounded-full bg-green-500 w-3 h-3 border-2 border-black"></div>
   ) : (
@@ -83,7 +121,7 @@ const ProfileCard = ({ profile, index }) => {
         <GatsbyImage
           image={getImage(profile?.profilePicture?.localFile)}
           alt={profile?.profilePicture?.alternativeText}
-          className="profile-icon  border-2 border-black"
+          className="profile-icon border-2 border-black"
         />
       )
     } else if (profile.profilePicture?.data) {
@@ -91,16 +129,12 @@ const ProfileCard = ({ profile, index }) => {
         <img
           src={profile?.profilePicture?.data.attributes.url}
           alt={profile?.profilePicture?.alternativeText}
-          className="profile-icon  border-2 border-black"
+          className="profile-icon border-2 border-black"
         />
       )
     } else {
       return (
-        <img
-          // src={process.env.STRAPI_API_URL + profile.profilePicture?.url}
-          alt={profile.profilePicture?.alternativeText}
-          className="profile-icon  border-2 border-black"
-        />
+      defaultProfileImage()
       )
     }
   }
@@ -108,7 +142,7 @@ const ProfileCard = ({ profile, index }) => {
   return (
     <Link
       to={`/profile/${profile.slug}`}
-      className={`bg-white rounded-3xl border-black border-2 overflow-hidden rounded-xxl bg-white shadow-sm transition-shadow hover:shadow-md hover:drop-shadow-2xl`}
+      className={`z-10 bg-white rounded-3xl border-black border-2 overflow-hidden rounded-xxl bg-white shadow-sm transition-shadow hover:shadow-md hover:drop-shadow-2xl`}
     >
       <div className="">
         <div
