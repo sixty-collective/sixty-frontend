@@ -172,7 +172,7 @@ const IndexPage = ({ queryStrings }) => {
     const { className, style, onClick } = props
     return (
       <div
-        className="bg-white border-black border-2 w-10 h-10 font-fira rounded-full text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -left-14 md:-left-20 flex items-center justify-center"
+        className="bg-white border-black border-2 w-8 h-8 md:w-10 md:h-10 font-fira rounded-full text-md md:text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -left-10 md:-left-20 flex items-center justify-center"
         onClick={onClick}
       >&lt;</div>
     )
@@ -182,7 +182,7 @@ const IndexPage = ({ queryStrings }) => {
     const { className, style, onClick } = props
     return (
       <div
-        className="bg-white border-black border-2 w-10 h-10 font-fira rounded-full text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -right-14 md:-right-20 flex items-center justify-center"
+        className="bg-white border-black border-2 w-8 h-8 md:w-10 md:h-10 font-fira rounded-full text-md md:text-2xl font-bold cursor-pointer absolute top-1/2 -translate-y-1/2 -right-10 md:-right-20 flex items-center justify-center"
         onClick={onClick}
       >&gt;
       </div>
@@ -395,8 +395,8 @@ const IndexPage = ({ queryStrings }) => {
           </h1>
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-          <div className="flex flex-col border-r-2 border-black bg-[#E1EEF6]">
-            <h2 className="text-7xl leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
+          <div className="flex flex-col md:border-r-2 border-black bg-[#E1EEF6]">
+            <h2 className="text-5xl md:text-7xl leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
               Member <br/>Profiles
             </h2>
             <div className="">
@@ -412,28 +412,28 @@ const IndexPage = ({ queryStrings }) => {
                 <div className="w-full text-center">
                 <Link href={"/profiles?disciplineName=Writer&disciplineSlug=writer"}>
                 <span
-                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
+                  className="text-xs mr-2 mb-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
                   
                 >
                   Writer
                 </span></Link>
                 <Link href={"/profiles?disciplineName=Photographer&disciplineSlug=photographer"}>
                 <span
-                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
+                  className="text-xs mr-2 mb-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
                   
                 >
                   Photographer
                 </span></Link>
                 <Link href={"/profiles?disciplineName=Editor&disciplineSlug=editor"}>
                 <span
-                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
+                  className="text-xs mr-2 mb-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
                   
                 >
                   Editor
                 </span></Link>
                 <Link href={"/profiles?disciplineName=Illustrator&disciplineSlug=illustrator"}>
                 <span
-                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
+                  className="text-xs mr-2 mb-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
                   
                 >
                   Illustrator
@@ -445,8 +445,8 @@ const IndexPage = ({ queryStrings }) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col border-r-2 border-black bg-[#F8E3D3] border-t-2 md:border-t-0">
-            <h2 className="text-7xl leading-extra-tight text-center uppercase font-bold w-full md:px-8 pt-10 knowledge-gradient">
+          <div className="flex flex-col md:border-r-2 border-black bg-[#F8E3D3] border-t-2 md:border-t-0">
+            <h2 className="text-5xl md:text-7xl leading-extra-tight text-center uppercase font-bold w-full md:px-8 pt-10 knowledge-gradient">
               Knowledge <br/>Share
             </h2>
             <div className="">
@@ -463,21 +463,21 @@ const IndexPage = ({ queryStrings }) => {
                 <div className="w-full text-center">
                 <Link href={"/resources?tagName=Activism%20%26%20Advocacy&tagSlug=activism-advocacy"}>
                 <span
-                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#F8E3D3]"
+                  className="text-xs mr-2 mb-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#F8E3D3]"
                   
                 >
                   Activism & Advocacy
                 </span></Link>
                 <Link href={"/resources?tagName=Accessibility&tagSlug=accessibility"}>
                 <span
-                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#F8E3D3]"
+                  className="text-xs mr-2 mb-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#F8E3D3]"
                   
                 >
                   Accessibility
                 </span></Link>
                 <Link href={"/resources?tagName=Financial&tagSlug=financial"}>
                 <span
-                  className="text-xs mr-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#F8E3D3]"
+                  className="text-xs mr-2 mb-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#F8E3D3]"
                   
                 >
                   Financial

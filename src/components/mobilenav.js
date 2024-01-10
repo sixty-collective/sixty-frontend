@@ -19,7 +19,7 @@ const MobileNav = ({ sidebarText }) => {
       <button className="z-50" onClick={() => setOpen(!open)}>
         <FontAwesomeIcon className="p-4 text-3xl" icon={faBars} />
       </button>
-      <nav className={"" + (open ? 'flex flex-col absolute items-baseline justify-start bg-[#F7F4F0] h-full top-0' : 'hidden')}>
+      <nav className={"" + (open ? 'touch-none flex flex-col absolute items-baseline justify-start bg-[#F7F4F0] h-full top-0' : 'hidden')}>
         <div className="block p-10"></div>
         <div className="flex grow flex-col items-baseline justify-center w-full text-2xl text-black p-5 border-y-2 border-black">
           <Link
@@ -65,11 +65,11 @@ const MobileNav = ({ sidebarText }) => {
         </div>
         <div className="p-5 w-full">
           {/* <p className="text-sm">{sidebarText}</p> */}
-          <p className="text-2xl pb-2">
+          <p className="text-md md:text-2xl pb-2">
           Paid opportunities, grants, residencies, and more sent to your inbox.
           </p>
           <a href="/sign-up">
-          <button className="rounded-full text-black text-xl px-2 py-4 mt-5 border-2 border-black w-full hover:bg-black hover:text-[#F7F4F0]">
+          <button className="rounded-full text-black text-lg md:text-xl px-2 py-2 md:py-4 mt-5 border-2 border-black w-full hover:bg-black hover:text-[#F7F4F0]">
             Sign Me Up
           </button>
 

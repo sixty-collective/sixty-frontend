@@ -818,9 +818,11 @@ const IndexPage = ({ queryStrings }) => {
     <ProfilesGrid profiles={results} home={false} />
   ) : (
     <div className="container">
-    <div className="mt-10 p-10 bg-white rounded-3xl font-fira border-black border-2 shadow-md">
+    {isLoading ? (<div className="mt-10 p-10 bg-white rounded-3xl font-fira border-black border-2 shadow-md">
+    Loading... 
+    </div>): (<div className="mt-10 p-10 bg-white rounded-3xl font-fira border-black border-2 shadow-md">
     Unfortunately, there are no profiles that match your search requirements. We are regularly updating our database with more members, so please check back again soon. 
-    </div>
+    </div>)}
   </div>
   )
 
@@ -868,7 +870,7 @@ const IndexPage = ({ queryStrings }) => {
       />
       <main className="flex flex-col justify-center items-center w-full ">
       <div className="flex flex-col w-full border-black border-b-2 items-center ">
-        <h2 className="text-7xl leading-extra-tight md:text-8xl text-center uppercase font-bold w-full mb-10 px-8 pt-10 member-gradient">
+        <h2 className="text-5xl md:text-7xl leading-extra-tight md:text-8xl text-center uppercase font-bold w-full mb-10 px-8 pt-10 member-gradient">
               Member Profiles
             </h2>
           <div className="flex w-full flex-col items-center justify-center max-w-screen-xl margin-auto">

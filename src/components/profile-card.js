@@ -164,7 +164,7 @@ const ProfileCard = ({ profile, index }) => {
         </div>
         <div className="">
           <p className="m-5 line-clamp-4 text-black">{profile.bio}</p>
-          <div className="p-4 border-t-2 border-black max-h-20 relative text-center">
+          <div className="p-4 border-t-2 border-black max-h-20 relative text-center overflow-hidden">
             <div className="absolute w-full h-4 bg-white bottom-0"></div>
             {disciplinesSection()}{descriptorsSection()}
           </div>

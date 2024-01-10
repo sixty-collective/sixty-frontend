@@ -402,9 +402,11 @@ const ResourcePage = ({ queryStrings }) => {
     <ResourceGrid resources={results} />
   ) : (
     <div className="container">
-    <div className="mt-10 p-10 bg-white rounded-3xl font-fira border-black border-2 shadow-md">
+    {isLoading ? (<div className="mt-10 p-10 bg-white rounded-3xl font-fira border-black border-2 shadow-md">
+    Loading... 
+    </div>): (<div className="mt-10 p-10 bg-white rounded-3xl font-fira border-black border-2 shadow-md">
     Unfortunately, there are no resources that match your search requirements. We are regularly updating our database with more members, so please check back again soon. 
-    </div>
+    </div>)}
   </div>
   )
 
@@ -417,7 +419,7 @@ const ResourcePage = ({ queryStrings }) => {
       />
       <main className="flex flex-col justify-center items-center width-full">
       <div className="flex flex-col w-full border-black border-b-2">
-        <h2 className="text-7xl leading-extra-tight md:text-8xl text-center uppercase font-bold w-full md:px-8 pt-10 mb-10 knowledge-gradient">
+        <h2 className="text-5xl md:text-7xl leading-extra-tight md:text-8xl text-center uppercase font-bold w-full md:px-8 pt-10 mb-10 knowledge-gradient">
             Knowledge Share
           </h2>
           <div className="flex w-full flex-col items-center justify-center">
