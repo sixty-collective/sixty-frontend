@@ -878,7 +878,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-col border-black px-8 md:px-32 py-8 mx-10 rounded-t-3xl rounded-t-extra member-gradient top-curve-border">
             <div className="flex flex-row justify-center w-full">
               <div className="font-bold mr-5 hidden md:w-1/2 md:block">
-                <div className="poppins font-bold">Learn about our members, hire talent, find collaborators, and more.</div>
+                <div className="poppins font-normal">Learn about our members, hire talent, find collaborators, and more.</div>
                 {/* <input
                   className=" rounded-full px-3 text-sm border-2 border-black mt-2 p-1 w-64"
                   placeholder="Enter 'Name'"
@@ -891,7 +891,7 @@ const IndexPage = ({ queryStrings }) => {
               </div>
               <div className="ml-5 w-full flex items-center flex-col md:w-1/2 md:items-start">
                 <div className="hidden text-xs md:block">
-                  Or select from these Disciplines and Descriptors:
+                  Select from these Disciplines and Descriptors:
                 </div>
                 <div className="block text-md md:hidden">
                   Select from these Disciplines and Descriptors:

@@ -333,7 +333,7 @@ const ProfilePage = ({ data }) => {
         {mainProfileSection()}
         <div className="side-content flex flex-col col-span-1 md:p-5">
           <div
-            className={`sixty-color-${colorIndex} py-8 flex flex-col justify-center items-center border-2 rounded-2xl border-black`}
+            className={`sixty-color-${colorIndex} p-8 flex flex-col justify-center items-center border-2 rounded-2xl border-black`}
           >
             {profilePicture()}
             
@@ -357,7 +357,7 @@ const ProfilePage = ({ data }) => {
           <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-4 overflow-clip text-center">
             {disciplinesSection()}{descriptorsSection()}
           </div>
-          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip break-words justify-center	hyphens-auto items-center	flex">
+          <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip break-words justify-center	hyphens-auto items-center	flex line-clamp-1">
               <a className="hover:opacity-50 px-2 text-2xl" href={profile.website}>
                 <FontAwesomeIcon icon={faGlobe} />
               </a>

@@ -32,7 +32,7 @@ const Page = ({ data }) => {
         className="max-h-56 w-full"
       />
       <div className="container pt-10 md:pt-20">
-        <h1 className="text-4xl font-bold text-black">{title}</h1>
+        <h1 className="poppins text-4xl font-semibold text-black">{title}</h1>
         {columnsToggle()}
       </div>
     </Layout>

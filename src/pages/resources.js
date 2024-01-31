@@ -427,10 +427,10 @@ const ResourcePage = ({ queryStrings }) => {
             <div className="flex flex-col border-black px-8 md:px-32 py-8 mx-10 rounded-t-extra rounded-t-3xl knowledge-gradient top-curve-border">
             <div className="flex flex-row justify-center w-full">
               <div className="mr-5 font-bold poppins hidden md:w-1/2 md:block">
-                <div className="">Browse through our carefully selected articles, tools, career advice, and more.</div>
+                <div className="font-normal">Browse through our carefully selected articles, tools, career advice, and more.</div>
               </div>
               <div className="ml-5 w-full flex items-center flex-col md:w-1/2 md:items-start">
-                <div className="hidden text-xs md:block">Or select from these Categories:</div>
+                <div className="hidden text-xs md:block">Select from these Categories:</div>
                 <div className="block text-md md:hidden">
                   Select from these Categories:
                 </div>

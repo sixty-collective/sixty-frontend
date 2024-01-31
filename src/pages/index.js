@@ -385,7 +385,7 @@ const IndexPage = ({ queryStrings }) => {
           className="w-full max-h-96"
         />
         <div className="w-full">
-          <h1 className="text-xl w-full bg-black font-bold text-white text-center p-5 home-header-text">
+          <h1 className="text-xl w-full bg-black font-semibold text-white text-center p-5 home-header-text poppins">
             <div
               dangerouslySetInnerHTML={{
                 __html:
@@ -396,12 +396,12 @@ const IndexPage = ({ queryStrings }) => {
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
           <div className="flex flex-col md:border-r-2 border-black bg-[#E1EEF6]">
-            <h2 className="text-5xl md:text-7xl leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
+            <h2 className="text-5xl md:text-7xl md:md:leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
               Member <br/>Profiles
             </h2>
             <div className="">
               <div className="flex w-full align-center justify-center">
-              <p className="p-10 text-center max-w-md poppins">
+              <p className="p-10 text-center max-w-md poppins text-lg">
               Learn about our members, hire talent, find collaborators, and more.
               </p>
               </div>
@@ -446,12 +446,12 @@ const IndexPage = ({ queryStrings }) => {
             </div>
           </div>
           <div className="flex flex-col md:border-r-2 border-black bg-[#F8E3D3] border-t-2 md:border-t-0">
-            <h2 className="text-5xl md:text-7xl leading-extra-tight text-center uppercase font-bold w-full md:px-8 pt-10 knowledge-gradient">
+            <h2 className="text-5xl md:text-7xl md:leading-extra-tight text-center uppercase font-bold w-full md:px-8 pt-10 knowledge-gradient">
               Knowledge <br/>Share
             </h2>
             <div className="">
               <div className="flex w-full align-center justify-center">
-              <p className="p-10 text-center max-w-md poppins">
+              <p className="p-10 text-center max-w-md poppins text-lg">
               Browse through our carefully selected articles, tools, career advice, and more.
               </p>
 

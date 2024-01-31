@@ -122,9 +122,9 @@ const BlockWorkSample = ({ data, colorIndex }) => {
         <p className="font-bold pb-4 text-2xl">{data.name}</p>
         <p className="pb-4">{data.description}</p>
         <a className="flex justify-left" href={data.link}>
-          <button className={`rounded-full sixty-color-${colorIndex} hover:opacity-70 px-2 py-1`}>
+          <button className={`rounded-full sixty-color-${colorIndex} hover:opacity-70 px-2 py-1 flex items-center`}>
             <FontAwesomeIcon icon={faLink} />{" "}
-            <span className="underline">{data.link}</span>
+            <span className="ml-2 line-clamp-1 underline">{data.link}</span>
           </button>
         </a>
       </div>

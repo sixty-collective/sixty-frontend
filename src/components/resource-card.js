@@ -44,13 +44,13 @@ const ResourceCard = ({ resource, index }) => {
         </p>
         {resource.attributes.link.length > 45 ? (<a target="_blank" href={resource.attributes.link} className="">
           <div className="m-5 text-xs">
-            <span className="knowledge-gradient line-clamp-1 leading-5 rounded-full px-2 py-1 hover:underline">
+            <span className="knowledge-gradient font-semibold line-clamp-1 leading-5 rounded-full px-2 py-1 hover:underline">
               {resource.attributes.link}
             </span>
           </div>
         </a>): (<a target="_blank" href={resource.attributes.link} className="">
           <div className="m-5 text-xs">
-            <span className="knowledge-gradient rounded-full px-2 py-1 hover:bg-gray-300 hover:underline">
+            <span className="knowledge-gradient font-semibold rounded-full px-2 py-1 hover:bg-gray-300 hover:underline">
               {resource.attributes.link}
             </span>
           </div>
