@@ -11,10 +11,12 @@ import {
 
 const MobileNav = ({ sidebarText }) => {
   const [open, setOpen] = useState(false)
-  if (open) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
+  if (typeof window !== `undefined`) {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
   }
   return (
     <header className="flex justify-between items-center w-full lg:hidden text-black lg:w-48 lg:h-full shadow-2xl">

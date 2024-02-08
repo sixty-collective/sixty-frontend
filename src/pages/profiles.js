@@ -57,6 +57,9 @@ const IndexPage = ({ queryStrings }) => {
 
     if (status.filter(status => status === true).length === 5) {
       setCookieAllow(true)
+      if (typeof window !== `undefined`) {
+        document.body.style.overflow = 'auto';
+      }
     } else {
       setCookieAllow(false)
     }
@@ -181,6 +184,16 @@ const IndexPage = ({ queryStrings }) => {
     setInitial(false)
     setSelectedDisciplines([{ name: disciplineName, slug: disciplineSlug }])
   }
+
+  useEffect(() => {
+    if (typeof window !== `undefined`) {
+      if (document.cookie.indexOf('necessary=true') == 0 || cookieAllow === true) {
+        document.body.style.overflow = 'auto';
+      } else {
+        document.body.style.overflow = 'hidden';
+      }
+    }
+  },[cookieAllow])
 
   useEffect(() => {
     sendSearch(true)

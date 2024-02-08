@@ -22,10 +22,14 @@ const ResourcePage = ({ queryStrings }) => {
 
     if (status.filter(status => status === true).length === 5) {
       setCookieAllow(true)
+      if (typeof window !== `undefined`) {
+        document.body.style.overflow = 'auto';
+      }
     } else {
       setCookieAllow(false)
     }
   }
+  
   const [cookieAllow, setCookieAllow] = React.useState(false)
   const agreements = [
     "Assume the best of people and situations (until proven otherwise) by treating everyone you meet through this platform with grace, kindness, and respect.",
@@ -153,6 +157,16 @@ const ResourcePage = ({ queryStrings }) => {
     }
     sendSearch();
   };
+
+  useEffect(() => {
+    if (typeof window !== `undefined`) {
+      if (document.cookie.indexOf('necessary=true') == 0 || cookieAllow === true) {
+        document.body.style.overflow = 'auto';
+      } else {
+        document.body.style.overflow = 'hidden';
+      }
+    }
+  },[cookieAllow])
 
   useEffect(() => {
     if (tagSlug && initial) {

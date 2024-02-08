@@ -93,7 +93,9 @@ const IndexPage = ({ queryStrings }) => {
 
     if (status.filter(status => status === true).length === 5) {
       setCookieAllow(true)
-      document.body.style.overflow = 'auto';
+      if (typeof window !== `undefined`) {
+        document.body.style.overflow = 'auto';
+      }
     } else {
       setCookieAllow(false)
     }
@@ -115,11 +117,13 @@ const IndexPage = ({ queryStrings }) => {
   const [cookieAllow, setCookieAllow] = React.useState(false)
 
   useEffect(() => {
+    if (typeof window !== `undefined`) {
       if (document.cookie.indexOf('necessary=true') == 0 || cookieAllow === true) {
         document.body.style.overflow = 'auto';
       } else {
         document.body.style.overflow = 'hidden';
       }
+    }
   },[cookieAllow])
 
   const toggleDisciplines = () => {
