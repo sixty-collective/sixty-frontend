@@ -29,7 +29,7 @@ const Page = ({ data }) => {
       <GatsbyImage
         image={getImage(coverImage.localFile)}
         alt={coverImage.alternativeText}
-        className="max-h-56 w-full"
+        className="max-h-56 w-full border-black border-b-2"
       />
       <div className="container pt-10 md:pt-20">
         <h1 className="poppins text-4xl font-semibold text-black">{title}</h1>

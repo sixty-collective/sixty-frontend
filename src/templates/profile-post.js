@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { graphql } from "gatsby"
+import { graphql, navigate } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import BlockWorkSample from "../components/block-work-sample"
@@ -18,6 +18,10 @@ const ProfilePage = ({ data }) => {
 
   const handleToggle = () => {
     setVisible(current => !current)
+    window[`scrollTo`]({ top: 0, behavior: `smooth` })
+  }
+  const back = () => {
+    navigate('/profiles')
   }
   const profile = data.strapiProfile
   const colorIndex = Math.floor(Math.random() * 6)
@@ -76,12 +80,12 @@ const ProfilePage = ({ data }) => {
   function mainProfileSection() {
     if (visible) {
       return (
-        <div className="main-content col-span-3 pt-5 md:p-5 mt-10 md:mt-0 relative">
+        <div className="main-content col-span-3 pt-5 lg:p-5 mt-10 lg:mt-0 relative">
           <div
             className="absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
             onClick={handleToggle}
           >
-            <FontAwesomeIcon icon={faArrowLeft} /> Back to Profile
+            <FontAwesomeIcon icon={faArrowLeft} /> Back to Profiles
           </div>
           <div className="card bg-white rounded-3xl border-black border-2">
             <div className="card-header border-b-2 border-black p-5 flex justify-center items-center">
@@ -241,7 +245,13 @@ const ProfilePage = ({ data }) => {
       )
     } else {
       return (
-        <div className="main-content col-span-3 pt-5 md:p-5">
+        <div className="main-content col-span-3 pt-5 lg:p-5 mt-10 lg:mt-0 relative">
+          <div
+            className="absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
+            onClick={handleToggle}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} /> Back to Member Profiles
+          </div>
           <div className="card bg-white rounded-3xl border-black border-2">
             <div className="px-10 py-10">
               <p className="font-bold mb-2">What you should know about me</p>
@@ -260,7 +270,7 @@ const ProfilePage = ({ data }) => {
           </div>
           <div className="mt-12">
             <h2 className="text-3xl font-bold">Work Samples</h2>
-            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
+            <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-1 lg:grid-cols-1">
               {profile.workSamples?.map(sample => (
                 <BlockWorkSample data={sample} colorIndex={colorIndex} />
               ))}
@@ -329,16 +339,16 @@ const ProfilePage = ({ data }) => {
   return (
     <Layout as="profile">
       <Seo seo={seo} />
-      <main className="flex flex-col-reverse mt-8 md:grid md:grid-cols-4 md:gap-3 md:p-20 container">
+      <main className="flex flex-col-reverse mt-8 lg:grid lg:grid-cols-4 lg:gap-3 lg:p-20 container">
         {mainProfileSection()}
-        <div className="side-content flex flex-col col-span-1 md:p-5">
+        <div className="side-content flex flex-col col-span-1 lg:p-5">
           <div
             className={`sixty-color-${colorIndex} p-8 flex flex-col justify-center items-center border-2 rounded-2xl border-black`}
           >
             {profilePicture()}
             
             <div className="pt-2 name-card flex justify-center items-center flex-col">
-              <h1 className="text-lg font-bold text-neutral-700">
+              <h1 className="text-lg font-medium poppins text-neutral-700 text-center">
                 {profile.name}
               </h1>
               <div className="mt-2 text-sm text-neutral-700">

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 
 import { useStaticQuery, graphql, Link } from "gatsby"
@@ -91,9 +91,9 @@ const IndexPage = ({ queryStrings }) => {
     status[index] = !status[index]
     setCheckboxStatus(status)
 
-    console.log(status)
     if (status.filter(status => status === true).length === 5) {
       setCookieAllow(true)
+      document.body.style.overflow = 'auto';
     } else {
       setCookieAllow(false)
     }
@@ -113,6 +113,14 @@ const IndexPage = ({ queryStrings }) => {
   const [openDisciplines, setOpenDisciplines] = React.useState(false)
   const [openDescriptors, setOpenDescriptors] = React.useState(false)
   const [cookieAllow, setCookieAllow] = React.useState(false)
+
+  useEffect(() => {
+      if (document.cookie.indexOf('necessary=true') == 0 || cookieAllow === true) {
+        document.body.style.overflow = 'auto';
+      } else {
+        document.body.style.overflow = 'hidden';
+      }
+  },[cookieAllow])
 
   const toggleDisciplines = () => {
     setOpenDisciplines(!openDisciplines)
@@ -385,7 +393,7 @@ const IndexPage = ({ queryStrings }) => {
           className="w-full max-h-96"
         />
         <div className="w-full">
-          <h1 className="text-xl w-full bg-black font-semibold text-white text-center p-5 home-header-text poppins">
+          <h1 className="text-xl w-full bg-black font-medium text-white text-center p-5 home-header-text poppins">
             <div
               dangerouslySetInnerHTML={{
                 __html:
@@ -396,7 +404,7 @@ const IndexPage = ({ queryStrings }) => {
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
           <div className="flex flex-col md:border-r-2 border-black bg-[#E1EEF6]">
-            <h2 className="text-5xl md:text-7xl md:md:leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
+            <h2 className="text-5xl xl:text-7xl lg:leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
               Member <br/>Profiles
             </h2>
             <div className="">
@@ -446,7 +454,7 @@ const IndexPage = ({ queryStrings }) => {
             </div>
           </div>
           <div className="flex flex-col md:border-r-2 border-black bg-[#F8E3D3] border-t-2 md:border-t-0">
-            <h2 className="text-5xl md:text-7xl md:leading-extra-tight text-center uppercase font-bold w-full md:px-8 pt-10 knowledge-gradient">
+            <h2 className="text-5xl xl:text-7xl lg:leading-extra-tight text-center uppercase font-bold w-full md:px-8 pt-10 knowledge-gradient">
               Knowledge <br/>Share
             </h2>
             <div className="">
@@ -539,14 +547,14 @@ const IndexPage = ({ queryStrings }) => {
           "rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2 " +
           (cookieAllow ? "cookieAllow" : "cookieNotAllow")
         }
-        backgroundWrapperClasses="absolute w-full h-full top-0 left-0 bg-gray-400/75"
-        buttonWrapperClasses="pt-5 ml-5 mr-5 pb-10 md:m-auto flex justify-center bg-white w-auto md:w-1/2 border-b-2 border-l-2 border-r-2 rounded-b-3xl border-black m-auto"
+        backgroundWrapperClasses="absolute w-full h-full top-0 left-0 bg-gray-400/75 overflow-hidden"
+        buttonWrapperClasses="pt-5 ml-5 mr-5 pb-10 md:m-auto flex justify-center bg-white w-auto md:w-1/2 border-b-2 border-l-2 border-r-2 rounded-b-3xl border-black"
       >
-        <div className="ml-5 mr-5 w-auto md:w-1/2 md:m-auto bg-white md:mt-20 flex flex-col bg-white rounded-t-2xl">
+        <div className="ml-5 mr-5 w-auto md:w-1/2 md:m-auto bg-white mt-20 md:mt-20 flex flex-col bg-white rounded-t-2xl">
           <h2 className="text-md md:text-xl font-medium bg-green text-black text-center w-full p-4 border-2 border-black rounded-t-2xl">
             Community Agreements
           </h2>
-          <div className="pt-2 pb-0 pl-5 pr-5 md:p-10 border-l-2 border-r-2 border-black">
+          <div className="pt-2 pb-0 pl-5 pr-5 border-l-2 border-r-2 border-black">
             {Array(5)
               .fill(0)
               .map((_, index) => (
@@ -556,10 +564,10 @@ const IndexPage = ({ queryStrings }) => {
                     checked={checkboxStatus[index]}
                     onChange={() => buttonHandler(index)}
                   />
-                  <span className="text-sm m-2 md:ml-5 md:mt-5 md:mb-5">{agreements[index]}</span>
+                  <span className="text-xs md:text-base m-2 md:ml-5 md:mt-5 md:mb-5">{agreements[index]}</span>
                 </li>
               ))}
-            <p className="pt-5">
+            <p className="text-xs md:text-base pt-5">
               This website uses cookies to keep track of whether the Community
               Agreements has been accepted.
             </p>

@@ -52,8 +52,7 @@ const BlockWorkSample = ({ data, colorIndex }) => {
         <div>
           <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
             <iframe
-              // src={"https://player.vimeo.com/video/" + vimeoLink}
-              src={data.embedLink}
+              src={"https://player.vimeo.com/video/" + vimeoLink}
               style={{
                 position: "absolute",
                 top: "0",
@@ -69,14 +68,13 @@ const BlockWorkSample = ({ data, colorIndex }) => {
           <script src="https://player.vimeo.com/api/player.js"></script>
         </div>
       )
-    } else if (!!data.embed && data.embedLink?.includes("youtube")) {
+    } else if (!!data.embed && data.embedLink?.includes("youtube") || data.embedLink?.includes("youtu.be")) {
       const youTubeLink = data.embedLink?.match(/[^/=]+$/g)
       return (
         <div>
           <iframe
             className="aspect-video	w-full"
-            // src={"https://www.youtube.com/embed/" + youTubeLink}
-            src={data.embedLink}
+            src={"https://www.youtube.com/embed/" + youTubeLink}
             title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -119,7 +117,7 @@ const BlockWorkSample = ({ data, colorIndex }) => {
       </div>
       {mediaSection()}
       <div className="p-10">
-        <p className="font-bold pb-4 text-2xl">{data.name}</p>
+        <p className="font-medium poppins pb-4 text-2xl">{data.name}</p>
         <p className="pb-4">{data.description}</p>
         <a className="flex justify-left" href={data.link}>
           <button className={`rounded-full sixty-color-${colorIndex} hover:opacity-70 px-2 py-1 flex items-center`}>

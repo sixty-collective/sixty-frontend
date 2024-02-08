@@ -11,15 +11,20 @@ import {
 
 const MobileNav = ({ sidebarText }) => {
   const [open, setOpen] = useState(false)
+  if (open) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
   return (
-    <header className="flex justify-between items-center w-full md:hidden text-black md:w-48 md:h-full shadow-2xl">
+    <header className="flex justify-between items-center w-full lg:hidden text-black lg:w-48 lg:h-full shadow-2xl">
       <Link to="/" className="text-xl font-bold p-4 w-40 z-50">
         <StaticImage alt="" className="" src="../images/logo.png" />
       </Link>
       <button className="z-50" onClick={() => setOpen(!open)}>
         <FontAwesomeIcon className="p-4 text-3xl" icon={faBars} />
       </button>
-      <nav className={"" + (open ? 'touch-none flex flex-col absolute items-baseline justify-start bg-[#F7F4F0] h-full top-0' : 'hidden')}>
+      <nav className={"" + (open ? 'overflow-scroll flex flex-col absolute items-baseline justify-start bg-[#F7F4F0] h-full w-full top-0' : 'hidden')}>
         <div className="block p-10"></div>
         <div className="flex grow flex-col items-baseline justify-center w-full text-2xl text-black p-5 border-y-2 border-black">
           <Link
@@ -65,11 +70,11 @@ const MobileNav = ({ sidebarText }) => {
         </div>
         <div className="p-5 w-full">
           {/* <p className="text-sm">{sidebarText}</p> */}
-          <p className="text-md md:text-2xl pb-2">
+          <p className="text-md lg:text-2xl pb-2">
           Paid opportunities, grants, residencies, and more sent to your inbox.
           </p>
           <a href="/sign-up">
-          <button className="rounded-full text-black text-lg md:text-xl px-2 py-2 md:py-4 mt-5 border-2 border-black w-full hover:bg-black hover:text-[#F7F4F0]">
+          <button className="rounded-full text-black text-lg lg:text-xl px-2 py-2 lg:py-4 mt-5 border-2 border-black w-full hover:bg-black hover:text-[#F7F4F0]">
             Sign Me Up
           </button>
 

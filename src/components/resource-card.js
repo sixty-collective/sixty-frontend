@@ -35,7 +35,7 @@ const ResourceCard = ({ resource, index }) => {
     <div key={resource.attributes.title} className={`bg-white rounded-3xl border-black border-2 overflow-hidden rounded-xxl bg-white shadow-sm transition-shadow group hover:shadow-md hover:drop-shadow-2xl`}>
       <div className="flex card-header border-b-2 border-black px-5 py-3 justify-left items-center">
         <div className="flex flex-col min-h-[3rem] justify-center group-hover:h-auto">
-          <h3 className="font-bold text-black line-clamp-2 group-hover:line-clamp-3">{resource.attributes.title}</h3>
+          <h3 className="font-bold poppins font-medium text-black line-clamp-2 group-hover:line-clamp-3">{resource.attributes.title}</h3>
         </div>
       </div>
       <div className="">

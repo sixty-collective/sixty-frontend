@@ -418,25 +418,25 @@ const ResourcePage = ({ queryStrings }) => {
         description={strapiGlobal.siteDescription}
       />
       <main className="flex flex-col justify-center items-center width-full">
-      <div className="flex flex-col w-full border-black border-b-2">
-        <h2 className="text-5xl md:text-7xl leading-extra-tight md:text-8xl text-center uppercase font-bold w-full md:px-8 pt-10 mb-10 knowledge-gradient">
+      <div className="flex flex-col w-full border-black border-b-2 bg-[#F8E3D3]">
+        <h2 className="text-5xl lg:text-8xl leading-extra-tight md:text-7xl text-center uppercase font-bold w-full md:px-8 pt-10 mb-10 knowledge-gradient">
             Knowledge Share
           </h2>
           <div className="flex w-full flex-col items-center justify-center">
             <div className="md:px-20 w-full">
-            <div className="flex flex-col border-black px-8 md:px-32 py-8 mx-10 rounded-t-extra rounded-t-3xl knowledge-gradient top-curve-border">
+            <div className="flex flex-col border-black px-8 lg:px-32 py-8 mx-10 rounded-t-extra rounded-t-3xl knowledge-gradient top-curve-border">
             <div className="flex flex-row justify-center w-full">
               <div className="mr-5 font-bold poppins hidden md:w-1/2 md:block">
                 <div className="font-normal">Browse through our carefully selected articles, tools, career advice, and more.</div>
               </div>
               <div className="ml-5 w-full flex items-center flex-col md:w-1/2 md:items-start">
-                <div className="hidden text-xs md:block">Select from these Categories:</div>
+                <div className="hidden text-xs md:block">Select from these Categories and Tags:</div>
                 <div className="block text-md md:hidden">
-                  Select from these Categories:
+                  Select from these Categories and Tags:
                 </div>
                 <div className="mt-2 text-left">
                   <button
-                    className={"mr-2 rounded-full px-3 text-sm p-1 border-black border-2 inline-flex items-center " + 
+                    className={"mr-2 mb-2 rounded-full px-3 text-sm p-1 border-black border-2 inline-flex items-center " + 
                     (openCategories || selectedCategories.length > 0
                       ? "bg-black text-white "
                       : "bg-white text-black ")

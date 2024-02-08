@@ -28,6 +28,10 @@ body {
   font-family: 'Poppins';
 }
 
+.align-left-center {
+  text-align-last: center;
+}
+
 header {
   width: 200px;
   font-family: 'Poppins';

@@ -151,11 +151,11 @@ const ProfileCard = ({ profile, index }) => {
           {profilePicture()}
           <div className="flex flex-col ml-3">
             <div className="flex items-center">
-              <h3 className="font-bold text-black mr-2">{profile.name}</h3>
+              <h3 className="font-medium poppins text-black mr-2 text-left leading-tight" >{profile.name}</h3>
               {availability}
             </div>
             <div className="flex text-xs items-center">
-              <div className="border-2 border-black rounded-full px-1 mr-2 bg-white">
+              <div className="border-2 border-black rounded-full px-1 mr-2 bg-white mt-2">
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span className="ml-2">{profile.location}</span>
               </div>
