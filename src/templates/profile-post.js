@@ -85,7 +85,7 @@ const ProfilePage = ({ data }) => {
             className="absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
             onClick={handleToggle}
           >
-            <FontAwesomeIcon icon={faArrowLeft} /> Back to Profiles
+            <FontAwesomeIcon icon={faArrowLeft} /> Back to Profile
           </div>
           <div className="card bg-white rounded-3xl border-black border-2">
             <div className="card-header border-b-2 border-black p-5 flex justify-center items-center">
@@ -248,7 +248,7 @@ const ProfilePage = ({ data }) => {
         <div className="main-content col-span-3 pt-5 lg:p-5 mt-10 lg:mt-0 relative">
           <div
             className="absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
-            onClick={handleToggle}
+            onClick={back}
           >
             <FontAwesomeIcon icon={faArrowLeft} /> Back to Member Profiles
           </div>
