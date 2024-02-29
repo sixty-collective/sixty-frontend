@@ -91,6 +91,7 @@ const BlockWorkSample = ({ data, colorIndex }) => {
           slidesToShow={1}
           slidesToScroll={1}
           arrows={true}
+          fade={true}
           swipe={true}
           adaptiveHeight={true}
           nextArrow={<NextArrow />}
@@ -120,7 +121,7 @@ const BlockWorkSample = ({ data, colorIndex }) => {
         <p className="font-medium poppins pb-4 text-2xl">{data.name}</p>
         <p className="pb-4">{data.description}</p>
         <a className="flex justify-left" href={data.link}>
-          <button className={`rounded-full sixty-color-${colorIndex} hover:opacity-70 px-2 py-1 flex items-center`}>
+          <button className={`rounded-full sixty-color-${colorIndex} hover:opacity-70 px-2 py-1 flex items-center line-clamp-1`}>
             <FontAwesomeIcon icon={faLink} />{" "}
             <span className="ml-2 line-clamp-1 underline">{data.link}</span>
           </button>

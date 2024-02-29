@@ -16,7 +16,7 @@ const Page = ({ data }) => {
       )
     } else {
       return (
-        <main className="md:mt-8 grid md:grid-cols-2 md:gap-20">
+        <main className="lg:mt-8 grid lg:grid-cols-2 lg:gap-20">
           <BlocksRenderer blocks={blocks} />
           <BlocksRenderer blocks={sideBlocks} />
         </main>

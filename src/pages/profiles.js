@@ -356,7 +356,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {vDisciplines.map((discipline, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={discipline}
                       index={index}
@@ -388,7 +388,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {wDisciplines.map((discipline, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={discipline}
                       index={index}
@@ -424,7 +424,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {aDisciplines.map((discipline, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={discipline}
                       index={index}
@@ -464,7 +464,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {pDisciplines.map((discipline, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={discipline}
                       index={index}
@@ -510,7 +510,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {lDisciplines.map((discipline, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={discipline}
                       index={index}
@@ -558,7 +558,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {rDisciplines.map((discipline, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={discipline}
                       index={index}
@@ -615,7 +615,7 @@ const IndexPage = ({ queryStrings }) => {
 
   const disciplinesSection = () => {
     if (openDisciplines) {
-      return <div className="absolute mt-3 z-50">{disciplines()}</div>
+      return <div className="absolute mt-3">{disciplines()}</div>
     } else {
       ;<span></span>
     }
@@ -656,7 +656,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {cDescriptors.map((descriptor, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={descriptor}
                       index={index}
@@ -690,7 +690,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {jDescriptors.map((descriptor, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={descriptor}
                       index={index}
@@ -728,7 +728,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {aDescriptors.map((descriptor, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={descriptor}
                       index={index}
@@ -770,7 +770,7 @@ const IndexPage = ({ queryStrings }) => {
             <div className="flex flex-wrap mt-2">
               {eDescriptors.map((descriptor, index) => {
                 return (
-                  <div className="w-1/2 text-xs items-center flex" key={index}>
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
                     <Checkbox
                       obj={descriptor}
                       index={index}
@@ -822,7 +822,7 @@ const IndexPage = ({ queryStrings }) => {
   }
 
   const descriptorsSection = openDescriptors ? (
-    <div className="absolute mt-3 z-50">{descriptors()}</div>
+    <div className="absolute mt-3">{descriptors()}</div>
   ) : (
     <span></span>
   )
@@ -883,15 +883,15 @@ const IndexPage = ({ queryStrings }) => {
       />
       <main className="flex flex-col justify-center items-center w-full ">
       <div className="flex flex-col w-full border-black border-b-2 items-center bg-[#E1EEF6]">
-        <h2 className="text-5xl sm:text-7xl leading-extra-tight md:text-8xl text-center uppercase font-bold w-full mb-10 px-8 pt-10 member-gradient">
+        <h2 className="text-5xl min-[400px]:text-6xl sm:text-7xl min-[400px]:leading-extra-tight leading-extra-tight md:text-8xl text-center uppercase font-bold w-full mb-10 px-8 pt-10 member-gradient">
               Member Profiles
             </h2>
           <div className="flex w-full flex-col items-center justify-center max-w-screen-xl margin-auto">
             <div className="lg:px-20 w-full">
             <div className="flex flex-col border-black px-8 lg:px-32 py-8 mx-10 rounded-t-3xl rounded-t-extra member-gradient top-curve-border">
-            <div className="flex flex-row justify-center w-full">
-              <div className="font-bold mr-5 hidden w-full md:w-1/2 md:block">
-                <div className="poppins font-normal">Learn about our members, hire talent, find collaborators, and more.</div>
+            <div className="flex flex-col md:flex-row justify-center w-full">
+              <div className="mr-0 font-bold md:mr-5 w-full md:w-1/2 md:block">
+                <div className="text-center md:text-left poppins font-normal">Learn about our members, hire talent, find collaborators, and more.</div>
                 {/* <input
                   className=" rounded-full px-3 text-sm border-2 border-black mt-2 p-1 w-64"
                   placeholder="Enter 'Name'"
@@ -902,7 +902,7 @@ const IndexPage = ({ queryStrings }) => {
                   Search
                 </button> */}
               </div>
-              <div className="ml-5 w-full flex items-center flex-col md:w-1/2 md:items-start">
+              <div className="ml-0 mt-10 md:mt-0 md:ml-5 w-full flex items-center flex-col md:w-1/2 md:items-start">
                 <div className="hidden text-xs md:block">
                   Select from these Disciplines and Descriptors:
                 </div>
@@ -972,10 +972,10 @@ const IndexPage = ({ queryStrings }) => {
           "rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2 " +
           (cookieAllow ? "cookieAllow" : "cookieNotAllow")
         }
-        backgroundWrapperClasses="absolute w-full h-full top-0 left-0 bg-gray-400/75"
+        backgroundWrapperClasses="absolute w-full h-full top-0 left-0 bg-gray-400/75 z-50"
         buttonWrapperClasses="pt-5 ml-5 mr-5 pb-10 md:m-auto flex justify-center bg-white w-auto md:w-1/2 border-b-2 border-l-2 border-r-2 rounded-b-3xl border-black m-auto"
       >
-        <div className="ml-5 mr-5 w-auto md:w-1/2 md:m-auto bg-white md:mt-20 flex flex-col bg-white rounded-t-2xl">
+        <div className="mx-5 md:mx-auto mt-20 w-auto md:w-1/2 bg-white flex flex-col bg-white rounded-t-2xl">
           <h2 className="text-md md:text-xl font-medium bg-green text-black text-center w-full p-4 border-2 border-black rounded-t-2xl">
             Community Agreements
           </h2>

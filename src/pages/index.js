@@ -117,6 +117,7 @@ const IndexPage = ({ queryStrings }) => {
   const [cookieAllow, setCookieAllow] = React.useState(false)
 
   useEffect(() => {
+    document.body.style.overflow = 'hidden';
     if (typeof window !== `undefined`) {
       if (document.cookie.indexOf('necessary=true') == 0 || cookieAllow === true) {
         document.body.style.overflow = 'auto';
@@ -124,7 +125,7 @@ const IndexPage = ({ queryStrings }) => {
         document.body.style.overflow = 'hidden';
       }
     }
-  },[cookieAllow])
+  },[])
 
   const toggleDisciplines = () => {
     setOpenDisciplines(!openDisciplines)
@@ -407,9 +408,9 @@ const IndexPage = ({ queryStrings }) => {
           </h1>
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-          <div className="flex flex-col md:border-r-2 border-black bg-[#E1EEF6]">
-            <h2 className="text-5xl xl:text-7xl lg:leading-extra-tight text-center uppercase font-bold w-full px-8 pt-10 member-gradient">
-              Member <br/>Profiles
+          <div className="flex flex-col md:border-r-2 border-black bg-[#E1EEF6] justify-between">
+          <h2 className="text-5xl min-[400px]:text-6xl sm:text-7xl min-[400px]:leading-extra-tight md:leading-extra-tight sm:text-7xl md:text-4xl text-center uppercase font-bold w-full mb-10 px-8 pt-10 member-gradient sm:leading-extra-tight md:leading-extra-tight lg:leading-extra-tight xl:leading-extra-tight lg:text-6xl xl:text-7xl">
+              Member<br /> Profiles
             </h2>
             <div className="">
               <div className="flex w-full align-center justify-center">
@@ -443,13 +444,6 @@ const IndexPage = ({ queryStrings }) => {
                 >
                   Editor
                 </span></Link>
-                <Link href={"/profiles?disciplineName=Illustrator&disciplineSlug=illustrator"}>
-                <span
-                  className="text-xs mr-2 mb-2 rounded-full px-2 py-1 bg-white font-fira border-black border inline-block hover:bg-[#E1EEF6]"
-                  
-                >
-                  Illustrator
-                </span></Link>
                 </div>
                 <div className="w-full text-center mt-5 underline font-bold">
                 <Link href={"/profiles"}>View All Member Profiles</Link>
@@ -457,9 +451,9 @@ const IndexPage = ({ queryStrings }) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col md:border-r-2 border-black bg-[#F8E3D3] border-t-2 md:border-t-0">
-            <h2 className="text-5xl xl:text-7xl lg:leading-extra-tight text-center uppercase font-bold w-full md:px-8 pt-10 knowledge-gradient">
-              Knowledge <br/>Share
+          <div className="flex flex-col md:border-r-2 border-black bg-[#F8E3D3] border-t-2 md:border-t-0 justify-between">
+          <h2 className="text-5xl min-[400px]:text-6xl min-[400px]:leading-extra-tight md:leading-extra-tight sm:text-7xl md:text-4xl lg:text-6xl xl:text-7xl text-center uppercase font-bold w-full md:px-8 pt-10 mb-10 knowledge-gradient sm:leading-extra-tight md:leading-extra-tight lg:leading-extra-tight xl:leading-extra-tight">
+              Knowledge<br /> Share
             </h2>
             <div className="">
               <div className="flex w-full align-center justify-center">
@@ -512,31 +506,37 @@ const IndexPage = ({ queryStrings }) => {
         </div>
         <div className="w-full flex items-center justify-center bg-purple py-10 md:py-20">
           <div className="w-3/4 md:w-1/2">
-        <Slider
-          dots={false}
-          infinite={true}
-          speed={300}
-          slidesToShow={1}
-          slidesToScroll={1}
-          arrows={true}
-          swipe={true}
-          adaptiveHeight={false}
-          nextArrow={<NextArrow />}
-          prevArrow={<PreviousArrow />}
-        >
-          {allStrapiTestimonial.edges.map((testimonial, index) => (
-            <div
-            className="border-black border-2 rounded-3xl bg-white p-5 font-fira text-center line-clamp-4"
-            key={index}
-          >
-            {testimonial.node.body}
-          </div>
-          ))}
-        </Slider>
-        <div className="text-center pt-10">
-            <a className="underline font-bold" href="/testimonials">Submit a Testimonial</a>
+            <Slider
+              dots={false}
+              infinite={true}
+              lazyLoad={false}
+              speed={300}
+              arrows={true}
+              swipeToSlide={true}
+              slidesToScroll={1}
+              centerMode={false}
+              adaptiveHeight={false}
+              fade={true}
+              nextArrow={<NextArrow />}
+              prevArrow={<PreviousArrow />}
+            >
+              {allStrapiTestimonial.edges.map((testimonial, index) => (
+                <div
+                className=""
+                key={index}
+              >
+                <div className="content m-5 border-black border-2 rounded-3xl bg-white p-5 font-fira text-center">
+                  <div className="line-clamp-4">
+                  {testimonial.node.body}
+                  </div>
+                </div>
+              </div>
+              ))}
+            </Slider>
+            <div className="text-center pt-10">
+                <a className="underline font-bold" href="/testimonials">Submit a Testimonial</a>
 
-        </div>
+            </div>
           </div>
         </div>
         <div>
@@ -562,7 +562,7 @@ const IndexPage = ({ queryStrings }) => {
             {Array(5)
               .fill(0)
               .map((_, index) => (
-                <li className="list-none flex">
+                <li className="list-none flex items-center">
                   <input
                     type="checkbox"
                     checked={checkboxStatus[index]}

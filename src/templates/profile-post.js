@@ -6,6 +6,7 @@ import BlockWorkSample from "../components/block-work-sample"
 import Seo from "../components/seo"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { StaticImage } from "gatsby-plugin-image"
+import scrollTo from 'gatsby-plugin-smoothscroll';
 
 import {
   faGlobe,
@@ -17,8 +18,12 @@ const ProfilePage = ({ data }) => {
   const [visible, setVisible] = useState(false)
 
   const handleToggle = () => {
+    if (visible) {
+      scrollTo('#contact')
+    } else {
+      scrollTo('#profile')
+    }
     setVisible(current => !current)
-    window[`scrollTo`]({ top: 0, behavior: `smooth` })
   }
   const back = () => {
     navigate('/profiles')
@@ -82,12 +87,12 @@ const ProfilePage = ({ data }) => {
       return (
         <div className="main-content col-span-3 pt-5 lg:p-5 mt-10 lg:mt-0 relative">
           <div
-            className="absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
+            className="hidden md:absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
             onClick={handleToggle}
           >
             <FontAwesomeIcon icon={faArrowLeft} /> Back to Profile
           </div>
-          <div className="card bg-white rounded-3xl border-black border-2">
+          <div id="contact" className="card bg-white rounded-3xl border-black border-2">
             <div className="card-header border-b-2 border-black p-5 flex justify-center items-center">
               <h2 className="text-xl font-bold">Contact {profile.name}</h2>
             </div>
@@ -245,9 +250,9 @@ const ProfilePage = ({ data }) => {
       )
     } else {
       return (
-        <div className="main-content col-span-3 pt-5 lg:p-5 mt-10 lg:mt-0 relative">
+        <div id="profile" className="main-content col-span-3 pt-5 lg:p-5 mt-10 lg:mt-0 relative">
           <div
-            className="absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
+            className="hidden md:absolute -top-5 left-5 z-10 cursor-pointer hover:underline"
             onClick={back}
           >
             <FontAwesomeIcon icon={faArrowLeft} /> Back to Member Profiles
@@ -364,6 +369,12 @@ const ProfilePage = ({ data }) => {
               </div>
             </div>
           </div>
+          <button
+            onClick={handleToggle}
+            className="font-bold text-xl bg-slate-900 width-full text-white py-3 px-5 mt-5 rounded-full"
+          >
+            {contactText()}
+          </button>
           <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-4 overflow-clip text-center">
             {disciplinesSection()}{descriptorsSection()}
           </div>
@@ -382,12 +393,6 @@ const ProfilePage = ({ data }) => {
               />
               </a>
           </div>
-          <button
-            onClick={handleToggle}
-            className="font-bold text-xl bg-slate-900 width-full text-white py-3 px-5 mt-5 rounded-full"
-          >
-            {contactText()}
-          </button>
         </div>
       </main>
     </Layout>

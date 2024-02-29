@@ -11,6 +11,7 @@ const BlockSlider = ({ data }) => {
         dots={true}
         infinite={true}
         speed={300}
+        fade={true}
         slidesToShow={1}
         slidesToScroll={1}
         arrows={true}

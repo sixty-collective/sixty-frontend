@@ -21,7 +21,7 @@ const PageBlockEmbed = ({ data }) => {
       return <div>DONORBOX</div>
     case "testimonialList":
       return (
-        <div className="">
+        <div className="py-8 lg:py-0">
           {allStrapiTestimonial.edges.map((testimonial, index) => {
             return (
               <div
@@ -41,13 +41,14 @@ const PageBlockEmbed = ({ data }) => {
             id="fs-frm"
             name="simple-contact-form"
             acceptCharset="utf-8"
-            action="https://formspree.io/f/xnqkozgl"
+            action="https://formspree.io/f/xbjnylqj"
             method="post"
             className="pb-10"
           >
             <fieldset id="fs-frm-inputs" className="flex flex-col p-10">
-              <label htmlFor="name" className="mb-2">
-                Name and/or Organization:
+            <h2 className="font-semibold text-lg">Share Your Testimonial</h2>
+              <label htmlFor="name" className="mb-2 mt-5">
+                Name (First and Last)
               </label>
               <input
                 type="text"
@@ -56,14 +57,38 @@ const PageBlockEmbed = ({ data }) => {
                 required=""
                 className="bg-gray-200 rounded-lg p-2"
               />
-              <div className="mt-5">
-                <input type="checkbox" id="anonymous" name="anonymous" />
-                <label for="anonymous" className="ml-5">
-                  Keep me anonymous
-                </label>
-              </div>
-              <label htmlFor="testimonial" className="mt-10 mb-2">
-                Your Testimonial:
+              <label htmlFor="name" className="mb-2 mt-5">
+                Organization or Affiliation
+              </label>
+              <input
+                type="text"
+                name="organization"
+                id="organization"
+                required=""
+                className="bg-gray-200 rounded-lg p-2"
+              />
+              <label htmlFor="name" className="mb-2 mt-5">
+                Email
+              </label>
+              <input
+                type="text"
+                name="email"
+                id="email"
+                required=""
+                className="bg-gray-200 rounded-lg p-2"
+              />
+              <label htmlFor="name" className="mb-2 mt-5">
+                Who did you hire or collaborate with?
+              </label>
+              <input
+                type="text"
+                name="collaborate"
+                id="collaborate"
+                required=""
+                className="bg-gray-200 rounded-lg p-2"
+              />
+              <label htmlFor="testimonial" className="mt-5 mb-2">
+                Tell us about your experience
               </label>
               <textarea
                 rows={5}
@@ -73,7 +98,18 @@ const PageBlockEmbed = ({ data }) => {
                 defaultValue={""}
                 className="bg-gray-200 rounded-lg p-2"
               />
-
+              <div className="mt-5">
+                <input type="checkbox" id="anonymous" name="anonymous" />
+                <label for="anonymous" className="ml-5">
+                  Keep me anonymous
+                </label>
+              </div>
+              <div className="mt-5">
+                <input type="checkbox" id="allow" name="allow" />
+                <label for="allow" className="ml-5">
+                  I allow Sixty to use this testimonial for promotional purposes. Sixty may lightly edit this submission for clarity and length.
+                </label>
+              </div>
               <input
                 type="hidden"
                 name="_subject"
