@@ -8,7 +8,6 @@ import ProfilesGrid from "../components/profiles-grid"
 import Seo from "../components/seo"
 import Headings from "../components/headings"
 import axios from "axios"
-import { CookieNotice } from "gatsby-cookie-notice"
 import withLocation from "../components/with-location"
 
 const IndexPage = ({ queryStrings }) => {
@@ -48,22 +47,6 @@ const IndexPage = ({ queryStrings }) => {
       }
     `)
 
-  const [checkboxStatus, setCheckboxStatus] = useState(Array(5).fill(false))
-
-  function buttonHandler(index) {
-    let status = [...checkboxStatus]
-    status[index] = !status[index]
-    setCheckboxStatus(status)
-
-    if (status.filter(status => status === true).length === 5) {
-      setCookieAllow(true)
-      if (typeof window !== `undefined`) {
-        document.body.style.overflow = 'auto';
-      }
-    } else {
-      setCookieAllow(false)
-    }
-  }
 
   const [input, setInput] = useState("")
   const [page, setPage] = useState(1);
@@ -186,16 +169,6 @@ const IndexPage = ({ queryStrings }) => {
   }
 
   useEffect(() => {
-    if (typeof window !== `undefined`) {
-      if (document.cookie.indexOf('necessary=true') == 0 || cookieAllow === true) {
-        document.body.style.overflow = 'auto';
-      } else {
-        document.body.style.overflow = 'hidden';
-      }
-    }
-  },[cookieAllow])
-
-  useEffect(() => {
     sendSearch(true)
   }, [selectedDisciplines, selectedDescriptors])
 
@@ -238,14 +211,6 @@ const IndexPage = ({ queryStrings }) => {
       </>
     )
   }
-
-  const agreements = [
-    "Assume the best of people and situations (until proven otherwise) by treating everyone you meet through this platform with grace, kindness, and respect.",
-    "Listen to understand each other’s perspectives, boundaries, needs, curiosities, and opinions.",
-    "Strive for clarity and accuracy with the terms, payment, timelines, and other details of gigs and collaborations, including when those terms shift and change.",
-    "Place people over productivity by acknowledging that while we’re all doing incredibly important work, we’re also living during wild and challenging times.",
-    "Keep things confidential between collaborators, unless consent is clearly expressed by everyone involved.",
-  ]
 
   const handleDisciplinesApply = () => {
     const checkedBoxes = document.querySelectorAll(
@@ -963,42 +928,6 @@ const IndexPage = ({ queryStrings }) => {
           profileGrid
         }
       </main>
-      <CookieNotice
-        acceptButtonText="Agree & Enter"
-        declineButton={false}
-        backgroundClasses=""
-        personalizeButtonEnable={false}
-        acceptButtonClasses={
-          "rounded-full px-3 text-sm bg-black text-white p-1 border-black border-2 " +
-          (cookieAllow ? "cookieAllow" : "cookieNotAllow")
-        }
-        backgroundWrapperClasses="absolute w-full h-full top-0 left-0 bg-gray-400/75 z-50"
-        buttonWrapperClasses="pt-5 ml-5 mr-5 pb-10 md:m-auto flex justify-center bg-white w-auto md:w-1/2 border-b-2 border-l-2 border-r-2 rounded-b-3xl border-black m-auto"
-      >
-        <div className="mx-5 md:mx-auto mt-20 w-auto md:w-1/2 bg-white flex flex-col bg-white rounded-t-2xl">
-          <h2 className="text-md md:text-xl font-medium bg-green text-black text-center w-full p-4 border-2 border-black rounded-t-2xl">
-            Community Agreements
-          </h2>
-          <div className="pt-2 pb-0 pl-5 pr-5 md:p-10 border-l-2 border-r-2 border-black">
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <li className="list-none flex">
-                  <input
-                    type="checkbox"
-                    checked={checkboxStatus[index]}
-                    onChange={() => buttonHandler(index)}
-                  />
-                  <span className="text-sm m-2 md:ml-5 md:mt-5 md:mb-5">{agreements[index]}</span>
-                </li>
-              ))}
-            <p className="pt-5">
-              This website uses cookies to keep track of whether the Community
-              Agreements has been accepted.
-            </p>
-          </div>
-        </div>
-      </CookieNotice>
     </Layout>
   )
 }
