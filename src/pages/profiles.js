@@ -580,7 +580,7 @@ const IndexPage = ({ queryStrings }) => {
 
   const disciplinesSection = () => {
     if (openDisciplines) {
-      return <div className="absolute mt-3">{disciplines()}</div>
+      return <div className="absolute mt-3 z-20">{disciplines()}</div>
     } else {
       ;<span></span>
     }
@@ -787,7 +787,7 @@ const IndexPage = ({ queryStrings }) => {
   }
 
   const descriptorsSection = openDescriptors ? (
-    <div className="absolute mt-3">{descriptors()}</div>
+    <div className="absolute mt-3 z-20">{descriptors()}</div>
   ) : (
     <span></span>
   )

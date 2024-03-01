@@ -1,6 +1,6 @@
 
 import { Link } from "gatsby"
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import { StaticImage } from "gatsby-plugin-image"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -11,6 +11,16 @@ import {
 
 const MobileNav = ({ sidebarText }) => {
   const [open, setOpen] = useState(false)
+  useEffect(() => {
+    console.log(open)
+    if (open) {
+      document.body.style.position = 'initial';
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.position = 'relative';
+      document.body.style.overflow = 'auto';
+    }
+  },[open])
   return (
     <header className="flex justify-between items-center w-full lg:hidden text-black lg:w-48 lg:h-full shadow-2xl">
       <Link to="/" className="text-xl font-bold p-4 w-40 z-50">
@@ -19,7 +29,7 @@ const MobileNav = ({ sidebarText }) => {
       <button className="z-50" onClick={() => setOpen(!open)}>
         <FontAwesomeIcon className="p-4 text-3xl" icon={faBars} />
       </button>
-      <nav className={"" + (open ? 'overflow-scroll flex flex-col absolute items-baseline justify-start bg-[#F7F4F0] h-full w-full top-0' : 'hidden')}>
+      <nav className={"" + (open ? 'overflow-scroll flex flex-col absolute items-baseline justify-start bg-[#F7F4F0] h-full w-full top-0 z-40' : 'hidden')}>
         <div className="block p-10"></div>
         <div className="flex grow flex-col items-baseline justify-center w-full text-2xl text-black p-5 border-y-2 border-black">
           <Link
