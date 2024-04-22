@@ -417,8 +417,8 @@ export const pageQuery = graphql`
             }
           }
         }
-        disciplines {
-          nameForWorkSamples
+        work_sample_disciplines {
+          name
         }
         embed
         embedLink

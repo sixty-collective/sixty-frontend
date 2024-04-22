@@ -10,11 +10,11 @@ const BlockWorkSample = ({ data, colorIndex }) => {
   const isVideo = data.images
 
   function disciplinesSection() {
-    if (data.disciplines.length > 0) {
-      return data.disciplines.map(discipline => {
+    if (data.work_sample_disciplines.length > 0) {
+      return data.work_sample_disciplines.map(discipline => {
         return (
           <span className="text-center line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
-            {discipline.nameForWorkSamples}
+            {discipline.name}
           </span>
         )
       })

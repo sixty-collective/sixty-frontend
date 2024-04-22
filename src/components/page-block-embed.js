@@ -18,7 +18,11 @@ const PageBlockEmbed = ({ data }) => {
 
   switch (data.embed) {
     case "donorbox":
-      return <div>DONORBOX</div>
+      return <div><script src="https://donorbox.org/widget.js" paypalExpress="true"></script>
+      <iframe src="https://donorbox.org/embed/support-sixty-s-future-fund?language=en" name="donorbox" allowpaymentrequest="allowpaymentrequest" seamless="seamless" frameborder="0" scrolling="no" height="900px" width="100%">
+
+      </iframe>
+      </div>
     case "testimonialList":
       return (
         <div className="py-8 lg:py-0">

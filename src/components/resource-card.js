@@ -98,9 +98,6 @@ export const query = graphql`
           }
         }
       }
-      categories {
-        nameForWorkSamples
-      }
     }
   }
 `

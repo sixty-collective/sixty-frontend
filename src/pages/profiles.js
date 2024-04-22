@@ -113,7 +113,7 @@ const IndexPage = ({ queryStrings }) => {
       "/api/profiles?pagination[page]=" + 1 + "&populate[0]=disciplines,descriptors,profilePicture"
     } else {
       url =
-        "https://sixty-backend.onrender.com" +
+      "https://sixty-backend.onrender.com" +
         "/api/profiles?pagination[page]=" + page + "&populate[0]=disciplines,descriptors,profilePicture"
     }
     // if (type === "input") {
@@ -289,22 +289,22 @@ const IndexPage = ({ queryStrings }) => {
     let lDisciplines = []
     allStrapiDiscipline.edges.forEach(discipline => {
       switch (discipline.node.discipline_category.slug) {
-        case "performance-music-sound":
+        case "performance":
           pDisciplines.push(discipline.node)
           return
-        case "visual-art-design-film":
+        case "design-multimedia":
           vDisciplines.push(discipline.node)
           return
-        case "3-d-art-and-design-fashion-styling":
+        case "studio-arts":
           rDisciplines.push(discipline.node)
           return
-        case "archiving-research-history":
+        case "archives-research":
           aDisciplines.push(discipline.node)
           return
-        case "arts-administration-leadership-education-therapy":
+        case "arts-professionals":
           lDisciplines.push(discipline.node)
           return
-        case "writing-editing-interviewing":
+        case "writing-publishing":
           wDisciplines.push(discipline.node)
           return
       }
@@ -317,7 +317,7 @@ const IndexPage = ({ queryStrings }) => {
               visible[0] ? "overflow-none" : "overflow-hidden max-h-24"
             }
           >
-            <h2 className="font-bold">Visual Art & Design</h2>
+            <h2 className="font-bold">Design & Multimedia</h2>
             <div className="flex flex-wrap mt-2">
               {vDisciplines.map((discipline, index) => {
                 return (
@@ -349,7 +349,7 @@ const IndexPage = ({ queryStrings }) => {
               visible[1] ? "overflow-none" : "overflow-hidden max-h-24"
             }
           >
-            <h2 className="font-bold">Writing & Editing</h2>
+            <h2 className="font-bold">Writing & Publishing</h2>
             <div className="flex flex-wrap mt-2">
               {wDisciplines.map((discipline, index) => {
                 return (
@@ -385,7 +385,7 @@ const IndexPage = ({ queryStrings }) => {
               visible[2] ? "overflow-none" : "overflow-hidden max-h-24"
             }
           >
-            <h2 className="font-bold">Research & Curation</h2>
+            <h2 className="font-bold">Archives & Research</h2>
             <div className="flex flex-wrap mt-2">
               {aDisciplines.map((discipline, index) => {
                 return (
@@ -425,7 +425,7 @@ const IndexPage = ({ queryStrings }) => {
               visible[3] ? "overflow-none" : "overflow-hidden max-h-24"
             }
           >
-            <h2 className="font-bold">Performance & Sound</h2>
+            <h2 className="font-bold">Performance</h2>
             <div className="flex flex-wrap mt-2">
               {pDisciplines.map((discipline, index) => {
                 return (
@@ -471,7 +471,7 @@ const IndexPage = ({ queryStrings }) => {
               visible[4] ? "overflow-none" : "overflow-hidden max-h-24"
             }
           >
-            <h2 className="font-bold">Arts Administration & Leadership</h2>
+            <h2 className="font-bold">Arts Professionals</h2>
             <div className="flex flex-wrap mt-2">
               {lDisciplines.map((discipline, index) => {
                 return (
@@ -519,7 +519,7 @@ const IndexPage = ({ queryStrings }) => {
               visible[5] ? "overflow-none" : "overflow-hidden max-h-24"
             }
           >
-            <h2 className="font-bold">3D Art & Design, Fashion</h2>
+            <h2 className="font-bold">Studio Arts</h2>
             <div className="flex flex-wrap mt-2">
               {rDisciplines.map((discipline, index) => {
                 return (

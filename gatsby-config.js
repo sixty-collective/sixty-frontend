@@ -43,6 +43,9 @@ module.exports = {
             singularName: "discipline",
           },
           {
+            singularName: "work-sample-discipline",
+          },
+          {
             singularName: "discipline-category",
           },
           {
