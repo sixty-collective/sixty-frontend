@@ -109,11 +109,11 @@ const IndexPage = ({ queryStrings }) => {
     let url;
     if (resetPage) {
       url =
-      "https://sixty-backend.onrender.com" +
+      "https://sixty-backend-m09o.onrender.com" +
       "/api/profiles?pagination[page]=" + 1 + "&populate[0]=disciplines,descriptors,profilePicture"
     } else {
       url =
-      "https://sixty-backend.onrender.com" +
+      "https://sixty-backend-m09o.onrender.com" +
         "/api/profiles?pagination[page]=" + page + "&populate[0]=disciplines,descriptors,profilePicture"
     }
     // if (type === "input") {
