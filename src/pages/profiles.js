@@ -314,78 +314,10 @@ const IndexPage = ({ queryStrings }) => {
         <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
           <div
             className={
-              visible[0] ? "overflow-none" : "overflow-hidden max-h-24"
-            }
-          >
-            <h2 className="font-bold">Design & Multimedia</h2>
-            <div className="flex flex-wrap mt-2">
-              {vDisciplines.map((discipline, index) => {
-                return (
-                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
-                    <Checkbox
-                      obj={discipline}
-                      index={index}
-                      check="disciplines-box"
-                      checked={checkedDisciplinesState[index].status}
-                      onChange={() => handleDisciplinesChange(index, discipline)}
-                    />
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          <button
-            className="text-sm font-bold mt-3"
-            onClick={() =>
-              setVisible([!visible[0], false, false, false, false, false])
-            }
-          >
-            {visible[0] ? "See less" : "See more"}
-          </button>
-        </div>
-        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
-          <div
-            className={
-              visible[1] ? "overflow-none" : "overflow-hidden max-h-24"
-            }
-          >
-            <h2 className="font-bold">Writing & Publishing</h2>
-            <div className="flex flex-wrap mt-2">
-              {wDisciplines.map((discipline, index) => {
-                return (
-                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
-                    <Checkbox
-                      obj={discipline}
-                      index={index}
-                      check="disciplines-box"
-                      checked={
-                        checkedDisciplinesState[vDisciplines.length + index].status
-                      }
-                      onChange={() =>
-                        handleDisciplinesChange(vDisciplines.length + index, discipline)
-                      }
-                    />
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          <button
-            className="text-sm font-bold mt-3"
-            onClick={() =>
-              setVisible([false, !visible[1], false, false, false, false])
-            }
-          >
-            {visible[1] ? "See less" : "See more"}
-          </button>
-        </div>
-        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
-          <div
-            className={
               visible[2] ? "overflow-none" : "overflow-hidden max-h-24"
             }
           >
-            <h2 className="font-bold">Archives & Research</h2>
+            <h2 className="font-bold">Archives + Research</h2>
             <div className="flex flex-wrap mt-2">
               {aDisciplines.map((discipline, index) => {
                 return (
@@ -417,52 +349,6 @@ const IndexPage = ({ queryStrings }) => {
             }
           >
             {visible[2] ? "See less" : "See more"}
-          </button>
-        </div>
-        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
-          <div
-            className={
-              visible[3] ? "overflow-none" : "overflow-hidden max-h-24"
-            }
-          >
-            <h2 className="font-bold">Performance</h2>
-            <div className="flex flex-wrap mt-2">
-              {pDisciplines.map((discipline, index) => {
-                return (
-                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
-                    <Checkbox
-                      obj={discipline}
-                      index={index}
-                      check="disciplines-box"
-                      checked={
-                        checkedDisciplinesState[
-                          vDisciplines.length +
-                            wDisciplines.length +
-                            aDisciplines.length +
-                            index
-                        ].status
-                      }
-                      onChange={() =>
-                        handleDisciplinesChange(
-                          vDisciplines.length +
-                            wDisciplines.length +
-                            aDisciplines.length +
-                            index, discipline
-                        )
-                      }
-                    />
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          <button
-            className="text-sm font-bold mt-3"
-            onClick={() =>
-              setVisible([false, false, false, !visible[3], false, false])
-            }
-          >
-            {visible[3] ? "See less" : "See more"}
           </button>
         </div>
         <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
@@ -513,7 +399,85 @@ const IndexPage = ({ queryStrings }) => {
             {visible[4] ? "See less" : "See more"}
           </button>
         </div>
-        <div className="relative m-5 border-black max-w-md	">
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              visible[0] ? "overflow-none" : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Design + Multimedia</h2>
+            <div className="flex flex-wrap mt-2">
+              {vDisciplines.map((discipline, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
+                    <Checkbox
+                      obj={discipline}
+                      index={index}
+                      check="disciplines-box"
+                      checked={checkedDisciplinesState[index].status}
+                      onChange={() => handleDisciplinesChange(index, discipline)}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setVisible([!visible[0], false, false, false, false, false])
+            }
+          >
+            {visible[0] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md	">
+          <div
+            className={
+              visible[3] ? "overflow-none" : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Performance</h2>
+            <div className="flex flex-wrap mt-2">
+              {pDisciplines.map((discipline, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
+                    <Checkbox
+                      obj={discipline}
+                      index={index}
+                      check="disciplines-box"
+                      checked={
+                        checkedDisciplinesState[
+                          vDisciplines.length +
+                            wDisciplines.length +
+                            aDisciplines.length +
+                            index
+                        ].status
+                      }
+                      onChange={() =>
+                        handleDisciplinesChange(
+                          vDisciplines.length +
+                            wDisciplines.length +
+                            aDisciplines.length +
+                            index, discipline
+                        )
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setVisible([false, false, false, !visible[3], false, false])
+            }
+          >
+            {visible[3] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 pb-5 border-b-2 border-black max-w-md">
           <div
             className={
               visible[5] ? "overflow-none" : "overflow-hidden max-h-24"
@@ -561,6 +525,42 @@ const IndexPage = ({ queryStrings }) => {
             }
           >
             {visible[5] ? "See less" : "See more"}
+          </button>
+        </div>
+        <div className="relative m-5 border-black max-w-md">
+          <div
+            className={
+              visible[1] ? "overflow-none" : "overflow-hidden max-h-24"
+            }
+          >
+            <h2 className="font-bold">Writing + Publishing</h2>
+            <div className="flex flex-wrap mt-2">
+              {wDisciplines.map((discipline, index) => {
+                return (
+                  <div className="w-1/2 text-xs items-center flex my-0.5" key={index}>
+                    <Checkbox
+                      obj={discipline}
+                      index={index}
+                      check="disciplines-box"
+                      checked={
+                        checkedDisciplinesState[vDisciplines.length + index].status
+                      }
+                      onChange={() =>
+                        handleDisciplinesChange(vDisciplines.length + index, discipline)
+                      }
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button
+            className="text-sm font-bold mt-3"
+            onClick={() =>
+              setVisible([false, !visible[1], false, false, false, false])
+            }
+          >
+            {visible[1] ? "See less" : "See more"}
           </button>
         </div>
         <div className="flex border-t-2 border-black p-5 justify-between items-center">
