@@ -12,12 +12,12 @@ body {
 }
 
 .slick-track {
-  display: flex !important;
+  /* display: flex !important; */
   align-items: center;
 }
 
 .home-header-text a {
-  color: #F4E067;
+  color: #F8D869;
 }
 
 .home-header-text a:hover {
@@ -99,7 +99,7 @@ border-radius: 50%;
 }
 
 .bg-yellow{
-  background: #F4E067;
+  background: #F8D869;
 }
 
 .bg-purple {
@@ -139,7 +139,7 @@ border-radius: 50%;
 }
 
 .sixty-color-5 {
-  background: #F4E067;
+  background: #F8D869;
 }
 
 form, .font-fira{

@@ -259,18 +259,18 @@ const ProfilePage = ({ data }) => {
           </div>
           <div className="card bg-white rounded-3xl border-black border-2">
             <div className="px-10 py-10">
-              <p className="font-bold mb-2">What you should know about me</p>
+              <p className="font-bold mb-2">Something you should know about me</p>
               <p className="mb-6">{profile.bio}</p>
               <p className="font-bold mb-2">
-                What you should know about my work and work style
-              </p>
-              <p className="mb-6">{profile.workStyleBio}</p>
-              <p className="font-bold mb-2">
-                Gigs I'm seeking (and not seeking)
+                About my work, unique skills, and the types of environments I thrive in
               </p>
               <p className="mb-6">{profile.gigsSeeking}</p>
-              <p className="font-bold mb-2">Past works</p>
+              <p className="font-bold mb-2">Projects, people, and/or organizations I’ve worked with</p>
               <p>{profile.pastWork}</p>
+              <p className="mb-6">{profile.workStyleBio}</p>
+              <p className="font-bold mb-2">
+                Gigs and opportunities I'm open to
+              </p>
             </div>
           </div>
           <div className="mt-12">

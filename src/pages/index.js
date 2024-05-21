@@ -491,7 +491,7 @@ const IndexPage = ({ queryStrings }) => {
                 key={index}
               >
                 <div className="flex content m-5 border-black border-2 rounded-3xl bg-white p-5 font-fira text-center">
-                  <div className="line-clamp-4">
+                  <div className="">
                   {testimonial.node.body}
                   </div>
                 </div>
