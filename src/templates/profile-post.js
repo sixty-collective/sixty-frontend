@@ -264,13 +264,13 @@ const ProfilePage = ({ data }) => {
               <p className="font-bold mb-2">
                 About my work, unique skills, and the types of environments I thrive in
               </p>
-              <p className="mb-6">{profile.gigsSeeking}</p>
-              <p className="font-bold mb-2">Projects, people, and/or organizations I’ve worked with</p>
-              <p>{profile.pastWork}</p>
               <p className="mb-6">{profile.workStyleBio}</p>
+              <p className="font-bold mb-2">Projects, people, and/or organizations I’ve worked with</p>
+              <p className="mb-6">{profile.pastWork}</p>
               <p className="font-bold mb-2">
                 Gigs and opportunities I'm open to
               </p>
+              <p>{profile.gigsSeeking}</p>
             </div>
           </div>
           <div className="mt-12">
