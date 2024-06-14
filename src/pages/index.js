@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 import { useStaticQuery, graphql, Link } from "gatsby"
 import Layout from "../components/layout"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { GatsbyImage, getImage, StaticImage } from "gatsby-plugin-image"
 import Seo from "../components/seo"
 import Headings from "../components/headings"
 import axios from "axios"
@@ -12,6 +12,8 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { CookieNotice } from "gatsby-cookie-notice"
 import withLocation from "../components/with-location"
+import header from "../images/Sixty-Collective-Homepage.gif"
+
 
 const IndexPage = ({ queryStrings }) => {
   const { q } = queryStrings
@@ -356,11 +358,7 @@ const IndexPage = ({ queryStrings }) => {
         description={strapiGlobal.siteDescription}
       />
       <main className="flex flex-col justify-center items-center width-full">
-      <GatsbyImage
-          image={getImage(strapiGlobal.headerImage?.localFile)}
-          alt={strapiGlobal.headerImage?.alternativeText}
-          className="w-full max-h-96"
-        />
+        <img className="w-full max-h-96" src={header} alt="An animation of a book opening up to have several tools fly out" />
         <div className="w-full">
           <h1 className="text-xl w-full bg-black font-medium text-white text-center p-5 home-header-text poppins">
             <div
