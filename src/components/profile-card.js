@@ -116,7 +116,7 @@ const ProfileCard = ({ profile, index }) => {
   }
 
   function profilePicture() {
-    if (profile?.profilePicture?.localFile) {
+    if (profile?.profilePicture) {
       return (
         <GatsbyImage
           image={getImage(profile?.profilePicture?.localFile)}

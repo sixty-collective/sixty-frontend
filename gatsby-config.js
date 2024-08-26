@@ -23,7 +23,9 @@ module.exports = {
                 descriptors: {
                   populate: "*",
                 },
-                profilePicture: "*",
+                profilePicture: {
+                  populate: "*",
+                },
               },
             },
           },
