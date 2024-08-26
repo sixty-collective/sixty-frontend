@@ -12,7 +12,7 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { CookieNotice } from "gatsby-cookie-notice"
 import withLocation from "../components/with-location"
-import header from "../images/Sixty-Collective-Homepage.gif"
+// import header from "..`/images/Sixty-Collective-Homepage.gif"
 
 
 const IndexPage = ({ queryStrings }) => {
@@ -358,7 +358,7 @@ const IndexPage = ({ queryStrings }) => {
         description={strapiGlobal.siteDescription}
       />
       <main className="flex flex-col justify-center items-center width-full">
-        <img className="w-full max-h-96" src={header} alt="An animation of a book opening up to have several tools fly out" />
+        <img className="w-full max-h-96" alt="An animation of a book opening up to have several tools fly out" />
         <div className="w-full">
           <h1 className="text-xl w-full bg-black font-medium text-white text-center p-5 home-header-text poppins">
             <div

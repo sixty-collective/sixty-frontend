@@ -141,7 +141,6 @@ const IndexPage = ({ queryStrings }) => {
           setPage(() => {
             return 2;
           });
-          console.log(response.data.data, selectedDisciplines)
         } else {
           setResults((prevResults) => {
             return [...prevResults, ...response.data.data]
@@ -289,22 +288,22 @@ const IndexPage = ({ queryStrings }) => {
     let lDisciplines = []
     allStrapiDiscipline.edges.forEach(discipline => {
       switch (discipline.node.discipline_category.slug) {
-        case "performance-music-sound":
+        case "performance":
           pDisciplines.push(discipline.node)
           return
-        case "visual-art-design-film":
+        case "studio-arts":
           vDisciplines.push(discipline.node)
           return
-        case "3-d-art-and-design-fashion-styling":
+        case "design-multimedia":
           rDisciplines.push(discipline.node)
           return
-        case "archiving-research-history":
+        case "archives-research":
           aDisciplines.push(discipline.node)
           return
-        case "arts-administration-leadership-education-therapy":
+        case "arts-professionalism":
           lDisciplines.push(discipline.node)
           return
-        case "writing-editing-interviewing":
+        case "writing-publishing":
           wDisciplines.push(discipline.node)
           return
       }
