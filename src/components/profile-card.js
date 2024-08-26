@@ -116,7 +116,7 @@ const ProfileCard = ({ profile, index }) => {
   }
 
   function profilePicture() {
-    if (profile?.profilePicture) {
+    if (profile?.profilePicture?.localFile) {
       return (
         <GatsbyImage
           image={getImage(profile?.profilePicture?.localFile)}
@@ -124,14 +124,25 @@ const ProfileCard = ({ profile, index }) => {
           className="profile-icon border-2 border-black"
         />
       )
+      
     } else if (profile.profilePicture?.data) {
-      return (
-        <img
-          src={profile?.profilePicture?.data.attributes.url}
-          alt={profile?.profilePicture?.alternativeText}
-          className="profile-icon border-2 border-black"
-        />
-      )
+      if (profile.profilePicture.data.attributes.provider == "aws-s3") {
+        return (
+          <img
+            src={profile?.profilePicture?.data.attributes.url}
+            alt={profile?.profilePicture?.alternativeText}
+            className="profile-icon border-2 border-black"
+          />
+        )
+      } else {
+        return (
+          <img
+            src={"https://sixty-backend-m09o.onrender.com" + profile?.profilePicture?.data.attributes.url}
+            alt={profile?.profilePicture?.alternativeText}
+            className="profile-icon border-2 border-black"
+          />
+        )
+      }
     } else {
       return (
       defaultProfileImage()

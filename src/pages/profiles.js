@@ -110,11 +110,11 @@ const IndexPage = ({ queryStrings }) => {
     if (resetPage) {
       url =
       "https://sixty-backend-m09o.onrender.com" +
-      "/api/profiles?pagination[page]=" + 1 + "&populate[0]=disciplines,descriptors,profilePicture"
+      "/api/profiles?pagination[page]=" + 1 + "&populate[0]=disciplines&populate[1]=descriptors&populate[2]=profilePicture"
     } else {
       url =
       "https://sixty-backend-m09o.onrender.com" +
-        "/api/profiles?pagination[page]=" + page + "&populate[0]=disciplines,descriptors,profilePicture"
+        "/api/profiles?pagination[page]=" + page + "&populate[0]=disciplines&populate[1]=descriptors&populate[2]=profilePicture"
     }
     // if (type === "input") {
     //   url = url.concat("&filters[name][$contains]=" + value)
@@ -137,6 +137,7 @@ const IndexPage = ({ queryStrings }) => {
     try {
       await axios.get(url).then(async response => {
         if (resetPage) {
+          console.log(response.data.data)
           setResults(response.data.data)
           setPage(() => {
             return 2;

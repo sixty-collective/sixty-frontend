@@ -86,10 +86,10 @@ const ResourcePage = ({ queryStrings }) => {
     let url;
     if (resetPage) {
       url =
-      "https://sixty-backend-m09o.onrender.com" + "/api/resources?pagination[page]="+ 1 + "&populate[0]=categories,resource_tags"
+      "https://sixty-backend-m09o.onrender.com" + "/api/resources?pagination[page]="+ 1 + "&populate[0]=categories&populate[1]=resource_tags"
     } else {
       url =
-      "https://sixty-backend-m09o.onrender.com" + "/api/resources?pagination[page]="+ page + "&populate[0]=categories,resource_tags"
+      "https://sixty-backend-m09o.onrender.com" + "/api/resources?pagination[page]="+ page + "&populate[0]=categories&populate[1]=resource_tags"
     }
     
     if (selectedCategories.length > 0) {
