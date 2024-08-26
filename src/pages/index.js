@@ -12,7 +12,7 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { CookieNotice } from "gatsby-cookie-notice"
 import withLocation from "../components/with-location"
-import header from "..`/images/Sixty-Collective-Homepage.gif"
+import header from "../images/Sixty-Collective-Homepage.gif"
 
 
 const IndexPage = ({ queryStrings }) => {
