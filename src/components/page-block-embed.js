@@ -138,7 +138,7 @@ const PageBlockEmbed = ({ data }) => {
             id="fs-frm"
             name="simple-contact-form"
             acceptCharset="utf-8"
-            action="https://formspree.io/f/mvojqybl"
+            action="https://formspree.io/f/xrbzvdew"
             method="post"
             className="pb-10"
           >

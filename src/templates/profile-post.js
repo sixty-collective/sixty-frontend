@@ -100,7 +100,7 @@ const ProfilePage = ({ data }) => {
               id="fs-frm"
               name="simple-contact-form"
               acceptCharset="utf-8"
-              action="https://formspree.io/f/xknlrzln"
+              action="https://formspree.io/f/mblrebdn"
               method="post"
               className="pb-10"
             >
