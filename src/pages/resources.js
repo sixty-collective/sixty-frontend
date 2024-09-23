@@ -18,6 +18,7 @@ const ResourcePage = ({ queryStrings }) => {
       strapiGlobal {
         siteName
         siteDescription
+        sidebarText
       }
       allStrapiCategory {
         edges {
@@ -390,7 +391,7 @@ const ResourcePage = ({ queryStrings }) => {
   )
 
   return (
-    <Layout>
+    <Layout sidebarText={strapiGlobal.sidebarText}>
       <Seo seo={{ metaTitle: "Home" }} />
       <Headings
         title={strapiGlobal.siteName}

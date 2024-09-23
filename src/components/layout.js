@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react"
+import { useStaticQuery, graphql } from "gatsby"
 import Footer from "./footer"
 import Navbar from "./navbar"
 import MobileNav from "./mobilenav"
@@ -12,8 +13,16 @@ const agreements = [
   "Keep things confidential between collaborators, unless consent is clearly expressed by everyone involved.",
 ]
 
-const Layout = ({ sidebarText, children }) => {
+const Layout = ({ children }) => {
   const [checkboxStatus, setCheckboxStatus] = useState(Array(5).fill(false))
+
+  const { strapiGlobal } = useStaticQuery(graphql`
+    query {
+      strapiGlobal {
+        sidebarText
+      }
+    }
+  `)
 
   function buttonHandler(index) {
     let status = [...checkboxStatus]
@@ -45,7 +54,7 @@ const Layout = ({ sidebarText, children }) => {
 
   return (
     <div className="flex-col-reverse md:flex-col flex min-h-screen justify-end md:justify-start text-neutral-900">
-      <Navbar sidebarText={sidebarText} />
+      <Navbar sidebarText={strapiGlobal.sidebarText} />
       <div className="ml-0 md:ml-52">
         {children}
         <Footer />

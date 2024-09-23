@@ -43,6 +43,7 @@ const IndexPage = ({ queryStrings }) => {
         strapiGlobal {
           siteName
           siteDescription
+          sidebarText
         }
       }
     `)
@@ -405,7 +406,7 @@ const IndexPage = ({ queryStrings }) => {
               visible[0] ? "overflow-none" : "overflow-hidden max-h-24"
             }
           >
-            <h2 className="font-bold">Design + Multimedia</h2>
+            <h2 className="font-bold">Studio Arts</h2>
             <div className="flex flex-wrap mt-2">
               {vDisciplines.map((discipline, index) => {
                 return (
@@ -483,7 +484,7 @@ const IndexPage = ({ queryStrings }) => {
               visible[5] ? "overflow-none" : "overflow-hidden max-h-24"
             }
           >
-            <h2 className="font-bold">Studio Arts</h2>
+            <h2 className="font-bold">Design + Multimedia</h2>
             <div className="flex flex-wrap mt-2">
               {rDisciplines.map((discipline, index) => {
                 return (

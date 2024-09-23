@@ -1,19 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLink } from "@fortawesome/free-solid-svg-icons"
+import axios from "axios"
 
 const BlockWorkSample = ({ data, colorIndex }) => {
   const isVideo = data.images
+  const [soundcloudEmbed, setSoundcloudEmbed] = useState("")
 
   function disciplinesSection() {
     if (data.work_sample_disciplines.length > 0) {
       return data.work_sample_disciplines.map(discipline => {
         return (
-          <span className="text-center line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
+          <span className="text-center text-xs mr-2 mb-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
             {discipline.name}
           </span>
         )
@@ -43,6 +45,33 @@ const BlockWorkSample = ({ data, colorIndex }) => {
         onClick={onClick}
       />
     )
+  }
+
+  function fetchSoundcloud(url) {
+    var settings = {
+      "url": url,
+      "headers": {"Access-Control-Allow-Origin": "*"},
+      "format": "json"
+    }
+    
+    axios.post("http://soundcloud.com/oembed", settings).then(function (response) {
+      if (response) {
+        setSoundcloudEmbed(response.data["html"])
+      }
+    });
+  }
+
+  function dataLink() {
+    if (data.link) {
+      return (
+      <a target="_blank" className="flex justify-left" href={data.link}>
+        <button className={`rounded-full sixty-color-${colorIndex} hover:opacity-70 px-2 py-1 flex items-center line-clamp-1`}>
+          <FontAwesomeIcon icon={faLink} />{" "}
+          <span className="ml-2 line-clamp-1 underline">{data.link}</span>
+        </button>
+      </a>
+      )
+    }
   }
 
   function mediaSection() {
@@ -82,6 +111,20 @@ const BlockWorkSample = ({ data, colorIndex }) => {
           ></iframe>
         </div>
       )
+    } else if (!!data.embed && data.embedLink?.includes("soundcloud")) {
+      console.log("===================",data.embed)
+      fetchSoundcloud(data.embedLink)
+      
+      return (
+          <div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html:
+                  soundcloudEmbed,
+              }}
+            />
+          </div>
+      )
     } else if (data.images) {
       return (
         <Slider
@@ -113,19 +156,14 @@ const BlockWorkSample = ({ data, colorIndex }) => {
 
   return (
     <div className="card bg-white rounded-3xl border-black border-2">
-      <div className="card-header border-b-2 border-black p-5 flex justify-center items-center">
+      <div className="card-header border-b-2 border-black pt-5 pb-3 flex justify-center items-center flex-wrap	">
         {disciplinesSection()}
       </div>
       {mediaSection()}
       <div className="p-10">
         <p className="font-medium poppins pb-4 text-2xl">{data.name}</p>
         <p className="pb-4">{data.description}</p>
-        <a target="_blank" className="flex justify-left" href={data.link}>
-          <button className={`rounded-full sixty-color-${colorIndex} hover:opacity-70 px-2 py-1 flex items-center line-clamp-1`}>
-            <FontAwesomeIcon icon={faLink} />{" "}
-            <span className="ml-2 line-clamp-1 underline">{data.link}</span>
-          </button>
-        </a>
+        {dataLink()}
       </div>
     </div>
   )

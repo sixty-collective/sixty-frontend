@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { graphql, navigate } from "gatsby"
+import { useStaticQuery, graphql, navigate } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import BlockWorkSample from "../components/block-work-sample"
@@ -29,7 +29,7 @@ const ProfilePage = ({ data }) => {
     navigate('/profiles')
   }
   const profile = data.strapiProfile
-  const colorIndex = Math.floor(Math.random() * 6)
+  const colorIndex = Math.floor(Math.random() * 7)
 
   const availability = profile.availableForWork
     ? "Available for hire"
@@ -51,6 +51,20 @@ const ProfilePage = ({ data }) => {
       return "PROFILE"
     } else {
       return "CONTACT"
+    }
+  }
+
+  function twitterIcon() {
+    if (profile.twitterHandle) {
+      return (
+        <a
+          target="_blank"
+          className="hover:opacity-50 px-2	"
+          href={"https://x.com/" + profile.twitterHandle}
+        >
+        <StaticImage alt="" className="w-6 h-6" src="../images/x-twitter-black.svg" />
+        </a>
+      )
     }
   }
 
@@ -379,10 +393,11 @@ const ProfilePage = ({ data }) => {
             {disciplinesSection()}{descriptorsSection()}
           </div>
           <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip break-words justify-center	hyphens-auto items-center	flex line-clamp-1">
-              <a className="hover:opacity-50 px-2 text-2xl" href={profile.website}>
+              <a target="_blank" className="hover:opacity-50 px-2 text-2xl" href={profile.website}>
                 <FontAwesomeIcon icon={faGlobe} />
               </a>
               <a
+                target="_blank"
                 className="hover:opacity-50 px-2	"
                 href={"https://instagram.com/" + profile.instagramHandle}
               >
@@ -392,6 +407,7 @@ const ProfilePage = ({ data }) => {
                 src="../images/instagram-black.svg"
               />
               </a>
+              {twitterIcon()}
           </div>
         </div>
       </main>
@@ -428,6 +444,7 @@ export const pageQuery = graphql`
       pastWork
       name
       instagramHandle
+      twitterHandle
       gigsSeeking
       email
       bio

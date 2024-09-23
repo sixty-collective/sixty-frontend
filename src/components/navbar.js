@@ -57,9 +57,9 @@ const Navbar = ({ sidebarText }) => {
           <p className="text-sm">
           Paid opportunities, grants, residencies, and more sent to your inbox.
           </p>
-          <a href="/sign-up">
+          <a href="https://sixtyinchesfromcenter.us2.list-manage.com/subscribe?u=d2aa2358e3e7d016e0c842845&id=87d8eba843">
           <button className="rounded-full text-black text-sm px-2 py-1 mt-5 border-2 border-black w-full hover:bg-black hover:text-[#F7F4F0]">
-            Sign Me Up
+            Subscribe
           </button>
 
           </a>
@@ -100,16 +100,16 @@ const Navbar = ({ sidebarText }) => {
         </div>
           <div className="pt-5 pb-3 flex justify-center items-center w-full border-b-2 border-black">
           <div>
-            <Link to="/" className="text-xl font-bold">
+            <Link to="https://www.instagram.com/sixtyinchesfromcenter/" className="text-xl font-bold">
               <StaticImage alt="" className="w-6 h-6" src="../images/instagram-black.svg" />
             </Link>
-            <Link to="/" className="text-xl font-bold  ml-3">
+            <Link to="http://www.x.com/fromthecenter" className="text-xl font-bold  ml-3">
               <StaticImage alt="" className="w-6 h-6" src="../images/x-twitter-black.svg" />
             </Link>
           </div>
         </div>
         <div className="p-4 flex justify-center items-center w-full border-b-2 border-black">
-        Sixty Collective is a network of artists, writers, and arts workers based in the Midwest.
+          {sidebarText}
         </div>
       </nav>
     </header>

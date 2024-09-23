@@ -10,7 +10,7 @@ const ProfileCard = ({ profile, index }) => {
     profile = profile.attributes
   }
 
-  const colorIndex = index % 6
+  const colorIndex = index % 7
   function defaultProfileImage() {
     switch (colorIndex) {
       case 0:

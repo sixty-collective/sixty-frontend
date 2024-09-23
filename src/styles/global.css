@@ -142,6 +142,10 @@ border-radius: 50%;
   background: #F8D869;
 }
 
+.sixty-color-6 {
+  background: #f37e80;
+}
+
 form, .font-fira{
   font-family: 'Fira Code', monospace;
 }
