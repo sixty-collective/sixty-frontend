@@ -54,7 +54,7 @@ const BlockWorkSample = ({ data, colorIndex }) => {
       "format": "json"
     }
     
-    axios.post("http://soundcloud.com/oembed", settings).then(function (response) {
+    axios.post("https://soundcloud.com/oembed", settings).then(function (response) {
       if (response) {
         setSoundcloudEmbed(response.data["html"])
       }
