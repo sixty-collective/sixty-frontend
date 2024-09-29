@@ -9,6 +9,7 @@ import { StaticImage } from "gatsby-plugin-image"
 import scrollTo from 'gatsby-plugin-smoothscroll';
 
 import {
+  faDesktop,
   faGlobe,
   faLocationDot,
   faArrowLeft,
@@ -63,6 +64,16 @@ const ProfilePage = ({ data }) => {
           href={"https://x.com/" + profile.twitterHandle}
         >
         <StaticImage alt="" className="w-6 h-6" src="../images/x-twitter-black.svg" />
+        </a>
+      )
+    }
+  }
+
+  function secondaryWebsite() {
+    if (profile.secondaryWebsite) {
+      return (
+        <a target="_blank" className="hover:opacity-50 px-2 text-2xl" href={profile.secondaryWebsite}>
+          <FontAwesomeIcon icon={faDesktop} />
         </a>
       )
     }
@@ -385,7 +396,8 @@ const ProfilePage = ({ data }) => {
           </div>
           <button
             onClick={handleToggle}
-            className="font-bold text-xl bg-slate-900 width-full text-white py-3 px-5 mt-5 rounded-full"
+            disabled={!profile.availableForWork}
+            className="disabled:opacity-25 font-bold text-xl bg-slate-900 width-full text-white py-3 px-5 mt-5 rounded-full"
           >
             {contactText()}
           </button>
@@ -396,6 +408,7 @@ const ProfilePage = ({ data }) => {
               <a target="_blank" className="hover:opacity-50 px-2 text-2xl" href={profile.website}>
                 <FontAwesomeIcon icon={faGlobe} />
               </a>
+              {secondaryWebsite()}
               <a
                 target="_blank"
                 className="hover:opacity-50 px-2	"
@@ -441,6 +454,7 @@ export const pageQuery = graphql`
       }
       pronouns
       website
+      secondaryWebsite
       pastWork
       name
       instagramHandle

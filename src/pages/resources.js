@@ -397,13 +397,13 @@ const ResourcePage = ({ queryStrings }) => {
         title={strapiGlobal.siteName}
         description={strapiGlobal.siteDescription}
       />
-      <main className="flex flex-col justify-center items-center width-full">
-      <div className="flex flex-col w-full border-black border-b-2 bg-[#F8E3D3]">
-        <h2 className="text-5xl min-[400px]:text-6xl min-[400px]:leading-extra-tight lg:text-8xl leading-extra-tight md:text-7xl text-center uppercase font-bold w-full md:px-8 pt-10 mb-10 knowledge-gradient">
+      <main className="flex flex-col justify-center items-center w-full">
+      <div className="flex flex-col w-full border-black border-b-2 items-center bg-[#F8E3D3]">
+        <h2 className="text-5xl min-[400px]:text-6xl sm:text-7xl min-[400px]:leading-extra-tight leading-extra-tight md:text-8xl text-center uppercase font-bold w-full mb-10 px-8 pt-10 knowledge-gradient">
             Knowledge Share
           </h2>
-          <div className="flex w-full flex-col items-center justify-center">
-            <div className="md:px-20 w-full">
+          <div className="flex w-full flex-col items-center justify-center max-w-screen-xl margin-auto">
+            <div className="lg:px-20 w-full">
             <div className="flex flex-col border-black px-8 lg:px-32 py-8 mx-10 rounded-t-extra rounded-t-3xl knowledge-gradient top-curve-border">
             <div className="flex flex-col md:flex-row justify-center w-full">
               <div className="mr-0 md:mr-5 font-bold poppins  md:w-1/2 md:block">

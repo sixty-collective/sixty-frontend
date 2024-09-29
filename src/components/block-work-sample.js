@@ -51,10 +51,10 @@ const BlockWorkSample = ({ data, colorIndex }) => {
     var settings = {
       "url": url,
       "headers": {"Access-Control-Allow-Origin": "*"},
-      "format": "json"
+      "format": "json",
     }
     
-    axios.post("https://soundcloud.com/oembed", settings).then(function (response) {
+    axios.get("https://soundcloud.com/oembed", settings).then(function (response) {
       if (response) {
         setSoundcloudEmbed(response.data["html"])
       }
