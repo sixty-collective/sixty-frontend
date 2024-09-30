@@ -459,10 +459,10 @@ const IndexPage = ({ queryStrings }) => {
           </div>
         </div>
         <div className="flex flex-col width-full justify-center items-center container p-10">
-          <h3 className="text-3xl font-bold text-center poppins">Paid opportunities, grants, residencies,<br/> and more sent to your inbox.</h3>
-          <a href="/sign-up">
+          <h3 className="text-3xl font-bold text-center poppins">Sign up for Sixty's newsletter for the latest publishings, events, and gig & job opportunities.</h3>
+          <a href="https://sixtyinchesfromcenter.us2.list-manage.com/subscribe?u=d2aa2358e3e7d016e0c842845&id=87d8eba843">
           <button className="hover:bg-black hover:text-[#F7F4F0] rounded-full text-black text-sm px-2 py-1 mt-5 border-2 border-black w-48">
-            Sign Me Up
+            Subscribe
           </button>
           </a>
         </div>
