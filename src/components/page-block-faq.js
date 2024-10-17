@@ -12,7 +12,7 @@ const PageBlockFaq = ({ data }) => {
     setClicked(index)
   }
 
-  return  <div className="md:columns-2">
+  return  <div className="md:columns-1">
 
     {data.qa.map((question, index) => {
       return (
