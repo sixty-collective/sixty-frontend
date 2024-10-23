@@ -97,6 +97,14 @@ module.exports = {
         ],
       },
     },
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: [
+          "G-S4V4LPNSY0", // Google Analytics / GA
+        ],
+      },
+    },
     "gatsby-plugin-gatsby-cloud",
     "gatsby-plugin-postcss",
     {
