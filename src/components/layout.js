@@ -40,16 +40,17 @@ const Layout = ({ children }) => {
   }
   const [cookieAllow, setCookieAllow] = React.useState(false)
   useEffect(() => {
-    document.body.style.position = 'relative';
-    document.body.style.overflow = 'hidden';
-    if (typeof window !== `undefined`) {
-      if (document.cookie.indexOf('necessary=true') == 0 || cookieAllow === true) {
-        document.body.style.overflow = 'auto';
-      } else {
-        document.body.style.position = 'relative';
-        document.body.style.overflow = 'hidden';
-      }
-    }
+    // document.body.style.position = 'relative';
+    // document.body.style.overflow = 'hidden';
+    // if (typeof window !== `undefined`) {
+    //   if (document.cookie.indexOf('necessary=true') == 0 || cookieAllow === true) {
+    //     document.body.style.overflow = 'auto';
+    //     document.body.style.position = 'relative';
+    //   } else {
+    //     document.body.style.position = 'relative';
+    //     document.body.style.overflow = 'hidden';
+    //   }
+    // }
   },[])
 
   return (
