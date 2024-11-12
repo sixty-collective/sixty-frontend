@@ -7434,9 +7434,9 @@ gatsby-plugin-gatsby-cloud@^5.8.0:
     lodash "^4.17.21"
     webpack-assets-manifest "^5.1.0"
 
-"gatsby-plugin-gdpr-cookies@github:andrezimpel/gatsby-plugin-gdpr-cookies":
+"gatsby-plugin-gdpr-cookies@github:thatnewwen/gatsby-plugin-gdpr-cookies":
   version "2.0.9"
-  resolved "git+ssh://git@github.com/andrezimpel/gatsby-plugin-gdpr-cookies.git#2163e2cc553c18c64260429136c9d404c5dd53d2"
+  resolved "git+ssh://git@github.com/thatnewwen/gatsby-plugin-gdpr-cookies.git#2163e2cc553c18c64260429136c9d404c5dd53d2"
   dependencies:
     "@babel/runtime" "^7.11.2"
 
