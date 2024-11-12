@@ -110,7 +110,7 @@ const IndexPage = ({ queryStrings }) => {
 
   const sendSearch = (value, type) => {
     let url =
-      process.env.STRAPI_API_URL +
+      "https://sixty-backend-new.onrender.com" +
       "/api/profiles"
     if (type === "input") {
       url = url.concat("&filters[name][$contains]=" + value)
@@ -179,7 +179,7 @@ const IndexPage = ({ queryStrings }) => {
   if (results.length === 0) {
     axios
       .get(
-        process.env.STRAPI_API_URL +
+        "https://sixty-backend-new.onrender.com" +
           "/api/profiles"
       )
       .then(response => {

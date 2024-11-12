@@ -111,11 +111,11 @@ const IndexPage = ({ queryStrings }) => {
     let url;
     if (resetPage) {
       url =
-      process.env.STRAPI_API_URL +
+      "https://sixty-backend-new.onrender.com" +
       "/api/profiles?pagination[pageSize]=25&pagination[page]=" + 1 + "&populate[0]=disciplines&populate[1]=descriptors&populate[2]=profilePicture"
     } else {
       url =
-      process.env.STRAPI_API_URL +
+      "https://sixty-backend-new.onrender.com" +
         "/api/profiles?pagination[pageSize]=25&pagination[page]=" + page + "&populate[0]=disciplines&populate[1]=descriptors&populate[2]=profilePicture"
     }
     
