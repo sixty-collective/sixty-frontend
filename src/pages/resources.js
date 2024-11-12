@@ -87,10 +87,10 @@ const ResourcePage = ({ queryStrings }) => {
     let url;
     if (resetPage) {
       url =
-      "https://sixty-backend-m09o.onrender.com" + "/api/resources?pagination[page]="+ 1 + "&populate[0]=categories&populate[1]=resource_tags"
+      process.env.STRAPI_API_URL + "/api/resources?pagination[pageSize]=25&pagination[page]="+ 1 + "&populate[0]=categories&populate[1]=resource_tags"
     } else {
       url =
-      "https://sixty-backend-m09o.onrender.com" + "/api/resources?pagination[page]="+ page + "&populate[0]=categories&populate[1]=resource_tags"
+      process.env.STRAPI_API_URL + "/api/resources?pagination[pageSize]=25&pagination[page]="+ page + "&populate[0]=categories&populate[1]=resource_tags"
     }
     
     if (selectedCategories.length > 0) {
@@ -210,10 +210,10 @@ const ResourcePage = ({ queryStrings }) => {
 
   const handleClearSpecificCategory = (clearCategory) => {
     setSelectedCategories(selectedCategories.filter(function(category) { 
-        return category != clearCategory 
+        return category !== clearCategory 
     }));
     let newArray = checkedCategoriesState.map(function(category) { 
-      if (category.category.slug != clearCategory.slug) {
+      if (category.category.slug !== clearCategory.slug) {
         return category
       } else {
         return {status: false, category: category.category}
@@ -224,10 +224,10 @@ const ResourcePage = ({ queryStrings }) => {
 
   const handleClearSpecificTag = (clearTag) => {
     setSelectedTags(selectedTags.filter(function(tag) { 
-        return tag != clearTag 
+        return tag !== clearTag 
     }));
     let newArray = checkedTagsState.map(function(tag) { 
-      if (tag.tag.slug != clearTag.slug) {
+      if (tag.tag.slug !== clearTag.slug) {
         return tag
       } else {
         return {status: false, tag: tag.tag}
@@ -365,18 +365,6 @@ const ResourcePage = ({ queryStrings }) => {
     ) : (
       <div></div>
     )
-
-  const downArrow = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5" fill="none">
-      <path d="M5.26759 4.99831C5.09179 4.99864 4.92143 4.94054 4.78606 4.83411L0.271798 1.26453C0.11815 1.14335 0.0215264 0.969215 0.00318368 0.780437C-0.0151591 0.591658 0.0462815 0.403697 0.173989 0.257904C0.301697 0.11211 0.48521 0.020426 0.684159 0.00302095C0.883107 -0.0143841 1.08119 0.0439153 1.23484 0.165095L5.26759 3.36344L9.30033 0.279322C9.37729 0.22002 9.46584 0.175734 9.5609 0.149011C9.65595 0.122288 9.75564 0.113654 9.85422 0.123605C9.9528 0.133557 10.0483 0.161897 10.1353 0.206998C10.2223 0.252099 10.2991 0.313071 10.3612 0.386409C10.4301 0.459815 10.4823 0.545932 10.5145 0.639365C10.5467 0.732798 10.5582 0.831533 10.5483 0.929385C10.5384 1.02724 10.5073 1.1221 10.457 1.20802C10.4067 1.29395 10.3382 1.36908 10.2559 1.42873L5.74158 4.87695C5.60233 4.96655 5.43544 5.00928 5.26759 4.99831Z" fill="#1B1B1B"/>
-    </svg>
-  );
-
-  const upArrow = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5" fill="none">
-      <path d="M5.00784 0.00168852C5.17445 0.00136286 5.3359 0.0594578 5.46419 0.165889L9.74241 3.73547C9.88803 3.85665 9.9796 4.03079 9.99698 4.21956C10.0144 4.40834 9.95614 4.5963 9.83511 4.7421C9.71408 4.88789 9.54016 4.97957 9.35161 4.99698C9.16307 5.01438 8.97534 4.95608 8.82973 4.83491L5.00784 1.63656L1.18596 4.72068C1.11303 4.77998 1.0291 4.82427 0.939019 4.85099C0.848934 4.87771 0.754464 4.88635 0.661036 4.87639C0.567607 4.86644 0.477064 4.8381 0.39461 4.793C0.312157 4.7479 0.239419 4.68693 0.180577 4.61359C0.115277 4.54018 0.0658217 4.45407 0.0353089 4.36063C0.00479609 4.2672 -0.00611584 4.16847 0.00325593 4.07061C0.0126277 3.97276 0.04208 3.8779 0.0897704 3.79198C0.137461 3.70605 0.202361 3.63092 0.280403 3.57127L4.55863 0.123055C4.6906 0.0334463 4.84876 -0.00928495 5.00784 0.00168852Z" fill="white"/>
-    </svg>
-  );
 
   const resourceGrid = (results.length > 0) ? (
     <ResourceGrid resources={results} />

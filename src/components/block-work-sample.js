@@ -8,7 +8,6 @@ import { faLink } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
 
 const BlockWorkSample = ({ data, colorIndex }) => {
-  const isVideo = data.images
   const [soundcloudEmbed, setSoundcloudEmbed] = useState("")
 
   function disciplinesSection() {
@@ -64,7 +63,7 @@ const BlockWorkSample = ({ data, colorIndex }) => {
   function dataLink() {
     if (data.link) {
       return (
-      <a target="_blank" className="flex justify-left" href={data.link}>
+      <a target="_blank" rel="noreferrer" className="flex justify-left" href={data.link}>
         <button className={`rounded-full sixty-color-${colorIndex} hover:opacity-70 px-2 py-1 flex items-center line-clamp-1`}>
           <FontAwesomeIcon icon={faLink} />{" "}
           <span className="ml-2 line-clamp-1 underline">{data.link}</span>
@@ -97,7 +96,7 @@ const BlockWorkSample = ({ data, colorIndex }) => {
           <script src="https://player.vimeo.com/api/player.js"></script>
         </div>
       )
-    } else if (!!data.embed && data.embedLink?.includes("youtube") || data.embedLink?.includes("youtu.be")) {
+    } else if (!!data.embed && (data.embedLink?.includes("youtube") || data.embedLink?.includes("youtu.be"))) {
       const youTubeLink = data.embedLink?.match(/[^/=]+$/g)
       return (
         <div>

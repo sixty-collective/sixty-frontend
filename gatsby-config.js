@@ -2,108 +2,88 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+const strapiConfig = {
+  version: 5,
+  apiURL: process.env.STRAPI_API_URL,
+  accessToken: process.env.STRAPI_TOKEN,
+  collectionTypes: [
+    {
+      singularName: "profile",
+      queryParams: {
+        populate: {
+          workSamples: {
+            populate: "*",
+          },
+          disciplines: {
+            populate: "*",
+          },
+          descriptors: {
+            populate: "*",
+          },
+          profilePicture: {
+            populate: "*",
+          },
+        },
+      },
+    },
+    {
+      singularName: "author",
+    },
+    {
+      singularName: "category",
+    },
+    {
+      singularName: "resource-tag",
+    },
+    {
+      singularName: "testimonial",
+    },
+    {
+      singularName: "discipline",
+    },
+    {
+      singularName: "work-sample-discipline",
+    },
+    {
+      singularName: "discipline-category",
+    },
+    {
+      singularName: "descriptor",
+    },
+    {
+      singularName: "descriptor-category",
+    },
+    {
+      singularName: "resource",
+    },
+    {
+      singularName: "page"
+    },
+  ],
+  singleTypes: [
+    {
+      singularName: "global",
+        populate: {
+          favicon: {
+            fields: ["*"]
+          },
+          headerImage: {
+            fields: ["*"]
+          },
+          defaultSeo: {
+            fields: ["*"]
+          },
+        }
+      
+    },
+  ],
+}
+
 module.exports = {
   plugins: [
     {
       resolve: "gatsby-source-strapi",
-      options: {
-        apiURL: process.env.STRAPI_API_URL,
-        accessToken: process.env.STRAPI_TOKEN,
-        collectionTypes: [
-          {
-            singularName: "profile",
-            queryParams: {
-              populate: {
-                workSamples: {
-                  populate: "*",
-                },
-                disciplines: {
-                  populate: "*",
-                },
-                descriptors: {
-                  populate: "*",
-                },
-                profilePicture: {
-                  populate: "*",
-                },
-              },
-            },
-          },
-          {
-            singularName: "author",
-          },
-          {
-            singularName: "category",
-          },
-          {
-            singularName: "resource-tag",
-          },
-          {
-            singularName: "testimonial",
-          },
-          {
-            singularName: "discipline",
-          },
-          {
-            singularName: "work-sample-discipline",
-          },
-          {
-            singularName: "discipline-category",
-          },
-          {
-            singularName: "descriptor",
-          },
-          {
-            singularName: "descriptor-category",
-          },
-          {
-            singularName: "resource",
-          },
-          {
-            singularName: "page",
-            queryParams: {
-              populate: {
-                coverImage: "*",
-                image: "*",
-                blocks: {
-                  populate: {
-                    image: "*",
-                    qa: "*",
-                  },
-                },
-                sideBlocks: {
-                  populate: {
-                    image: "*",
-                    qa: "*",
-                  },
-                },
-              },
-            },
-          },
-        ],
-        singleTypes: [
-          {
-            singularName: "global",
-            queryParams: {
-              populate: {
-                favicon: "*",
-                headerImage: "*",
-                defaultSeo: {
-                  populate: "*",
-                },
-              },
-            },
-          },
-        ],
-      },
-    },
-    {
-      resolve: `gatsby-plugin-google-gtag`,
-      options: {
-        trackingIds: [
-          "G-S4V4LPNSY0", // Google Analytics / GA
-        ],
-      },
+      options: strapiConfig,
     },
     "gatsby-plugin-gatsby-cloud",
     "gatsby-plugin-postcss",

@@ -100,12 +100,20 @@ const Navbar = ({ sidebarText }) => {
         </div>
           <div className="pt-5 pb-3 flex justify-center items-center w-full border-b-2 border-black">
           <div>
-            <Link to="https://www.instagram.com/sixtyinchesfromcenter/" className="text-xl font-bold">
+          <a
+              target="_blank" rel="noreferrer"
+              className="text-xl font-bold"
+              href="https://www.instagram.com/sixtyinchesfromcenter/"
+            >
               <StaticImage alt="" className="w-6 h-6" src="../images/instagram-black.svg" />
-            </Link>
-            <Link to="http://www.x.com/fromthecenter" className="text-xl font-bold  ml-3">
+              </a>
+            <a
+              target="_blank" rel="noreferrer"
+              className="text-xl font-bold  ml-3"
+              href="http://www.x.com/fromthecenter"
+            >
               <StaticImage alt="" className="w-6 h-6" src="../images/x-twitter-black.svg" />
-            </Link>
+              </a>
           </div>
         </div>
         <div className="p-4 flex justify-center items-center w-full border-b-2 border-black">

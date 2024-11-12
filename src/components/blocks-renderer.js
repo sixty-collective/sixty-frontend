@@ -7,9 +7,9 @@ import PageBlockFaq from "./page-block-faq"
 
 const componentsMap = {
   STRAPI__COMPONENT_PAGE_EMBED: PageBlockEmbed,
-  STRAPI__COMPONENT_PAGE_IMAGE: PageBlockImage,
+  // STRAPI__COMPONENT_PAGE_IMAGE: PageBlockImage,
   STRAPI__COMPONENT_PAGE_TEXT: PageBlockText,
-  STRAPI__COMPONENT_PAGE_FAQ: PageBlockFaq,
+  // STRAPI__COMPONENT_PAGE_FAQ: PageBlockFaq,
 }
 
 const Block = ({ block }) => {
@@ -46,27 +46,27 @@ export const query = graphql`
         }
       }
     }
-    ... on STRAPI__COMPONENT_PAGE_IMAGE {
-      image {
-        mime
-        localFile {
-          childImageSharp {
-            gatsbyImageData
-          }
-        }
-      }
-      __typename
-    }
+    # ... on STRAPI__COMPONENT_PAGE_IMAGE {
+    #   image {
+    #     mime
+    #     localFile {
+    #       childImageSharp {
+    #         gatsbyImageData
+    #       }
+    #     }
+    #   }
+    #   __typename
+    # }
     ... on STRAPI__COMPONENT_PAGE_EMBED {
       embed
     }
-    ... on STRAPI__COMPONENT_PAGE_FAQ {
-      __typename
-      qa {
-        question
-        answer
-      }
-    }
+    # ... on STRAPI__COMPONENT_PAGE_FAQ {
+    #   __typename
+    #   qa {
+    #     question
+    #     answer
+    #   }
+    # }
   }
 `
 

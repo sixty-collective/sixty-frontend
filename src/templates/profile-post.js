@@ -59,7 +59,7 @@ const ProfilePage = ({ data }) => {
     if (profile.twitterHandle) {
       return (
         <a
-          target="_blank"
+          target="_blank" rel="noreferrer"
           className="hover:opacity-50 px-2	"
           href={"https://x.com/" + profile.twitterHandle}
         >
@@ -72,7 +72,7 @@ const ProfilePage = ({ data }) => {
   function secondaryWebsite() {
     if (profile.secondaryWebsite) {
       return (
-        <a target="_blank" className="hover:opacity-50 px-2 text-2xl" href={profile.secondaryWebsite}>
+        <a target="_blank" rel="noreferrer" className="hover:opacity-50 px-2 text-2xl" href={profile.secondaryWebsite}>
           <FontAwesomeIcon icon={faDesktop} />
         </a>
       )
@@ -405,12 +405,12 @@ const ProfilePage = ({ data }) => {
             {disciplinesSection()}{descriptorsSection()}
           </div>
           <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip break-words justify-center	hyphens-auto items-center	flex line-clamp-1">
-              <a target="_blank" className="hover:opacity-50 px-2 text-2xl" href={profile.website}>
+              <a target="_blank" rel="noreferrer" className="hover:opacity-50 px-2 text-2xl" href={profile.website}>
                 <FontAwesomeIcon icon={faGlobe} />
               </a>
               {secondaryWebsite()}
               <a
-                target="_blank"
+                target="_blank" rel="noreferrer"
                 className="hover:opacity-50 px-2	"
                 href={"https://instagram.com/" + profile.instagramHandle}
               >

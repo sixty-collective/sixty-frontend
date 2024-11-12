@@ -110,8 +110,8 @@ const IndexPage = ({ queryStrings }) => {
 
   const sendSearch = (value, type) => {
     let url =
-      "https://sixty-backend-m09o.onrender.com" +
-      "/api/profiles?populate[0]=disciplines,profilePicture"
+      process.env.STRAPI_API_URL +
+      "/api/profiles"
     if (type === "input") {
       url = url.concat("&filters[name][$contains]=" + value)
     } else if (!!input) {
@@ -179,8 +179,8 @@ const IndexPage = ({ queryStrings }) => {
   if (results.length === 0) {
     axios
       .get(
-        "https://sixty-backend-m09o.onrender.com" +
-          "/api/profiles?populate[0]=disciplines,profilePicture"
+        process.env.STRAPI_API_URL +
+          "/api/profiles"
       )
       .then(response => {
         setResults(response.data.data)
@@ -230,7 +230,6 @@ const IndexPage = ({ queryStrings }) => {
     const checkedBoxes = document.querySelectorAll(
       "input[class=disciplines-box]:checked"
     )
-    // console.log(checkedBoxes)
     const disciplinesFilters = Array.from(checkedBoxes).map(input => {
       return input.name
     })
@@ -253,7 +252,6 @@ const IndexPage = ({ queryStrings }) => {
     const checkedBoxes = document.querySelectorAll(
       "input[class=descriptors-box]:checked"
     )
-    // console.log(checkedBoxes)
     const descriptorsFilters = Array.from(checkedBoxes).map(input => {
       return input.name
     })

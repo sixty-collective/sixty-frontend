@@ -106,22 +106,18 @@ const IndexPage = ({ queryStrings }) => {
   }
 
   const sendSearch = async (resetPage) => {
+    console.log("sendSearch")
     setIsLoading(true);
     let url;
     if (resetPage) {
       url =
-      "https://sixty-backend-m09o.onrender.com" +
-      "/api/profiles?pagination[page]=" + 1 + "&populate[0]=disciplines&populate[1]=descriptors&populate[2]=profilePicture"
+      process.env.STRAPI_API_URL +
+      "/api/profiles?pagination[pageSize]=25&pagination[page]=" + 1 + "&populate[0]=disciplines&populate[1]=descriptors&populate[2]=profilePicture"
     } else {
       url =
-      "https://sixty-backend-m09o.onrender.com" +
-        "/api/profiles?pagination[page]=" + page + "&populate[0]=disciplines&populate[1]=descriptors&populate[2]=profilePicture"
+      process.env.STRAPI_API_URL +
+        "/api/profiles?pagination[pageSize]=25&pagination[page]=" + page + "&populate[0]=disciplines&populate[1]=descriptors&populate[2]=profilePicture"
     }
-    // if (type === "input") {
-    //   url = url.concat("&filters[name][$contains]=" + value)
-    // } else if (!!input) {
-    //   url = url.concat("&filters[name][$contains]=" + input)
-    // }
     
     if (selectedDescriptors.length > 0) {
       selectedDescriptors.forEach((selected, index) => {
@@ -138,7 +134,6 @@ const IndexPage = ({ queryStrings }) => {
     try {
       await axios.get(url).then(async response => {
         if (resetPage) {
-          console.log(response.data.data)
           setResults(response.data.data)
           setPage(() => {
             return 2;
@@ -235,10 +230,10 @@ const IndexPage = ({ queryStrings }) => {
 
   const handleClearSpecificDiscipline = (clearDiscipline) => {
     setSelectedDisciplines(selectedDisciplines.filter(function(discipline) { 
-        return discipline != clearDiscipline 
+        return discipline !== clearDiscipline 
     }));
     let newArray = checkedDisciplinesState.map(function(discipline) { 
-      if (discipline.discipline.slug != clearDiscipline.slug) {
+      if (discipline.discipline.slug !== clearDiscipline.slug) {
         return discipline
       } else {
         return {status: false, discipline: discipline.discipline}
@@ -249,10 +244,10 @@ const IndexPage = ({ queryStrings }) => {
 
   const handleClearSpecificDescriptor = (clearDescriptor) => {
     setSelectedDescriptors(selectedDescriptors.filter(function(descriptor) { 
-        return descriptor != clearDescriptor 
+        return descriptor !== clearDescriptor 
     }));
     let newArray = checkedDescriptorsState.map(function(descriptor) { 
-      if (descriptor.descriptor.slug != clearDescriptor.slug) {
+      if (descriptor.descriptor.slug !== clearDescriptor.slug) {
         return descriptor
       } else {
         return {status: false, descriptor: descriptor.descriptor}
@@ -289,25 +284,28 @@ const IndexPage = ({ queryStrings }) => {
     let aDisciplines = []
     let lDisciplines = []
     allStrapiDiscipline.edges.forEach(discipline => {
-      switch (discipline.node.discipline_category.slug) {
-        case "performance":
-          pDisciplines.push(discipline.node)
-          return
-        case "studio-arts":
-          vDisciplines.push(discipline.node)
-          return
-        case "design-multimedia":
-          rDisciplines.push(discipline.node)
-          return
-        case "archives-research":
-          aDisciplines.push(discipline.node)
-          return
-        case "arts-professionalism":
-          lDisciplines.push(discipline.node)
-          return
-        case "writing-publishing":
-          wDisciplines.push(discipline.node)
-          return
+      if (discipline.node.discipline_category) {
+
+        switch (discipline.node.discipline_category.slug) {
+          case "performance":
+            pDisciplines.push(discipline.node)
+            return
+          case "studio-arts":
+            vDisciplines.push(discipline.node)
+            return
+          case "design-multimedia":
+            rDisciplines.push(discipline.node)
+            return
+          case "archives-research":
+            aDisciplines.push(discipline.node)
+            return
+          case "arts-professionalism":
+            lDisciplines.push(discipline.node)
+            return
+          case "writing-publishing":
+            wDisciplines.push(discipline.node)
+            return
+        }
       }
     })
     return (

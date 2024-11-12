@@ -125,24 +125,14 @@ const ProfileCard = ({ profile, index }) => {
         />
       )
       
-    } else if (profile.profilePicture?.data) {
-      if (profile.profilePicture.data.attributes.provider == "aws-s3") {
-        return (
-          <img
-            src={profile?.profilePicture?.data.attributes.url}
-            alt={profile?.profilePicture?.alternativeText}
-            className="profile-icon border-2 border-black"
-          />
-        )
-      } else {
-        return (
-          <img
-            src={"https://sixty-backend-m09o.onrender.com" + profile?.profilePicture?.data.attributes.url}
-            alt={profile?.profilePicture?.alternativeText}
-            className="profile-icon border-2 border-black"
-          />
-        )
-      }
+    } else if (profile.profilePicture?.url) {
+      return (
+        <img
+          src={profile?.profilePicture.url}
+          alt={profile?.profilePicture?.alternativeText}
+          className="profile-icon border-2 border-black"
+        />
+      )
     } else {
       return (
       defaultProfileImage()
