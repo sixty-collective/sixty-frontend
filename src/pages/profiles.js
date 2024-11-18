@@ -49,7 +49,6 @@ const IndexPage = ({ queryStrings }) => {
     `)
 
 
-  const [input, setInput] = useState("")
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [initial, setInitial] = useState(true)

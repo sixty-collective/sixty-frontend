@@ -2,6 +2,8 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+process.on('warning', e => console.warn(e.stack));
+
 const strapiConfig = {
   version: 5,
   apiURL: process.env.STRAPI_API_URL,

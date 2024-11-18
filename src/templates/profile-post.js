@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useStaticQuery, graphql, navigate } from "gatsby"
+import { graphql, navigate } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import BlockWorkSample from "../components/block-work-sample"
@@ -55,8 +55,26 @@ const ProfilePage = ({ data }) => {
     }
   }
 
+  function instagramIcon() {
+    if (profile.instagramHandle) {
+      return (
+      <a
+        target="_blank" rel="noreferrer"
+        className="hover:opacity-50 px-2	"
+        href={"https://instagram.com/" + profile.instagramHandle}
+      >
+      <StaticImage
+        alt=""
+        className="w-6"
+        src="../images/instagram-black.svg"
+      />
+      </a>
+      )
+    }
+  }
+
   function twitterIcon() {
-    if (profile.twitterHandle) {
+    if (profile.twitterHandle?.length > 1) {
       return (
         <a
           target="_blank" rel="noreferrer"
@@ -64,6 +82,16 @@ const ProfilePage = ({ data }) => {
           href={"https://x.com/" + profile.twitterHandle}
         >
         <StaticImage alt="" className="w-6 h-6" src="../images/x-twitter-black.svg" />
+        </a>
+      )
+    }
+  }
+
+  function primaryWebsite() {
+    if (profile.website?.length > 1) {
+      return (
+        <a target="_blank" rel="noreferrer" className="hover:opacity-50 px-2 text-2xl" href={profile.website}>
+          <FontAwesomeIcon icon={faGlobe} />
         </a>
       )
     }
@@ -80,7 +108,7 @@ const ProfilePage = ({ data }) => {
   }
 
   function disciplinesSection() {
-    if (profile.disciplines.length > 0) {
+    if (profile.disciplines?.length > 0) {
       return profile.disciplines.map(discipline => {
         return (
           <span className="text-center line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
@@ -94,7 +122,7 @@ const ProfilePage = ({ data }) => {
   }
 
   function descriptorsSection() {
-    if (profile.descriptors.length > 0) {
+    if (profile.descriptors?.length > 0) {
       return profile.descriptors.map(descriptor => {
         return (
           <span className="text-center line-clamp-1 text-xs mr-2 rounded-full px-1 bg-white font-fira border-black border inline-block">
@@ -128,6 +156,7 @@ const ProfilePage = ({ data }) => {
               action="https://formspree.io/f/mblrebdn"
               method="post"
               className="pb-10"
+              netlify
             >
               <fieldset id="fs-frm-inputs" className="flex flex-col p-10">
                 <label htmlFor="full-name" className="mb-2">
@@ -354,10 +383,10 @@ const ProfilePage = ({ data }) => {
     if (profile?.profilePicture) {
       return (
         <GatsbyImage
-              image={getImage(profile?.profilePicture?.localFile)}
-              alt={profile?.profilePicture?.alternativeText}
-              className="profile-picture border-2 border-black"
-            />
+          image={getImage(profile?.profilePicture?.localFile)}
+          alt={profile?.profilePicture?.alternativeText}
+          className="profile-picture border-2 border-black"
+        />
       )
     } else {
       return (
@@ -405,21 +434,9 @@ const ProfilePage = ({ data }) => {
             {disciplinesSection()}{descriptorsSection()}
           </div>
           <div className="mt-5 card bg-white rounded-3xl border-black border-2 p-5 overflow-clip break-words justify-center	hyphens-auto items-center	flex line-clamp-1">
-              <a target="_blank" rel="noreferrer" className="hover:opacity-50 px-2 text-2xl" href={profile.website}>
-                <FontAwesomeIcon icon={faGlobe} />
-              </a>
+              {primaryWebsite()}
               {secondaryWebsite()}
-              <a
-                target="_blank" rel="noreferrer"
-                className="hover:opacity-50 px-2	"
-                href={"https://instagram.com/" + profile.instagramHandle}
-              >
-              <StaticImage
-                alt=""
-                className="w-6"
-                src="../images/instagram-black.svg"
-              />
-              </a>
+              {instagramIcon()}
               {twitterIcon()}
           </div>
         </div>

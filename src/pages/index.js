@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 
 import { useStaticQuery, graphql, Link } from "gatsby"
 import Layout from "../components/layout"
-import { GatsbyImage, getImage, StaticImage } from "gatsby-plugin-image"
 import Seo from "../components/seo"
 import Headings from "../components/headings"
 import axios from "axios"
@@ -348,6 +347,12 @@ const IndexPage = ({ queryStrings }) => {
     <span></span>
   )
 
+  function testimonyName(testimony) {
+    if (testimony.node.name.length > 1) {
+      return <div className="pt-5 font-medium">{testimony.node.name}</div>
+    }
+  }
+
   return (
     <Layout sidebarText={strapiGlobal.sidebarText}>
       <Seo seo={{ metaTitle: "Home" }} />
@@ -488,7 +493,8 @@ const IndexPage = ({ queryStrings }) => {
               >
                 <div className="flex content m-5 border-black border-2 rounded-3xl bg-white p-5 font-fira text-center">
                   <div className="">
-                  {testimonial.node.body}
+                  <div>{testimonial.node.body}</div>
+                  {testimonyName(testimonial)}
                   </div>
                 </div>
               </div>

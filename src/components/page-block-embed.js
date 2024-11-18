@@ -27,12 +27,19 @@ const PageBlockEmbed = ({ data }) => {
       return (
         <div className="py-8 lg:py-0">
           {allStrapiTestimonial.edges.map((testimonial, index) => {
+            function testimonyName() {
+              if (testimonial.node.name.length > 1) {
+                return <div className="pt-5 font-medium">{testimonial.node.name}</div>
+              }
+            }
+
             return (
               <div
                 className="border-black border-2 rounded-3xl bg-white p-5 mb-10 font-fira"
                 key={index}
               >
-                {testimonial.node.body}
+                <div>{testimonial.node.body}</div>
+                {testimonyName()}
               </div>
             )
           })}
@@ -48,6 +55,7 @@ const PageBlockEmbed = ({ data }) => {
             action="https://formspree.io/f/xbjnylqj"
             method="post"
             className="pb-10"
+            netlify
           >
             <fieldset id="fs-frm-inputs" className="flex flex-col p-10">
             <h2 className="font-semibold text-lg">Share Your Testimonial</h2>
@@ -141,6 +149,7 @@ const PageBlockEmbed = ({ data }) => {
             action="https://formspree.io/f/xrbzvdew"
             method="post"
             className="pb-10"
+            netlify
           >
             <fieldset id="fs-frm-inputs" className="flex flex-col p-10">
               <label htmlFor="name" className="mb-2">

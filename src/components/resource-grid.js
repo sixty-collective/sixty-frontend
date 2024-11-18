@@ -1,7 +1,4 @@
-import React, { useState, state } from "react"
-import { graphql } from "gatsby"
-import axios from "axios"
-
+import React from "react"
 import ResourceCard from "./resource-card"
 
 const ResourceGrid = ({ resources }) => {
