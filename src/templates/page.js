@@ -6,7 +6,6 @@ import BlocksRenderer from "../components/blocks-renderer"
 
 const Page = ({ data }) => {
   const { title, coverImage, blocks, sideBlocks } = data.strapiPage
-
   function columnsToggle() {
     if (sideBlocks === null) {
       return (
@@ -24,13 +23,25 @@ const Page = ({ data }) => {
     }
   }
 
+  function coverImageSection() {
+    if (coverImage.ext === ".gif") {
+      return (
+        <img src={coverImage.url} alt={coverImage.alternativeText} className="max-h-56 w-full border-black border-b-2 object-cover" />
+      )
+    } else {
+      return (
+        <GatsbyImage
+          image={getImage(coverImage.localFile)}
+          alt={coverImage.alternativeText}
+          className="max-h-56 w-full border-black border-b-2"
+        />
+      )
+    }
+  }
+
   return (
     <Layout as="profile">
-      <GatsbyImage
-        image={getImage(coverImage.localFile)}
-        alt={coverImage.alternativeText}
-        className="max-h-56 w-full border-black border-b-2"
-      />
+      {coverImageSection()}
       <div className="container pt-10 md:pt-20">
         <h1 className="poppins text-4xl font-semibold text-black">{title}</h1>
         {columnsToggle()}
@@ -51,6 +62,8 @@ export const pageQuery = graphql`
             gatsbyImageData
           }
         }
+        ext
+        url
       }
       blocks {
         ...Blocks

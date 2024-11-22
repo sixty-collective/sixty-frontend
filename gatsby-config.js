@@ -59,7 +59,20 @@ const strapiConfig = {
       singularName: "resource",
     },
     {
-      singularName: "page"
+      singularName: "page",
+      queryParams: {
+        populate: {
+          coverImage: {
+            populate: "*"
+          },
+          sideBlocks: {
+            populate: "*"
+          },
+          blocks: {
+            populate: "*"
+          },
+        }
+      }
     },
   ],
   singleTypes: [

@@ -139,7 +139,7 @@ const PageBlockEmbed = ({ data }) => {
           </form>
         </div>
       )
-    case "contact":
+    default:
       return (
         <div className="card bg-white rounded-3xl border-black border-2">
           <form
