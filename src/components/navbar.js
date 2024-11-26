@@ -84,6 +84,14 @@ const Navbar = ({ sidebarText }) => {
           <Link
             className="uppercase text-xs py-1 w-full hover:text-gray-600 flex items-center justify-between"
             activeClassName="active underline"
+            to="/hiring-tools-standards"
+          >
+            Hiring Tools + Tips
+            
+          </Link>
+          <Link
+            className="uppercase text-xs py-1 w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
             to="/testimonials"
           >
             Testimonials
