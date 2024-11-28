@@ -106,6 +106,14 @@ const MobileNav = ({ sidebarText }) => {
             
           </Link>
           <Link
+            className="uppercase text-xs py-1 w-full hover:text-gray-600 flex items-center justify-between"
+            activeClassName="active underline"
+            to="/hiring-tools-tips"
+          >
+            Hiring Tools + Tips
+            
+          </Link>
+          <Link
             className="uppercase text-lg py-2 w-full hover:text-gray-600 flex items-center justify-between"
             activeClassName="active underline"
             to="/testimonials"
